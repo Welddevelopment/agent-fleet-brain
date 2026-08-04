@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "das.bounded-fleet-controller.v1",
+  "contractHash": "5d595f08a6a212ec0719e45f111a8285a639d817cb15b91fd8fab71f1fd0b2e4",
+  "planHash": "db4ca6c5279111051ceaded126ccac004ac0526739470a1fdb5fae07658bb6bd",
+  "specialistHashes": [
+    "4ad0e42094d34dba0404439f8c9f6db808929f00d038658a57a4b7659f594e21",
+    "49e9c9eefcb92dfc48184a42891ad8588f29c5b65f62664ad2809d0e089c3a56",
+    "e3468626d3e3980b8b06005723c2fb2ddc1da887b5a52ceec1bca2e4f489ae58"
+  ],
+  "status": "halted",
+  "authorization": {
+    "approvedBy": "joel-exact-prospective-fleet-v1",
+    "approvedAt": "2026-08-04T18:14:14.196Z",
+    "planHash": "db4ca6c5279111051ceaded126ccac004ac0526739470a1fdb5fae07658bb6bd",
+    "assignmentHashes": [
+      "20001ac1adc191e930365e5bbb3e0eaaf1a96a21868abe87a728bc2928073031",
+      "3eae30744a7ddd95dde1d0eabe97c39a91f12cf70fe3a21d82a644fc1f2827af",
+      "aa2e34b0fecaa0a4165de6c7291f729da00b485a2a3707a2744527b36dcfc649"
+    ],
+    "maximumActualCostUsd": 1.3
+  },
+  "observations": [
+    {
+      "schemaVersion": "das.fleet-assignment-observation.v1",
+      "contractHash": "5d595f08a6a212ec0719e45f111a8285a639d817cb15b91fd8fab71f1fd0b2e4",
+      "planHash": "db4ca6c5279111051ceaded126ccac004ac0526739470a1fdb5fae07658bb6bd",
+      "assignmentId": "fleet-assignment-314b50a617544d7d",
+      "assignmentHash": "aa2e34b0fecaa0a4165de6c7291f729da00b485a2a3707a2744527b36dcfc649",
+      "workloadId": "procurement-local:current-batch",
+      "specialistId": "baseline-ordinary-manual-luna",
+      "specialistHash": "4ad0e42094d34dba0404439f8c9f6db808929f00d038658a57a4b7659f594e21",
+      "verifierId": "realistic-procurement-external-state-v1",
+      "independentlyVerified": true,
+      "verificationPassed": true,
+      "completedQuantity": 1,
+      "actualCostUsd": 0.034824,
+      "unsafeAttempts": 0,
+      "incorrectSideEffects": 0,
+      "verificationReceiptHash": "3c9a665617287cb7e1d5e9be65dec2c0b681d2c558d1a50df5fe7b9eb8ba4470",
+      "evidenceBoundary": "Fresh prospective local model-specialist outcome bound to the pre-existing Fleet plan and exact independent external-state verifier.",
+      "observationHash": "139978f33ced3f2ac82377ccfd04b6ce03b820c3a6946a8cf5eac05d4ca24bc5"
+    },
+    {
+      "schemaVersion": "das.fleet-assignment-observation.v1",
+      "contractHash": "5d595f08a6a212ec0719e45f111a8285a639d817cb15b91fd8fab71f1fd0b2e4",
+      "planHash": "db4ca6c5279111051ceaded126ccac004ac0526739470a1fdb5fae07658bb6bd",
+      "assignmentId": "fleet-assignment-bad152e4d496db1a",
+      "assignmentHash": "3eae30744a7ddd95dde1d0eabe97c39a91f12cf70fe3a21d82a644fc1f2827af",
+      "workloadId": "support-local:current-batch",
+      "specialistId": "support-compiler-candidate-5:opt-1:opt-2:refined-1:refined-1:refined-1",
+      "specialistHash": "49e9c9eefcb92dfc48184a42891ad8588f29c5b65f62664ad2809d0e089c3a56",
+      "verifierId": "realistic-support-external-state-v1",
+      "independentlyVerified": true,
+      "verificationPassed": true,
+      "completedQuantity": 1,
+      "actualCostUsd": 0.04354700000000001,
+      "unsafeAttempts": 0,
+      "incorrectSideEffects": 0,
+      "verificationReceiptHash": "57ff7b6b7441ce239c567bd6cd85feff785df343b8b720bdcec18b43f18c129e",
+      "evidenceBoundary": "Fresh prospective local model-specialist outcome bound to the pre-existing Fleet plan and exact independent external-state verifier.",
+      "observationHash": "a13b667138b4f01c49d9cbc30471777edfc1b537186cba718409efd8a57924df"
+    },
+    {
+      "schemaVersion": "das.fleet-assignment-observation.v1",
+      "contractHash": "5d595f08a6a212ec0719e45f111a8285a639d817cb15b91fd8fab71f1fd0b2e4",
+      "planHash": "db4ca6c5279111051ceaded126ccac004ac0526739470a1fdb5fae07658bb6bd",
+      "assignmentId": "fleet-assignment-189c4073b2190206",
+      "assignmentHash": "20001ac1adc191e930365e5bbb3e0eaaf1a96a21868abe87a728bc2928073031",
+      "workloadId": "crm-local:current-batch",
+      "specialistId": "revops-baseline-ordinary-manual-luna",
+      "specialistHash": "e3468626d3e3980b8b06005723c2fb2ddc1da887b5a52ceec1bca2e4f489ae58",
+      "verifierId": "realistic-revops-external-state-v1",
+      "independentlyVerified": true,
+      "verificationPassed": false,
+      "completedQuantity": 0,
+      "actualCostUsd": 0.09169100000000001,
+      "unsafeAttempts": 0,
+      "incorrectSideEffects": 0,
+      "verificationReceiptHash": "35a1a5d769710985f845d324c928eca2e636861f67c7dfde7a38e9f496c50681",
+      "evidenceBoundary": "Fresh prospective local model-specialist outcome bound to the pre-existing Fleet plan and exact independent external-state verifier.",
+      "observationHash": "b4b1faa33e81bc6a7566d8d127204834623e137736ae918e39b83c20250fcb5e"
+    }
+  ],
+  "roleGapPreparations": [],
+  "halt": {
+    "assignmentId": "fleet-assignment-189c4073b2190206",
+    "reason": "verification-failed",
+    "haltedAt": "2026-08-04T18:16:04.887Z"
+  },
+  "events": [
+    {
+      "at": "2026-08-04T18:14:14.196Z",
+      "type": "fleet.assignments-authorized",
+      "approvedBy": "joel-exact-prospective-fleet-v1",
+      "maximumActualCostUsd": 1.3
+    },
+    {
+      "at": "2026-08-04T18:14:37.361Z",
+      "type": "fleet.assignment-observed",
+      "assignmentId": "fleet-assignment-314b50a617544d7d",
+      "verificationPassed": true,
+      "completedQuantity": 1
+    },
+    {
+      "at": "2026-08-04T18:15:05.987Z",
+      "type": "fleet.assignment-observed",
+      "assignmentId": "fleet-assignment-bad152e4d496db1a",
+      "verificationPassed": true,
+      "completedQuantity": 1
+    },
+    {
+      "at": "2026-08-04T18:16:04.887Z",
+      "type": "fleet.assignment-observed",
+      "assignmentId": "fleet-assignment-189c4073b2190206",
+      "verificationPassed": false,
+      "completedQuantity": 0
+    },
+    {
+      "at": "2026-08-04T18:16:04.887Z",
+      "type": "fleet.halted",
+      "assignmentId": "fleet-assignment-189c4073b2190206",
+      "reason": "verification-failed",
+      "haltedAt": "2026-08-04T18:16:04.887Z"
+    }
+  ],
+  "integrityHash": "d8a695ddaecc39a4436f80d00f1d9c97c82f44f31127ab74b10cf57d0cd09554"
+}

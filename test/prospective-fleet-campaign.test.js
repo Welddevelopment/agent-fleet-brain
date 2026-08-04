@@ -14,7 +14,12 @@ test("fresh sealed tasks bind to exact selected specialists without pre-authoriz
   const result = await runProspectiveFleetCampaignPreflight();
   assert.equal(result.plan.assignments.length, 3);
   assert.equal(result.plan.maximumTaskEvaluations, 3);
-  assert.equal(result.plan.maximumModelTurns, 72);
+  assert.deepEqual(Object.fromEntries(result.plan.assignments.map((item) => [item.roleId, item.maximumModelTurns])), {
+    "realistic-procurement-specialist": 20,
+    "realistic-support-operations-specialist": 48,
+    "realistic-revenue-operations-specialist": 56,
+  });
+  assert.equal(result.plan.maximumModelTurns, 124);
   assert.equal(result.vault.releaseCount(), 0);
   assert.ok(Object.values(result.checks).every(Boolean));
   assert.ok(Object.values(result.plan.authority).every((value) => value === false));

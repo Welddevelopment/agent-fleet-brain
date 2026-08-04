@@ -8,8 +8,8 @@ import { OpenAIResponsesProvider } from "../providers/openai-responses.js";
 import { assertBoundedFleetContract } from "./bounded-level2-contract.js";
 import { assertBoundedFleetPlan } from "./bounded-level2-planner.js";
 
-export const PROSPECTIVE_FLEET_CAMPAIGN_ID = "prospective-bounded-level2-model-campaign-v1";
-export const PROSPECTIVE_FLEET_CAMPAIGN_APPROVAL = "JOEL_APPROVED_PROSPECTIVE_FLEET_V1";
+export const PROSPECTIVE_FLEET_CAMPAIGN_ID = "prospective-bounded-level2-model-campaign-v2";
+export const PROSPECTIVE_FLEET_CAMPAIGN_APPROVAL = "JOEL_APPROVED_PROSPECTIVE_FLEET_V2";
 
 function requireCondition(condition, message) { if (!condition) throw new Error(message); }
 function withoutHash(value, key) { const copy = structuredClone(value); delete copy[key]; return copy; }
@@ -34,7 +34,7 @@ export function createProspectiveFleetCaseVault(tasks) {
   });
 }
 
-export function createProspectiveFleetCampaignPlan({ intake, selections, sealedTasks, maxTurnsPerTask = 24, campaignId = PROSPECTIVE_FLEET_CAMPAIGN_ID, campaignApproval = PROSPECTIVE_FLEET_CAMPAIGN_APPROVAL }) {
+export function createProspectiveFleetCampaignPlan({ intake, selections, sealedTasks, turnCeilingsByRole, campaignId = PROSPECTIVE_FLEET_CAMPAIGN_ID, campaignApproval = PROSPECTIVE_FLEET_CAMPAIGN_APPROVAL }) {
   assertBoundedFleetContract(intake?.intake?.contract);
   assertBoundedFleetPlan(intake?.plan);
   requireCondition(intake.verification?.passed === true && intake.plan.selected?.roleGaps.length === 0, "Prospective fleet campaign requires a complete independently verified plan");
@@ -46,11 +46,12 @@ export function createProspectiveFleetCampaignPlan({ intake, selections, sealedT
     const selection = admitted ? byRole.get(admitted.specialist.roleId) : null;
     const candidate = selection?.selected?.candidate;
     requireCondition(candidate && candidate.id === assignment.specialistId && candidate.fingerprint && candidate.verifier.binding === assignment.verifierId, `Prospective assignment is not bound to its exact selected Level 1 specialist: ${assignment.assignmentId}`);
-    return { assignmentId: assignment.assignmentId, assignmentHash: assignment.assignmentHash, workloadId: assignment.workloadId, roleId: candidate.roleId, specialistId: candidate.id, candidateFingerprint: candidate.fingerprint, selectionRecordHash: selection.recordHash, verifierId: assignment.verifierId, model: candidate.model.family, maximumTaskCostUsd: candidate.limits.maxCostPerTaskUsd, maximumTaskLatencyMs: candidate.limits.maxLatencyMs };
+    const maximumModelTurns = Number(turnCeilingsByRole?.[candidate.roleId]);
+    requireCondition(Number.isInteger(maximumModelTurns) && maximumModelTurns > 0 && maximumModelTurns <= 128, `Prospective assignment needs an explicit bounded role turn ceiling: ${candidate.roleId}`);
+    return { assignmentId: assignment.assignmentId, assignmentHash: assignment.assignmentHash, workloadId: assignment.workloadId, roleId: candidate.roleId, specialistId: candidate.id, candidateFingerprint: candidate.fingerprint, selectionRecordHash: selection.recordHash, verifierId: assignment.verifierId, model: candidate.model.family, maximumTaskCostUsd: candidate.limits.maxCostPerTaskUsd, maximumTaskLatencyMs: candidate.limits.maxLatencyMs, maximumModelTurns };
   });
-  requireCondition(Number.isInteger(maxTurnsPerTask) && maxTurnsPerTask > 0 && maxTurnsPerTask <= 64, "Prospective fleet task-turn ceiling is invalid");
   const record = {
-    schemaVersion: "das.prospective-fleet-model-campaign-plan.v1",
+    schemaVersion: "das.prospective-fleet-model-campaign-plan.v2",
     campaignId,
     intakeReceiptHash: intake.intake.receipt.receiptHash,
     contractHash: intake.intake.contract.contractHash,
@@ -60,8 +61,7 @@ export function createProspectiveFleetCampaignPlan({ intake, selections, sealedT
     sealedTasks: { count: sealedTasks.count, digest: sealedTasks.digest, payloadsIncluded: false },
     exactModels: [...new Set(assignments.map((item) => item.model))].sort(),
     maximumTaskEvaluations: assignments.length,
-    maxTurnsPerTask,
-    maximumModelTurns: assignments.length * maxTurnsPerTask,
+    maximumModelTurns: assignments.reduce((sum, item) => sum + item.maximumModelTurns, 0),
     hardSpendLimitUsd: intake.intake.contract.limits.maximumTotalCostUsd,
     pricingTableHash: digest(CURRENT_MODEL_PRICING_USD),
     gates: {
@@ -81,9 +81,10 @@ export function createProspectiveFleetCampaignPlan({ intake, selections, sealedT
 }
 
 export function assertProspectiveFleetCampaignPlan(plan) {
-  requireCondition(plan?.schemaVersion === "das.prospective-fleet-model-campaign-plan.v1" && plan.planHash === digest(withoutHash(plan, "planHash")), "Prospective fleet campaign plan integrity mismatch");
+  requireCondition(plan?.schemaVersion === "das.prospective-fleet-model-campaign-plan.v2" && plan.planHash === digest(withoutHash(plan, "planHash")), "Prospective fleet campaign plan integrity mismatch");
   requireCondition(plan.gates.paidCallsDefault === "disabled" && Object.values(plan.authority).every((value) => value === false), "Prospective fleet plan cannot pre-authorize calls or execution");
   requireCondition(plan.sealedTasks.payloadsIncluded === false && plan.maximumTaskEvaluations === plan.assignments.length, "Prospective fleet plan leaks tasks or has an invalid task ceiling");
+  requireCondition(plan.assignments.every((item) => Number.isInteger(item.maximumModelTurns) && item.maximumModelTurns > 0 && item.maximumModelTurns <= 128) && plan.maximumModelTurns === plan.assignments.reduce((sum, item) => sum + item.maximumModelTurns, 0), "Prospective fleet plan has invalid role-bound turn ceilings");
   return true;
 }
 
@@ -101,7 +102,7 @@ export function assertProspectiveFleetCampaignAuthorization({ plan, environment 
   return Object.freeze({ campaignId: plan.campaignId, planHash: plan.planHash, limitUsd: limit, paidCallsAuthorized: true, pricingVerifiedDate, pricingTableHash: plan.pricingTableHash });
 }
 
-export function createProspectiveFleetCampaignRuntime({ plan, environment = process.env, stateDirectory = "artifacts/fleet/prospective-model-campaign-v1/model-run", fetchImpl = fetch, pricingVerifiedDate } = {}) {
+export function createProspectiveFleetCampaignRuntime({ plan, environment = process.env, stateDirectory = "artifacts/fleet/prospective-model-campaign-v2/model-run", fetchImpl = fetch, pricingVerifiedDate } = {}) {
   const authorization = assertProspectiveFleetCampaignAuthorization({ plan, environment, pricingVerifiedDate });
   const root = path.resolve(stateDirectory);
   const budget = new DurableBudgetGuard({ filePath: path.join(root, "budget.json"), hardLimitUsd: authorization.limitUsd, campaignId: plan.campaignId });

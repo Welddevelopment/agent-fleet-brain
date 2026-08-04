@@ -21,6 +21,10 @@ function readJsonIfPresent(file) {
   return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, "utf8")) : null;
 }
 
+function jsonStable(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
 function withoutHash(value, key) {
   const copy = structuredClone(value);
   delete copy[key];
@@ -60,7 +64,7 @@ export function createProspectiveFleetResultObservation({ intake, assignment, sp
 }
 
 export function createProspectiveFleetProgress({ campaignId, planHash, results, fleetStatus, budget, evidenceLedgerValid }) {
-  const progress = {
+  const progress = jsonStable({
     schemaVersion: "das.prospective-fleet-progress.v1",
     campaignId,
     planHash,
@@ -68,7 +72,7 @@ export function createProspectiveFleetProgress({ campaignId, planHash, results, 
     fleetStatus: structuredClone(fleetStatus),
     budget: structuredClone(budget),
     evidenceLedgerValid: evidenceLedgerValid === true,
-  };
+  });
   progress.progressHash = digest(progress);
   return progress;
 }
@@ -126,9 +130,9 @@ function persistProgress({ file, preflight, results, controller, runtime }) {
   return progress;
 }
 
-export async function runProspectiveFleetModelCampaign({ environment = process.env, stateDirectory = "artifacts/fleet/prospective-model-campaign-v1/model-run", fetchImpl = fetch } = {}) {
+export async function runProspectiveFleetModelCampaign({ environment = process.env, stateDirectory = "artifacts/fleet/prospective-model-campaign-v2/model-run", fetchImpl = fetch } = {}) {
   const preflight = await runProspectiveFleetCampaignPreflight();
-  const frozenPlanFile = path.resolve("artifacts/fleet/prospective-model-campaign-v1/plan.json");
+  const frozenPlanFile = path.resolve("artifacts/fleet/prospective-model-campaign-v2/plan.json");
   requireCondition(fs.existsSync(frozenPlanFile), "Frozen prospective Fleet plan artifact is missing");
   const savedPlan = JSON.parse(fs.readFileSync(frozenPlanFile, "utf8"));
   requireCondition(savedPlan.planHash === preflight.plan.planHash && digest(Object.fromEntries(Object.entries(savedPlan).filter(([key]) => key !== "planHash"))) === savedPlan.planHash, "Prospective Fleet runner plan differs from the committed preflight");
@@ -139,7 +143,7 @@ export async function runProspectiveFleetModelCampaign({ environment = process.e
   const specialistByRole = new Map(specialists.map((specialist) => [specialist.roleId, specialist]));
   const controllerPath = path.join(runtime.root, "fleet-controller.json");
   const controller = new BoundedFleetController({ contract: preflight.intake.intake.contract, specialists, plan: preflight.intake.plan, planVerification: preflight.intake.verification, filePath: controllerPath });
-  if (controller.status().state === "awaiting-execution-approval") controller.authorizeAssignments({ approvedBy: "joel-exact-prospective-fleet-v1", planHash: preflight.intake.plan.planHash, assignmentHashes: preflight.intake.plan.selected.assignments.map((item) => item.assignmentHash), maximumActualCostUsd: runtime.authorization.limitUsd });
+  if (controller.status().state === "awaiting-execution-approval") controller.authorizeAssignments({ approvedBy: "joel-exact-prospective-fleet-v2", planHash: preflight.intake.plan.planHash, assignmentHashes: preflight.intake.plan.selected.assignments.map((item) => item.assignmentHash), maximumActualCostUsd: runtime.authorization.limitUsd });
   const progressPath = path.join(runtime.root, "progress.json");
   const savedProgress = readJsonIfPresent(progressPath);
   const results = restoreProspectiveFleetProgress({ progress: savedProgress, plan: preflight.plan, intake: preflight.intake, assignments: preflight.intake.plan.selected.assignments, specialists, tasks, controller });
@@ -154,7 +158,9 @@ export async function runProspectiveFleetModelCampaign({ environment = process.e
       if (controller.snapshot().observations.some((item) => item.assignmentId === assignment.assignmentId)) continue;
       requireCondition(["authorized-not-started", "running"].includes(controller.status().state), `Prospective Fleet stopped before ${task.roleId}: ${controller.status().state}`);
       const candidate = selection.selected.candidate;
-      const result = await execute({ candidate, testCase: task.testCase, gateway: runtime.gateway, evidence: runtime.evidence, executionModel: candidate.model.family, maxTurns: preflight.plan.maxTurnsPerTask, tenantPrefix: `prospective-fleet-v1:${task.roleId}` });
+      const planAssignment = preflight.plan.assignments.find((item) => item.assignmentId === assignment.assignmentId);
+      requireCondition(planAssignment?.maximumModelTurns, `Prospective Fleet assignment lacks its frozen role turn ceiling: ${task.roleId}`);
+      const result = await execute({ candidate, testCase: task.testCase, gateway: runtime.gateway, evidence: runtime.evidence, executionModel: candidate.model.family, maxTurns: planAssignment.maximumModelTurns, tenantPrefix: `prospective-fleet-v2:${task.roleId}` });
       requireCondition(result?.candidateId === candidate.id && result?.candidateFingerprint === candidate.fingerprint, `Prospective Fleet model result identity changed: ${task.roleId}`);
       const observation = createProspectiveFleetResultObservation({ intake: preflight.intake, assignment, specialist, result });
       results.push({ roleId: task.roleId, assignmentId: assignment.assignmentId, candidateId: candidate.id, candidateFingerprint: candidate.fingerprint, caseId: task.testCase.id, result, observation });
@@ -168,14 +174,16 @@ export async function runProspectiveFleetModelCampaign({ environment = process.e
     }
     const fleetStatus = controller.status();
     requireCondition(fleetStatus.parentGoalCompleted && results.length === tasks.length && runtime.evidence.verify(), "Prospective model-backed Fleet campaign did not complete safely");
-    const summary = { schemaVersion: "das.prospective-fleet-model-result.v1", status: "completed", campaignId: preflight.plan.campaignId, planHash: preflight.plan.planHash, taskCount: tasks.length, results, fleetStatus, budget: runtime.budget.snapshot(), evidenceLedgerValid: true, evidenceBoundary: "Fresh prospective model-backed execution in three fictional local role worlds. This is not customer evidence, arbitrary company intelligence or production reliability." };
+    const summary = jsonStable({ schemaVersion: "das.prospective-fleet-model-result.v1", status: "completed", campaignId: preflight.plan.campaignId, planHash: preflight.plan.planHash, taskCount: tasks.length, results, fleetStatus, budget: runtime.budget.snapshot(), evidenceLedgerValid: true, evidenceBoundary: "Fresh prospective model-backed execution in three fictional local role worlds. This is not customer evidence, arbitrary company intelligence or production reliability." });
     summary.summaryHash = digest(summary);
     writePrivate(path.join(runtime.root, "summary.json"), summary);
     return summary;
   } catch (error) {
-    const failure = { schemaVersion: "das.prospective-fleet-model-failure.v1", campaignId: preflight.plan.campaignId, planHash: preflight.plan.planHash, error: error instanceof Error ? error.message : String(error), attemptedTasks: results.length, verifiedCompleteTasks: controller.status().assignments.verifiedComplete, results, fleetStatus: controller.status(), budget: runtime.budget.snapshot(), cacheEntries: runtime.cache.size(), evidenceLedgerValid: runtime.evidence.verify(), evidenceBoundary: "Preserved failed or interrupted prospective Fleet campaign. No Level 2 result should be inferred." };
+    const paused = error?.resumable === true;
+    const status = error?.retryClass === "funding" ? "paused-awaiting-funds" : error?.retryClass === "rate-limit" ? "paused-rate-limited" : "failed";
+    const failure = jsonStable({ schemaVersion: "das.prospective-fleet-model-failure.v1", status, resumable: paused, retryClass: error?.retryClass ?? null, campaignId: preflight.plan.campaignId, planHash: preflight.plan.planHash, error: error instanceof Error ? error.message : String(error), attemptedTasks: results.length, verifiedCompleteTasks: controller.status().assignments.verifiedComplete, results, fleetStatus: controller.status(), budget: runtime.budget.snapshot(), cacheEntries: runtime.cache.size(), evidenceLedgerValid: runtime.evidence.verify(), evidenceBoundary: paused ? "Preserved resumable prospective Fleet pause. Completed verified work and cached responses remain reusable; no Level 2 result should be inferred until every assignment completes." : "Preserved failed or interrupted prospective Fleet campaign. No Level 2 result should be inferred." });
     failure.failureHash = digest(failure);
-    writePrivate(path.join(runtime.root, "latest-failure.json"), failure);
+    writePrivate(path.join(runtime.root, paused ? "latest-pause.json" : "latest-failure.json"), failure);
     const reported = error instanceof Error ? error : new Error(String(error));
     reported.prospectiveFleetFailure = failure;
     throw reported;

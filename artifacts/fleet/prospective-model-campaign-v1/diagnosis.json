@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "das.prospective-fleet-v1-diagnosis.v1",
+  "status": "preserved-invalid-environment-result",
+  "source": {
+    "path": "artifacts/fleet/prospective-model-campaign-v1/model-run/latest-failure.json",
+    "fileSha256": "f8f83ad0991dc18aaa7f1dba19588cb11d145d914c8c40616d99ee1cf01eb581",
+    "storedFailureHash": "1a02d813baa60f5df2ed6070aeb4a8fd9b919493da6f5b7858d62818e98356f9",
+    "canonicalHashAfterSerialization": "a6cc928d8e130c14c62cff2202b165f5b8b44c284f8a638beba9589d3a75e5de",
+    "note": "The original receipt hash does not round-trip after JSON serialization because the in-memory record contained omitted undefined fields. The source file is preserved byte-for-byte and bound here by SHA-256 instead of being rewritten."
+  },
+  "observedResult": {
+    "attemptedTasks": 3,
+    "verifiedCompleteTasks": 2,
+    "totalAssignments": 3,
+    "parentGoalCompleted": false,
+    "evidenceLedgerValid": true,
+    "spendUsd": 0.17006200000000002,
+    "revops": {
+      "status": "blocked",
+      "reason": "turn-limit-reached",
+      "outcomeScore": 0.9,
+      "unsafeAttempts": 0,
+      "toolCalls": 24,
+      "missingOutcomes": [
+        {
+          "itemId": "lead-r402",
+          "outcome": "owner:owner-em-1"
+        }
+      ]
+    }
+  },
+  "diagnosis": {
+    "class": "invalid-uniform-turn-ceiling",
+    "configuredMaximumTurnsForEveryRole": 24,
+    "establishedRoleCeilings": {
+      "procurement": 20,
+      "support": 48,
+      "revops": 56
+    },
+    "rationale": "The campaign overrode three established role-specific limits with one 24-turn limit. RevOps reached exactly 24 tool calls, completed 90% of independently checked outcomes with no unsafe action, and missed one owner assignment. This is a campaign-environment defect, not a passing Level 2 result and not sufficient evidence of specialist inability."
+  },
+  "remedy": {
+    "rerunExposedCasesAsUnseen": false,
+    "replacementCampaign": "prospective-bounded-level2-model-campaign-v2",
+    "requirements": [
+      "new sealed task per role",
+      "role-specific turn ceilings",
+      "same independent external verification",
+      "separate hard spend cap",
+      "preserve V1 failure"
+    ]
+  },
+  "evidenceBoundary": "This receipt diagnoses why V1 is not a valid prospective Level 2 test. It does not convert the failed run into a pass, does not establish prospective fleet reliability, and does not authorize another paid run.",
+  "receiptHash": "2b9eb68bcea1d578b67525b64ae2a3213d6aab86c6882a03cc1483a24ebf3b76"
+}

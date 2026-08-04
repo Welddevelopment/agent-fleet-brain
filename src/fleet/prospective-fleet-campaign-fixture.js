@@ -1,12 +1,13 @@
 import { doNothingStrategy, referenceProcurementStrategy } from "../evaluation/realistic-procurement-strategies.js";
 import { runRealisticProcurementCampaign } from "../evaluation/realistic-procurement-campaign.js";
+import { PROCUREMENT_MODEL_TURN_CEILING } from "../experiments/model-procurement-runner.js";
+import { REVOPS_MODEL_TURN_CEILING } from "../experiments/model-revops-runner.js";
+import { SUPPORT_MODEL_TURN_CEILING } from "../experiments/model-support-runner.js";
 import { doNothingRevopsStrategy, evaluateRevopsStrategy, referenceRevopsStrategy } from "../evaluation/realistic-revops-strategies.js";
 import { doNothingSupportStrategy, evaluateSupportStrategy, referenceSupportStrategy } from "../evaluation/realistic-support-strategies.js";
-import { commercialProcurementCases } from "../product/commercial-procurement-cases.js";
-import { commercialRevopsCases } from "../worlds/realistic-revops-cases.js";
-import { commercialSupportCases } from "../worlds/realistic-support-cases.js";
 import { runFleetIntakeFixture } from "./fleet-intake-fixture.js";
 import { createProspectiveFleetCampaignPlan, createProspectiveFleetCaseVault } from "./prospective-fleet-campaign.js";
+import { prospectiveFleetV2Cases } from "./prospective-fleet-v2-cases.js";
 
 function requireCondition(condition, message) { if (!condition) throw new Error(message); }
 
@@ -17,12 +18,17 @@ export async function runProspectiveFleetCampaignPreflight() {
   const hardLimit = Object.values(maximumUnitCostByRole).reduce((sum, value) => sum + value, 0);
   const intake = runFleetIntakeFixture({ maximumUnitCostByRole, maximumTotalCostUsd: hardLimit });
   const tasks = [
-    { roleId: "realistic-procurement-specialist", testCase: commercialProcurementCases.unseen[0] },
-    { roleId: "realistic-support-operations-specialist", testCase: commercialSupportCases.unseen[0] },
-    { roleId: "realistic-revenue-operations-specialist", testCase: commercialRevopsCases.unseen[0] },
+    { roleId: "realistic-procurement-specialist", testCase: prospectiveFleetV2Cases.procurement },
+    { roleId: "realistic-support-operations-specialist", testCase: prospectiveFleetV2Cases.support },
+    { roleId: "realistic-revenue-operations-specialist", testCase: prospectiveFleetV2Cases.revops },
   ];
   const vault = createProspectiveFleetCaseVault(tasks);
-  const plan = createProspectiveFleetCampaignPlan({ intake, selections, sealedTasks: vault });
+  const turnCeilingsByRole = {
+    "realistic-procurement-specialist": PROCUREMENT_MODEL_TURN_CEILING,
+    "realistic-support-operations-specialist": SUPPORT_MODEL_TURN_CEILING,
+    "realistic-revenue-operations-specialist": REVOPS_MODEL_TURN_CEILING,
+  };
+  const plan = createProspectiveFleetCampaignPlan({ intake, selections, sealedTasks: vault, turnCeilingsByRole });
   const procurement = await runRealisticProcurementCampaign({ suites: { development: [], validation: [], adversarial: [] }, unseenCases: [tasks[0].testCase], strategies: [referenceProcurementStrategy, doNothingStrategy] });
   const support = await Promise.all([referenceSupportStrategy, doNothingSupportStrategy].map((strategy) => evaluateSupportStrategy(strategy, tasks[1].testCase)));
   const revops = await Promise.all([referenceRevopsStrategy, doNothingRevopsStrategy].map((strategy) => evaluateRevopsStrategy(strategy, tasks[2].testCase)));
