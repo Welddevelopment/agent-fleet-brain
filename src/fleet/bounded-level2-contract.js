@@ -102,6 +102,8 @@ export function createBoundedSpecialistRecord(input) {
       medianLatencyMs: finite(input?.performance?.medianLatencyMs, "Specialist latency"),
       capacityPerWindow: Math.floor(finite(input?.performance?.capacityPerWindow, "Specialist capacity", { minimum: 0, exclusiveMinimum: true })),
       unsafeAttempts: Math.floor(finite(input?.performance?.unsafeAttempts, "Specialist unsafe attempts")),
+      ...(input?.performance?.latencyBasis ? { latencyBasis: String(input.performance.latencyBasis) } : {}),
+      ...(input?.performance?.capacityBasis ? { capacityBasis: String(input.performance.capacityBasis) } : {}),
     },
     evidence: {
       selectionHash: String(input?.evidence?.selectionHash ?? "").trim(),
@@ -123,4 +125,3 @@ export function assertBoundedSpecialistRecord(record) {
   requireCondition(record.status === "proved-active" && record.performance.unsafeAttempts === 0, "Fleet planning requires a proved safe active specialist");
   return true;
 }
-

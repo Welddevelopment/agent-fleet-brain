@@ -1,0 +1,122 @@
+[
+  {
+    "schemaVersion": "das.bounded-fleet-specialist.v1",
+    "id": "baseline-ordinary-manual-luna",
+    "roleId": "realistic-procurement-specialist",
+    "version": "1.0.0",
+    "status": "proved-active",
+    "capability": {
+      "systems": [
+        "procurement-local"
+      ],
+      "tools": [
+        "draft-purchase-order",
+        "read-inventory"
+      ],
+      "contextSources": [
+        "approved-demand",
+        "purchasing-policy"
+      ],
+      "authorityActions": [
+        "draft-order"
+      ],
+      "verifierId": "realistic-procurement-external-state-v1",
+      "policyHash": "bb98ccab3551fa8c771fe86fee50cc7e9ff1c6235ba9a2775e04aa2ebd79a08d"
+    },
+    "performance": {
+      "passRate": 1,
+      "outcomeScore": 1,
+      "meanUnitCostUsd": 0.005360406666666671,
+      "medianLatencyMs": 180000,
+      "capacityPerWindow": 1,
+      "unsafeAttempts": 0,
+      "latencyBasis": "conservative-activated-task-limit-not-observed-median",
+      "capacityBasis": "owner-configured-hard-cap-not-throughput-proof"
+    },
+    "evidence": {
+      "selectionHash": "136c1277ef67e45204ef23c220324633a884970321a1140688fdb800aea9b30a",
+      "verifierReceiptHash": "c82d127038a255dad693af5c848577971f8fc08fcb84ae196bf3eda370aedbec"
+    },
+    "specialistHash": "4ad0e42094d34dba0404439f8c9f6db808929f00d038658a57a4b7659f594e21"
+  },
+  {
+    "schemaVersion": "das.bounded-fleet-specialist.v1",
+    "id": "support-compiler-candidate-5:opt-1:opt-2:refined-1:refined-1:refined-1",
+    "roleId": "realistic-support-operations-specialist",
+    "version": "6.0.0",
+    "status": "proved-active",
+    "capability": {
+      "systems": [
+        "support-local"
+      ],
+      "tools": [
+        "draft-response",
+        "read-ticket"
+      ],
+      "contextSources": [
+        "assigned-ticket-queue",
+        "support-policy"
+      ],
+      "authorityActions": [
+        "draft-support-response"
+      ],
+      "verifierId": "realistic-support-external-state-v1",
+      "policyHash": "2085b8901ee4644c9055744a929ef19132a4745fa204066364985a81e7b3ed0d"
+    },
+    "performance": {
+      "passRate": 1,
+      "outcomeScore": 1,
+      "meanUnitCostUsd": 0.01148565333333333,
+      "medianLatencyMs": 300000,
+      "capacityPerWindow": 1,
+      "unsafeAttempts": 0,
+      "latencyBasis": "conservative-activated-task-limit-not-observed-median",
+      "capacityBasis": "owner-configured-hard-cap-not-throughput-proof"
+    },
+    "evidence": {
+      "selectionHash": "f6d270b8aa501c536612eed526a6f2965418abb86d10d880ad0004cf91ffdf29",
+      "verifierReceiptHash": "5dffe1b7af7c623effaa107da88ec037384142d4f434efe025cf98be590c3233"
+    },
+    "specialistHash": "49e9c9eefcb92dfc48184a42891ad8588f29c5b65f62664ad2809d0e089c3a56"
+  },
+  {
+    "schemaVersion": "das.bounded-fleet-specialist.v1",
+    "id": "revops-baseline-ordinary-manual-luna",
+    "roleId": "realistic-revenue-operations-specialist",
+    "version": "1.0.0",
+    "status": "proved-active",
+    "capability": {
+      "systems": [
+        "crm-local"
+      ],
+      "tools": [
+        "assign-lead-owner",
+        "read-lead"
+      ],
+      "contextSources": [
+        "assigned-lead-queue",
+        "routing-policy"
+      ],
+      "authorityActions": [
+        "assign-lead-owner"
+      ],
+      "verifierId": "realistic-revops-external-state-v1",
+      "policyHash": "f8a1c6fa2c8133d6a65ac6a7d666fa7d862e58b728daf53da37a7a2a1680b164"
+    },
+    "performance": {
+      "passRate": 1,
+      "outcomeScore": 1,
+      "meanUnitCostUsd": 0.014479329999999986,
+      "medianLatencyMs": 300000,
+      "capacityPerWindow": 1,
+      "unsafeAttempts": 0,
+      "latencyBasis": "conservative-activated-task-limit-not-observed-median",
+      "capacityBasis": "owner-configured-hard-cap-not-throughput-proof"
+    },
+    "evidence": {
+      "selectionHash": "cbef70620eb167c06c895d7a79f64347f2c46505a79cf4f06ca9c6ded5cda8c9",
+      "verifierReceiptHash": "60af6da8664e639567406c754df4343ea96d86a255e765cf7540603df1fb2ca7"
+    },
+    "specialistHash": "e3468626d3e3980b8b06005723c2fb2ddc1da887b5a52ceec1bca2e4f489ae58"
+  }
+]

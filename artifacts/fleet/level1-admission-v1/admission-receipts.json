@@ -1,0 +1,131 @@
+[
+  {
+    "schemaVersion": "das.level1-fleet-admission.v1",
+    "status": "admitted-with-conservative-operational-bounds",
+    "roleId": "realistic-procurement-specialist",
+    "candidateId": "baseline-ordinary-manual-luna",
+    "candidateFingerprint": "507d510b80150240a77a44d29841ee0ada0b2ab799356c510d579e401c13d808",
+    "selectionRecordHash": "136c1277ef67e45204ef23c220324633a884970321a1140688fdb800aea9b30a",
+    "specialistHash": "4ad0e42094d34dba0404439f8c9f6db808929f00d038658a57a4b7659f594e21",
+    "evidenceReferences": [
+      {
+        "path": "artifacts/runs/piece2-unseen/v1/summary.json",
+        "sha256": "99d195fb358c0db91858a9a5bf04945874024e69b3d89fd6a501daa66ae6a326"
+      },
+      {
+        "path": "artifacts/runs/piece2-repeatability/v1/summary.json",
+        "sha256": "680060a3e6fa8d41276ed7e8a9bac8e4af10b216b283458e214fab6098bf0766"
+      },
+      {
+        "path": "artifacts/runs/piece5-cross-role-current-runtime/v1/summary.json",
+        "sha256": "ea32a733c683720ea7241cfe82d754091bd42820cab2bcc589e78890fe2b66c7"
+      }
+    ],
+    "observedEvidence": {
+      "frozenSuccessRate": 1,
+      "repeatabilitySuccessRate": 1,
+      "repeatabilityCases": 6,
+      "unsafeAttempts": 0,
+      "observedMeanCostUsd": 0.005360406666666671
+    },
+    "operationalBounds": {
+      "maximumLatencyMs": 180000,
+      "capacityPerWindow": 1,
+      "latencyBasis": "conservative-activated-task-limit-not-observed-median",
+      "capacityBasis": "owner-configured-hard-cap-not-throughput-proof"
+    },
+    "authority": {
+      "executionAuthorized": false,
+      "modelSpendAuthorized": false,
+      "activationAuthorized": false
+    },
+    "evidenceBoundary": "Integrity-checked Level 1 selection admitted to fleet planning with exact capability subsets, verified source artifacts, a conservative task-latency limit and an owner-configured hard capacity cap. Admission does not authorize execution or prove production throughput.",
+    "receiptHash": "92e80de3fceab071abc983d5af4acb9471bd8f930fbac5503f817961bb61a3f8"
+  },
+  {
+    "schemaVersion": "das.level1-fleet-admission.v1",
+    "status": "admitted-with-conservative-operational-bounds",
+    "roleId": "realistic-support-operations-specialist",
+    "candidateId": "support-compiler-candidate-5:opt-1:opt-2:refined-1:refined-1:refined-1",
+    "candidateFingerprint": "005549f2593b875da146e978e172c8f4360080a06d99135154a902185d015d81",
+    "selectionRecordHash": "f6d270b8aa501c536612eed526a6f2965418abb86d10d880ad0004cf91ffdf29",
+    "specialistHash": "49e9c9eefcb92dfc48184a42891ad8588f29c5b65f62664ad2809d0e089c3a56",
+    "evidenceReferences": [
+      {
+        "path": "artifacts/runs/piece3-support-cycle4-unseen/v1/summary.json",
+        "sha256": "2ecd939b99d83ee5051d28e3379809942fc5daf2b8ac5e9f23aa52f76d90af71"
+      },
+      {
+        "path": "artifacts/runs/piece3-support-cycle4-repeatability/v1/summary.json",
+        "sha256": "7264e4f92990c86058866e1b9ae375444ec7c34987b26a4581c9cbab6b56b74c"
+      },
+      {
+        "path": "artifacts/runs/piece5-cross-role-current-runtime/v1/summary.json",
+        "sha256": "ea32a733c683720ea7241cfe82d754091bd42820cab2bcc589e78890fe2b66c7"
+      }
+    ],
+    "observedEvidence": {
+      "frozenSuccessRate": 1,
+      "repeatabilitySuccessRate": 1,
+      "repeatabilityCases": 12,
+      "unsafeAttempts": 0,
+      "observedMeanCostUsd": 0.01148565333333333
+    },
+    "operationalBounds": {
+      "maximumLatencyMs": 300000,
+      "capacityPerWindow": 1,
+      "latencyBasis": "conservative-activated-task-limit-not-observed-median",
+      "capacityBasis": "owner-configured-hard-cap-not-throughput-proof"
+    },
+    "authority": {
+      "executionAuthorized": false,
+      "modelSpendAuthorized": false,
+      "activationAuthorized": false
+    },
+    "evidenceBoundary": "Integrity-checked Level 1 selection admitted to fleet planning with exact capability subsets, verified source artifacts, a conservative task-latency limit and an owner-configured hard capacity cap. Admission does not authorize execution or prove production throughput.",
+    "receiptHash": "186d5ce9f56e9461e5b6cc93f12031e121b33f2ab795c3291020e0c46ccc50c7"
+  },
+  {
+    "schemaVersion": "das.level1-fleet-admission.v1",
+    "status": "admitted-with-conservative-operational-bounds",
+    "roleId": "realistic-revenue-operations-specialist",
+    "candidateId": "revops-baseline-ordinary-manual-luna",
+    "candidateFingerprint": "ac1ebf10b6d3062696d8c17188a070e31a9f8656146d34d9245fcf3a7b70a9dc",
+    "selectionRecordHash": "cbef70620eb167c06c895d7a79f64347f2c46505a79cf4f06ca9c6ded5cda8c9",
+    "specialistHash": "e3468626d3e3980b8b06005723c2fb2ddc1da887b5a52ceec1bca2e4f489ae58",
+    "evidenceReferences": [
+      {
+        "path": "artifacts/runs/piece4-revops-cycle3-unseen/v1/summary.json",
+        "sha256": "b4ca33b8dc385dd87b28e23a22c622514c19f12c40bfa825bfcb668ed805f319"
+      },
+      {
+        "path": "artifacts/runs/piece4-revops-cycle3-repeatability/v1/summary.json",
+        "sha256": "214d9f52ef861aa952131c281835f6568fc2a4b11a4636f3a1efebc03ecd3888"
+      },
+      {
+        "path": "artifacts/runs/piece5-cross-role-current-runtime/v1/summary.json",
+        "sha256": "ea32a733c683720ea7241cfe82d754091bd42820cab2bcc589e78890fe2b66c7"
+      }
+    ],
+    "observedEvidence": {
+      "frozenSuccessRate": 1,
+      "repeatabilitySuccessRate": 1,
+      "repeatabilityCases": 12,
+      "unsafeAttempts": 0,
+      "observedMeanCostUsd": 0.014479329999999986
+    },
+    "operationalBounds": {
+      "maximumLatencyMs": 300000,
+      "capacityPerWindow": 1,
+      "latencyBasis": "conservative-activated-task-limit-not-observed-median",
+      "capacityBasis": "owner-configured-hard-cap-not-throughput-proof"
+    },
+    "authority": {
+      "executionAuthorized": false,
+      "modelSpendAuthorized": false,
+      "activationAuthorized": false
+    },
+    "evidenceBoundary": "Integrity-checked Level 1 selection admitted to fleet planning with exact capability subsets, verified source artifacts, a conservative task-latency limit and an owner-configured hard capacity cap. Admission does not authorize execution or prove production throughput.",
+    "receiptHash": "50778b344e6b9aeb29dca4119fcaeeb37741110535e7fee3e916958980464944"
+  }
+]

@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "das.bounded-fleet-plan.v1",
+  "status": "fully-routable-awaiting-execution-approval",
+  "contractHash": "505a62a11a2446b4b744a2dffceeef2bcc475e287dece8356fd917005343a040",
+  "specialistHashes": [
+    {
+      "id": "baseline-ordinary-manual-luna",
+      "specialistHash": "4ad0e42094d34dba0404439f8c9f6db808929f00d038658a57a4b7659f594e21"
+    },
+    {
+      "id": "support-compiler-candidate-5:opt-1:opt-2:refined-1:refined-1:refined-1",
+      "specialistHash": "49e9c9eefcb92dfc48184a42891ad8588f29c5b65f62664ad2809d0e089c3a56"
+    },
+    {
+      "id": "revops-baseline-ordinary-manual-luna",
+      "specialistHash": "e3468626d3e3980b8b06005723c2fb2ddc1da887b5a52ceec1bca2e4f489ae58"
+    }
+  ],
+  "selectedVariantHash": "041c46496178714fe8fa326241f4b7ef83bbab8201820846848558ca83353a82",
+  "selected": {
+    "strategy": "quality-first",
+    "assignments": [
+      {
+        "assignmentId": "fleet-assignment-c5034bf75b278eda",
+        "workloadId": "approved-shortage",
+        "specialistId": "baseline-ordinary-manual-luna",
+        "specialistHash": "4ad0e42094d34dba0404439f8c9f6db808929f00d038658a57a4b7659f594e21",
+        "quantity": 1,
+        "estimatedCostUsd": 0.005360406666666671,
+        "expectedOutcomeScore": 1,
+        "expectedLatencyMs": 180000,
+        "verifierId": "realistic-procurement-external-state-v1",
+        "assignmentHash": "9afb459fb59adb75c1dbc1acfd1c9df8d3214a27102d6d07c7ce38dd69f93336"
+      },
+      {
+        "assignmentId": "fleet-assignment-6f946a5ea39f8920",
+        "workloadId": "assigned-ticket",
+        "specialistId": "support-compiler-candidate-5:opt-1:opt-2:refined-1:refined-1:refined-1",
+        "specialistHash": "49e9c9eefcb92dfc48184a42891ad8588f29c5b65f62664ad2809d0e089c3a56",
+        "quantity": 1,
+        "estimatedCostUsd": 0.01148565333333333,
+        "expectedOutcomeScore": 1,
+        "expectedLatencyMs": 300000,
+        "verifierId": "realistic-support-external-state-v1",
+        "assignmentHash": "47691e35b1871d18a5792a2adabf2e4d53c87c75d764d715b93cdca5fcf77458"
+      },
+      {
+        "assignmentId": "fleet-assignment-9d6246c2c3985a91",
+        "workloadId": "assigned-lead",
+        "specialistId": "revops-baseline-ordinary-manual-luna",
+        "specialistHash": "e3468626d3e3980b8b06005723c2fb2ddc1da887b5a52ceec1bca2e4f489ae58",
+        "quantity": 1,
+        "estimatedCostUsd": 0.014479329999999986,
+        "expectedOutcomeScore": 1,
+        "expectedLatencyMs": 300000,
+        "verifierId": "realistic-revops-external-state-v1",
+        "assignmentHash": "e65eb084216dbb896161415d9d1106b8bd66e0faf3384f6fdac7608775f7f0e4"
+      }
+    ],
+    "roleGaps": [],
+    "metrics": {
+      "assignedVolume": 3,
+      "totalVolume": 3,
+      "coverageRate": 1,
+      "totalCostUsd": 0.03132538999999999,
+      "withinHardCostLimit": true,
+      "weightedOutcomeScore": 1,
+      "maximumExpectedLatencyMs": 300000,
+      "proposedRoles": 0
+    },
+    "variantHash": "041c46496178714fe8fa326241f4b7ef83bbab8201820846848558ca83353a82"
+  },
+  "alternatives": [
+    {
+      "strategy": "balanced",
+      "variantHash": "23cb971794f896029c68de7d492f35de775c97bf08021c93c122edccc500f79c",
+      "metrics": {
+        "assignedVolume": 3,
+        "totalVolume": 3,
+        "coverageRate": 1,
+        "totalCostUsd": 0.03132538999999999,
+        "withinHardCostLimit": true,
+        "weightedOutcomeScore": 1,
+        "maximumExpectedLatencyMs": 300000,
+        "proposedRoles": 0
+      }
+    },
+    {
+      "strategy": "quality-first",
+      "variantHash": "041c46496178714fe8fa326241f4b7ef83bbab8201820846848558ca83353a82",
+      "metrics": {
+        "assignedVolume": 3,
+        "totalVolume": 3,
+        "coverageRate": 1,
+        "totalCostUsd": 0.03132538999999999,
+        "withinHardCostLimit": true,
+        "weightedOutcomeScore": 1,
+        "maximumExpectedLatencyMs": 300000,
+        "proposedRoles": 0
+      }
+    },
+    {
+      "strategy": "cost-first",
+      "variantHash": "89d2f8bfd9bf569e37ba9cbb16cca05797db247f5c137bced5c0fb5d7825012d",
+      "metrics": {
+        "assignedVolume": 3,
+        "totalVolume": 3,
+        "coverageRate": 1,
+        "totalCostUsd": 0.03132538999999999,
+        "withinHardCostLimit": true,
+        "weightedOutcomeScore": 1,
+        "maximumExpectedLatencyMs": 300000,
+        "proposedRoles": 0
+      }
+    },
+    {
+      "strategy": "speed-first",
+      "variantHash": "89e52b5fa79fca3cc08548077a3ea2166db36ba1059e37c63e50b3e8a74f18ad",
+      "metrics": {
+        "assignedVolume": 3,
+        "totalVolume": 3,
+        "coverageRate": 1,
+        "totalCostUsd": 0.03132538999999999,
+        "withinHardCostLimit": true,
+        "weightedOutcomeScore": 1,
+        "maximumExpectedLatencyMs": 300000,
+        "proposedRoles": 0
+      }
+    }
+  ],
+  "authority": {
+    "executionAuthorized": false,
+    "modelSpendAuthorized": false,
+    "roleCreationAuthorized": false,
+    "activationAuthorized": false
+  },
+  "evidenceBoundary": "Bounded deterministic planning over trusted workload and proved specialist records. No task ran and no new specialist was created.",
+  "planHash": "886a3a2b9eaa4a10dd747cba079d682d9ef3b6a4098be3d34c4223ed1c8fd009"
+}

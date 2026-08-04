@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "das.bounded-fleet-contract.v1",
+  "companyId": "fictional-level1-registry-bridge",
+  "goal": "Route one bounded job to each exact specialist admitted from the integrity-checked Level 1 registry.",
+  "planningWindow": "registry-admission-check",
+  "workload": [
+    {
+      "id": "approved-shortage",
+      "outcome": "Complete one approved shortage safely",
+      "source": "trusted-procurement-local-adapter",
+      "volume": 1,
+      "dueWithinMs": 180000,
+      "maximumUnitCostUsd": 0.005360406666666671,
+      "minimumOutcomeScore": 1,
+      "risk": "high",
+      "requirement": {
+        "systems": [
+          "procurement-local"
+        ],
+        "tools": [
+          "draft-purchase-order",
+          "read-inventory"
+        ],
+        "contextSources": [
+          "approved-demand",
+          "purchasing-policy"
+        ],
+        "authorityActions": [
+          "draft-order"
+        ],
+        "verifierId": "realistic-procurement-external-state-v1",
+        "policyHash": "bb98ccab3551fa8c771fe86fee50cc7e9ff1c6235ba9a2775e04aa2ebd79a08d"
+      }
+    },
+    {
+      "id": "assigned-ticket",
+      "outcome": "Complete one assigned ticket safely",
+      "source": "trusted-support-local-adapter",
+      "volume": 1,
+      "dueWithinMs": 300000,
+      "maximumUnitCostUsd": 0.01148565333333333,
+      "minimumOutcomeScore": 1,
+      "risk": "high",
+      "requirement": {
+        "systems": [
+          "support-local"
+        ],
+        "tools": [
+          "draft-response",
+          "read-ticket"
+        ],
+        "contextSources": [
+          "assigned-ticket-queue",
+          "support-policy"
+        ],
+        "authorityActions": [
+          "draft-support-response"
+        ],
+        "verifierId": "realistic-support-external-state-v1",
+        "policyHash": "2085b8901ee4644c9055744a929ef19132a4745fa204066364985a81e7b3ed0d"
+      }
+    },
+    {
+      "id": "assigned-lead",
+      "outcome": "Complete one assigned lead safely",
+      "source": "trusted-crm-local-adapter",
+      "volume": 1,
+      "dueWithinMs": 300000,
+      "maximumUnitCostUsd": 0.014479329999999986,
+      "minimumOutcomeScore": 1,
+      "risk": "high",
+      "requirement": {
+        "systems": [
+          "crm-local"
+        ],
+        "tools": [
+          "assign-lead-owner",
+          "read-lead"
+        ],
+        "contextSources": [
+          "assigned-lead-queue",
+          "routing-policy"
+        ],
+        "authorityActions": [
+          "assign-lead-owner"
+        ],
+        "verifierId": "realistic-revops-external-state-v1",
+        "policyHash": "f8a1c6fa2c8133d6a65ac6a7d666fa7d862e58b728daf53da37a7a2a1680b164"
+      }
+    }
+  ],
+  "priorities": {
+    "quality": 1,
+    "cost": 0.2,
+    "speed": 0.1
+  },
+  "limits": {
+    "maximumTotalCostUsd": 0.03132538999999999,
+    "maximumNewRoleProposals": 0,
+    "allowAutomaticRoleCreation": false,
+    "allowAutomaticSpend": false,
+    "allowAutomaticActivation": false
+  },
+  "evidenceBoundary": "Trusted bounded workload inventory and planning limits. This contract does not authorize execution, model spend, role creation or activation.",
+  "contractHash": "505a62a11a2446b4b744a2dffceeef2bcc475e287dece8356fd917005343a040"
+}

@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "das.level1-fleet-admission-summary.v1",
+  "status": "completed",
+  "admittedSelections": 3,
+  "routedItems": 3,
+  "roleGaps": 0,
+  "verificationPassed": true,
+  "executionAuthorityGranted": false,
+  "modelCalls": 0,
+  "paidModelSpendUsd": 0,
+  "evidenceBoundary": "Three real integrity-checked local Level 1 selections were admitted into bounded fleet planning. The three-item route is planning evidence only; no task executed and conservative capacity is not throughput proof.",
+  "summaryHash": "f98bb224d86d7c13017c1dd271823a10bca7fbac95df109c784bc670e25d9153"
+}
