@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "das.level1-fleet-receipt-import-summary.v1",
+  "status": "broad-goal-completed",
+  "historicalReceiptsImported": 3,
+  "verifiedComplete": 3,
+  "parentGoalCompleted": true,
+  "actualHistoricalModelCostUsd": 0.028444999999999998,
+  "sourceAttemptId": "piece5-cross-role-current-runtime-v1",
+  "sourcePredatesFleetPlan": true,
+  "durableReloadPassed": true,
+  "duplicateReceiptIdempotent": true,
+  "newModelCalls": 0,
+  "newPaidSpendUsd": 0,
+  "evidenceBoundary": "Three preserved model-backed local Level 1 outcomes were identity-checked and imported through the durable fleet controller. The original runs predate this fleet plan, so this demonstrates receipt compatibility and aggregation—not a fresh prospective Level 2 model campaign.",
+  "summaryHash": "a7ec21a6a8c11b05c395c9d41293ed2fea2ceca7b68670e25e58f96cff72fa9a"
+}
