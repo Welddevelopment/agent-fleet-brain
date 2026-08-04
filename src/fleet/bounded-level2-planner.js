@@ -133,6 +133,11 @@ export function createBoundedFleetPlan({ contract, specialists }) {
   const variants = ["balanced", "quality-first", "cost-first", "speed-first"].map((strategy) => buildVariant({ contract, specialists, strategy }));
   const eligible = variants.filter((variant) => variant.metrics.withinHardCostLimit && variant.metrics.proposedRoles <= contract.limits.maximumNewRoleProposals);
   const selected = [...eligible].sort((left, right) => variantUtility(right, contract.priorities) - variantUtility(left, contract.priorities) || left.variantHash.localeCompare(right.variantHash))[0] ?? null;
+  const blockers = selected ? [] : [
+    ...(variants.every((variant) => !variant.metrics.withinHardCostLimit) ? [{ code: "hard-cost-limit", limit: contract.limits.maximumTotalCostUsd, minimumPlannedCostUsd: Math.min(...variants.map((variant) => variant.metrics.totalCostUsd)) }] : []),
+    ...(variants.every((variant) => variant.metrics.proposedRoles > contract.limits.maximumNewRoleProposals) ? [{ code: "new-role-proposal-limit", limit: contract.limits.maximumNewRoleProposals, minimumProposedRoles: Math.min(...variants.map((variant) => variant.metrics.proposedRoles)) }] : []),
+    ...(!variants.every((variant) => !variant.metrics.withinHardCostLimit) && !variants.every((variant) => variant.metrics.proposedRoles > contract.limits.maximumNewRoleProposals) ? [{ code: "no-single-variant-satisfies-all-bounds" }] : []),
+  ];
   const plan = {
     schemaVersion: "das.bounded-fleet-plan.v1",
     status: selected ? (selected.roleGaps.length ? "partially-routable-awaiting-role-approval" : "fully-routable-awaiting-execution-approval") : "blocked-by-bounded-limits",
@@ -147,6 +152,7 @@ export function createBoundedFleetPlan({ contract, specialists }) {
       roleCreationAuthorized: false,
       activationAuthorized: false,
     },
+    ...(selected ? {} : { blockers }),
     evidenceBoundary: "Bounded deterministic planning over trusted workload and proved specialist records. No task ran and no new specialist was created.",
   };
   plan.planHash = digest(plan);

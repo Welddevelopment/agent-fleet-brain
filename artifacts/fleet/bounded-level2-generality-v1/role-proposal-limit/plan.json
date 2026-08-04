@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "das.bounded-fleet-plan.v1",
+  "status": "blocked-by-bounded-limits",
+  "contractHash": "ace9aca28ce0f3057cc7a8a6f103cdc41ba5a6c439d7ec830a178c11f84cd690",
+  "specialistHashes": [
+    {
+      "id": "support-quality-specialist",
+      "specialistHash": "d415cbf4043812a0da78cea7975e2fd935fb0c368c759aa84a58106cd8405038"
+    },
+    {
+      "id": "support-efficient-specialist",
+      "specialistHash": "07397d953f3d63917a2679bc0b7a59586e5d8d8a9cd3f13e78a0017ffb0b4a82"
+    },
+    {
+      "id": "procurement-specialist",
+      "specialistHash": "f983c732e9ce9e04c0775c50d23e555d105dd3b87eeb529ecc5c623034912c99"
+    },
+    {
+      "id": "revops-specialist",
+      "specialistHash": "a31ca8f70c4d4bfcaaeefcd61b4e39f12becd8f9c12a2bba7b278a28c9d21137"
+    }
+  ],
+  "selectedVariantHash": null,
+  "selected": null,
+  "alternatives": [
+    {
+      "strategy": "balanced",
+      "variantHash": "b5b3c3d7feac6bd20d2cc15d779e5b58e649266695f0d4f0b54b633a9ce5dfcb",
+      "metrics": {
+        "assignedVolume": 75,
+        "totalVolume": 115,
+        "coverageRate": 0.6521739130434783,
+        "totalCostUsd": 6.05,
+        "withinHardCostLimit": true,
+        "weightedOutcomeScore": 0.9966666666666667,
+        "maximumExpectedLatencyMs": 900,
+        "proposedRoles": 2
+      }
+    },
+    {
+      "strategy": "quality-first",
+      "variantHash": "07e9a8e253db295e81c94d0d8a335091abe7fa00992db85792b9d52d8024d5fc",
+      "metrics": {
+        "assignedVolume": 75,
+        "totalVolume": 115,
+        "coverageRate": 0.6521739130434783,
+        "totalCostUsd": 6.05,
+        "withinHardCostLimit": true,
+        "weightedOutcomeScore": 0.9966666666666667,
+        "maximumExpectedLatencyMs": 900,
+        "proposedRoles": 2
+      }
+    },
+    {
+      "strategy": "cost-first",
+      "variantHash": "98726ec25977f2be699a89eb5dba5296d72dffa2544f391789c39190b73798de",
+      "metrics": {
+        "assignedVolume": 75,
+        "totalVolume": 115,
+        "coverageRate": 0.6521739130434783,
+        "totalCostUsd": 6.05,
+        "withinHardCostLimit": true,
+        "weightedOutcomeScore": 0.9966666666666667,
+        "maximumExpectedLatencyMs": 900,
+        "proposedRoles": 2
+      }
+    },
+    {
+      "strategy": "speed-first",
+      "variantHash": "90a6a452359c45ebd8473107cee4225b6e04624f7f277ab217d87678126e5cab",
+      "metrics": {
+        "assignedVolume": 75,
+        "totalVolume": 115,
+        "coverageRate": 0.6521739130434783,
+        "totalCostUsd": 6.05,
+        "withinHardCostLimit": true,
+        "weightedOutcomeScore": 0.9966666666666667,
+        "maximumExpectedLatencyMs": 900,
+        "proposedRoles": 2
+      }
+    }
+  ],
+  "authority": {
+    "executionAuthorized": false,
+    "modelSpendAuthorized": false,
+    "roleCreationAuthorized": false,
+    "activationAuthorized": false
+  },
+  "blockers": [
+    {
+      "code": "new-role-proposal-limit",
+      "limit": 1,
+      "minimumProposedRoles": 2
+    }
+  ],
+  "evidenceBoundary": "Bounded deterministic planning over trusted workload and proved specialist records. No task ran and no new specialist was created.",
+  "planHash": "e307e47b2fa56b2ac6cab675f6cdee1a1e6d7224cc795f709a169af86df7f9d3"
+}

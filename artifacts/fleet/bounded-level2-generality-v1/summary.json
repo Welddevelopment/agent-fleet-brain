@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "das.bounded-level2-generality-matrix.v1",
+  "status": "completed",
+  "profiles": [
+    {
+      "id": "expanded-standard",
+      "status": "fully-routable-awaiting-execution-approval",
+      "verificationPassed": true,
+      "verificationOutcome": "routable-plan-verified",
+      "assignedVolume": 115,
+      "totalVolume": 115,
+      "roleGaps": 0,
+      "blockerCodes": [],
+      "executionAuthorityGranted": false
+    },
+    {
+      "id": "support-surge",
+      "status": "fully-routable-awaiting-execution-approval",
+      "verificationPassed": true,
+      "verificationOutcome": "routable-plan-verified",
+      "assignedVolume": 100,
+      "totalVolume": 100,
+      "roleGaps": 0,
+      "blockerCodes": [],
+      "executionAuthorityGranted": false
+    },
+    {
+      "id": "compressed-deadline",
+      "status": "partially-routable-awaiting-role-approval",
+      "verificationPassed": true,
+      "verificationOutcome": "routable-plan-verified",
+      "assignedVolume": 75,
+      "totalVolume": 115,
+      "roleGaps": 2,
+      "blockerCodes": [],
+      "executionAuthorityGranted": false
+    },
+    {
+      "id": "role-proposal-limit",
+      "status": "blocked-by-bounded-limits",
+      "verificationPassed": true,
+      "verificationOutcome": "correctly-blocked",
+      "assignedVolume": 0,
+      "totalVolume": 115,
+      "roleGaps": 0,
+      "blockerCodes": [
+        "new-role-proposal-limit"
+      ],
+      "executionAuthorityGranted": false
+    },
+    {
+      "id": "hard-budget-limit",
+      "status": "blocked-by-bounded-limits",
+      "verificationPassed": true,
+      "verificationOutcome": "correctly-blocked",
+      "assignedVolume": 0,
+      "totalVolume": 115,
+      "roleGaps": 0,
+      "blockerCodes": [
+        "hard-cost-limit"
+      ],
+      "executionAuthorityGranted": false
+    }
+  ],
+  "checks": {
+    "samePlannerAcrossProfiles": true,
+    "noExecutionAuthorityGranted": true,
+    "allPlansIndependentlyVerified": true,
+    "fullAndPartialAndBlockedBranchesCovered": true,
+    "hardBudgetAndRoleLimitsCovered": true
+  },
+  "modelCalls": 0,
+  "paidModelSpendUsd": 0,
+  "evidenceBoundary": "Five zero-cost fictional planning profiles exercise the same bounded planner and independent verifier. This is structural generality evidence, not model-agent performance, customer strategy or production scheduling.",
+  "summaryHash": "39ad4072865b19201bf9514596afe12e54e9298fbc4dda3b1bd07e7721d516be"
+}

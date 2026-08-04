@@ -1,0 +1,171 @@
+{
+  "schemaVersion": "das.bounded-fleet-plan.v1",
+  "status": "fully-routable-awaiting-execution-approval",
+  "contractHash": "d4fde783e885fee13799fe6879f49b8881ddc389069e50a404e1ddb820d92749",
+  "specialistHashes": [
+    {
+      "id": "support-quality-specialist",
+      "specialistHash": "d415cbf4043812a0da78cea7975e2fd935fb0c368c759aa84a58106cd8405038"
+    },
+    {
+      "id": "support-efficient-specialist",
+      "specialistHash": "07397d953f3d63917a2679bc0b7a59586e5d8d8a9cd3f13e78a0017ffb0b4a82"
+    },
+    {
+      "id": "procurement-specialist",
+      "specialistHash": "f983c732e9ce9e04c0775c50d23e555d105dd3b87eeb529ecc5c623034912c99"
+    },
+    {
+      "id": "revops-specialist",
+      "specialistHash": "a31ca8f70c4d4bfcaaeefcd61b4e39f12becd8f9c12a2bba7b278a28c9d21137"
+    },
+    {
+      "id": "finance-close:balanced",
+      "specialistHash": "1c432999d9ca4e5e65b0bc36d2cea098cb586287c6530d5e585b7e552b09ae3e"
+    }
+  ],
+  "selectedVariantHash": "23eb6ce72bb456f352948d9384d06aca8a70e9b987e6dc83c4cce5ae78f9fd41",
+  "selected": {
+    "strategy": "speed-first",
+    "assignments": [
+      {
+        "assignmentId": "fleet-assignment-2e4557a100141c99",
+        "workloadId": "support-morning-queue",
+        "specialistId": "support-quality-specialist",
+        "specialistHash": "d415cbf4043812a0da78cea7975e2fd935fb0c368c759aa84a58106cd8405038",
+        "quantity": 30,
+        "estimatedCostUsd": 3.5999999999999996,
+        "expectedOutcomeScore": 1,
+        "expectedLatencyMs": 700,
+        "verifierId": "support-plan-verifier-v1",
+        "assignmentHash": "6ea4fffdadb78395518b75578a8915e9c3c1b3e4ac2c65ceedac39e66a58e02f"
+      },
+      {
+        "assignmentId": "fleet-assignment-c88c715e902f8c78",
+        "workloadId": "support-morning-queue",
+        "specialistId": "support-efficient-specialist",
+        "specialistHash": "07397d953f3d63917a2679bc0b7a59586e5d8d8a9cd3f13e78a0017ffb0b4a82",
+        "quantity": 30,
+        "estimatedCostUsd": 1.2,
+        "expectedOutcomeScore": 0.98,
+        "expectedLatencyMs": 1100,
+        "verifierId": "support-plan-verifier-v1",
+        "assignmentHash": "ca31d3011d5453c39f91caea5eecf74e797358468d352e4c0e836baafd794779"
+      },
+      {
+        "assignmentId": "fleet-assignment-52e60bb45ba2323f",
+        "workloadId": "approved-stock-shortages",
+        "specialistId": "procurement-specialist",
+        "specialistHash": "f983c732e9ce9e04c0775c50d23e555d105dd3b87eeb529ecc5c623034912c99",
+        "quantity": 20,
+        "estimatedCostUsd": 1.2,
+        "expectedOutcomeScore": 1,
+        "expectedLatencyMs": 900,
+        "verifierId": "procurement-plan-verifier-v1",
+        "assignmentHash": "fea827f0e373bcd9aba02f73c641ceb67c1df7253d7a95799bbe0d754d79f9d2"
+      },
+      {
+        "assignmentId": "fleet-assignment-61e4bcd7c790f678",
+        "workloadId": "inbound-lead-batch",
+        "specialistId": "revops-specialist",
+        "specialistHash": "a31ca8f70c4d4bfcaaeefcd61b4e39f12becd8f9c12a2bba7b278a28c9d21137",
+        "quantity": 25,
+        "estimatedCostUsd": 1.25,
+        "expectedOutcomeScore": 0.99,
+        "expectedLatencyMs": 850,
+        "verifierId": "revops-plan-verifier-v1",
+        "assignmentHash": "01a60378c35acce92f7ccf3d91c36bd5408c3c4ab860bcdf21b5eb1fa7c4784a"
+      },
+      {
+        "assignmentId": "fleet-assignment-43b18b95025244d1",
+        "workloadId": "unmatched-payments",
+        "specialistId": "finance-close:balanced",
+        "specialistHash": "1c432999d9ca4e5e65b0bc36d2cea098cb586287c6530d5e585b7e552b09ae3e",
+        "quantity": 10,
+        "estimatedCostUsd": 2.5,
+        "expectedOutcomeScore": 1,
+        "expectedLatencyMs": 13000,
+        "verifierId": "finance-close:external-state-verifier",
+        "assignmentHash": "8caec6c43cca67c132b1120bff8a50c41a67243cbeecac87e0940ba820aab611"
+      }
+    ],
+    "roleGaps": [],
+    "metrics": {
+      "assignedVolume": 115,
+      "totalVolume": 115,
+      "coverageRate": 1,
+      "totalCostUsd": 9.75,
+      "withinHardCostLimit": true,
+      "weightedOutcomeScore": 0.9926086956521739,
+      "maximumExpectedLatencyMs": 13000,
+      "proposedRoles": 0
+    },
+    "variantHash": "23eb6ce72bb456f352948d9384d06aca8a70e9b987e6dc83c4cce5ae78f9fd41"
+  },
+  "alternatives": [
+    {
+      "strategy": "balanced",
+      "variantHash": "af849e3433965a1aa8718087aed4897b0d3df2398d294cbc9c7898e16dd68c97",
+      "metrics": {
+        "assignedVolume": 115,
+        "totalVolume": 115,
+        "coverageRate": 1,
+        "totalCostUsd": 9.75,
+        "withinHardCostLimit": true,
+        "weightedOutcomeScore": 0.9926086956521739,
+        "maximumExpectedLatencyMs": 13000,
+        "proposedRoles": 0
+      }
+    },
+    {
+      "strategy": "quality-first",
+      "variantHash": "5d0796bddadf302dcbdef365f4c8a4df6bb1208286dbbf5c9af87f1a4da2563f",
+      "metrics": {
+        "assignedVolume": 115,
+        "totalVolume": 115,
+        "coverageRate": 1,
+        "totalCostUsd": 9.75,
+        "withinHardCostLimit": true,
+        "weightedOutcomeScore": 0.9926086956521739,
+        "maximumExpectedLatencyMs": 13000,
+        "proposedRoles": 0
+      }
+    },
+    {
+      "strategy": "cost-first",
+      "variantHash": "edf73ab79b2480729150321826f9e00d66df0fb769a3a6201ac1ec260e59c774",
+      "metrics": {
+        "assignedVolume": 115,
+        "totalVolume": 115,
+        "coverageRate": 1,
+        "totalCostUsd": 8.15,
+        "withinHardCostLimit": true,
+        "weightedOutcomeScore": 0.9891304347826086,
+        "maximumExpectedLatencyMs": 13000,
+        "proposedRoles": 0
+      }
+    },
+    {
+      "strategy": "speed-first",
+      "variantHash": "23eb6ce72bb456f352948d9384d06aca8a70e9b987e6dc83c4cce5ae78f9fd41",
+      "metrics": {
+        "assignedVolume": 115,
+        "totalVolume": 115,
+        "coverageRate": 1,
+        "totalCostUsd": 9.75,
+        "withinHardCostLimit": true,
+        "weightedOutcomeScore": 0.9926086956521739,
+        "maximumExpectedLatencyMs": 13000,
+        "proposedRoles": 0
+      }
+    }
+  ],
+  "authority": {
+    "executionAuthorized": false,
+    "modelSpendAuthorized": false,
+    "roleCreationAuthorized": false,
+    "activationAuthorized": false
+  },
+  "evidenceBoundary": "Bounded deterministic planning over trusted workload and proved specialist records. No task ran and no new specialist was created.",
+  "planHash": "e469e181f7f19b4d8b483e8d4964ac325dc4ddd5c040e01207c15f4fdd5615b7"
+}

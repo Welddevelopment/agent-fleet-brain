@@ -49,8 +49,25 @@ test("tampered specialists, widened automatic authority and impossible budgets f
 
   const impossible = createBoundedFleetContract({ ...structuredClone(contract), limits: { maximumTotalCostUsd: 0, maximumNewRoleProposals: 1 } });
   const blocked = createBoundedFleetPlan({ contract: impossible, specialists });
+  const blockedVerification = verifyBoundedFleetPlan({ contract: impossible, specialists, plan: blocked });
   assert.equal(blocked.status, "blocked-by-bounded-limits");
   assert.equal(blocked.selected, null);
+  assert.deepEqual(blocked.blockers.map((item) => item.code), ["hard-cost-limit"]);
+  assert.equal(blockedVerification.passed, true);
+  assert.equal(blockedVerification.outcome, "correctly-blocked");
+});
+
+test("independent verifier rejects a dishonest bounded-limit refusal", () => {
+  const { contract, specialists } = createBoundedLevel2Fixture();
+  const impossible = createBoundedFleetContract({ ...structuredClone(contract), limits: { maximumTotalCostUsd: 0, maximumNewRoleProposals: 1 } });
+  const blocked = createBoundedFleetPlan({ contract: impossible, specialists });
+  const dishonest = structuredClone(blocked);
+  delete dishonest.planHash;
+  dishonest.blockers = [{ code: "new-role-proposal-limit", limit: 1, minimumProposedRoles: 1 }];
+  dishonest.planHash = digest(dishonest);
+  const verification = verifyBoundedFleetPlan({ contract: impossible, specialists, plan: dishonest });
+  assert.equal(verification.passed, false);
+  assert.equal(verification.checks.blockersExact, false);
 });
 
 test("unsafe or unproved specialist records cannot enter fleet planning", () => {

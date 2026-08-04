@@ -12,6 +12,40 @@ export function verifyBoundedFleetPlan({ contract, specialists, plan }) {
   specialists.forEach(assertBoundedSpecialistRecord);
   requireCondition(plan.contractHash === contract.contractHash, "Fleet plan belongs to another workload contract");
   const specialistById = new Map(specialists.map((item) => [item.id, item]));
+  const exactSpecialistSet = plan.specialistHashes.length === specialists.length && plan.specialistHashes.every((item) => specialistById.get(item.id)?.specialistHash === item.specialistHash);
+  const noAuthorityEscalation = Object.values(plan.authority).every((item) => item === false);
+  if (plan.status === "blocked-by-bounded-limits") {
+    const alternatives = plan.alternatives ?? [];
+    const everyVariantIneligible = alternatives.length > 0 && alternatives.every((variant) => !variant.metrics.withinHardCostLimit || variant.metrics.proposedRoles > contract.limits.maximumNewRoleProposals);
+    const costBlocksAll = alternatives.every((variant) => !variant.metrics.withinHardCostLimit);
+    const roleLimitBlocksAll = alternatives.every((variant) => variant.metrics.proposedRoles > contract.limits.maximumNewRoleProposals);
+    const combinedBoundsBlock = !costBlocksAll && !roleLimitBlocksAll && everyVariantIneligible;
+    const expectedBlockers = [costBlocksAll ? "hard-cost-limit" : null, roleLimitBlocksAll ? "new-role-proposal-limit" : null, combinedBoundsBlock ? "no-single-variant-satisfies-all-bounds" : null].filter(Boolean).sort();
+    const observedBlockers = (plan.blockers ?? []).map((item) => item.code).sort();
+    const checks = {
+      blockedStateExact: plan.selected === null && plan.selectedVariantHash === null,
+      everyVariantIneligible,
+      blockersExact: JSON.stringify(observedBlockers) === JSON.stringify(expectedBlockers),
+      specialistIdentityIntact: exactSpecialistSet,
+      noAuthorityEscalation,
+    };
+    const verification = {
+      schemaVersion: "das.bounded-fleet-verification.v1",
+      verifierId: "bounded-level2-independent-plan-verifier-v1",
+      independent: true,
+      passed: Object.values(checks).every(Boolean),
+      outcome: "correctly-blocked",
+      checks,
+      assignmentCount: 0,
+      roleGapCount: 0,
+      calculatedCostUsd: 0,
+      contractHash: contract.contractHash,
+      planHash: plan.planHash,
+    };
+    verification.verificationHash = digest(verification);
+    return Object.freeze(verification);
+  }
+  requireCondition(plan.selected, "Routable fleet plan is missing its selected allocation");
   const workloadById = new Map(contract.workload.map((item) => [item.id, item]));
   const assignedByWorkload = new Map();
   const capacityBySpecialist = new Map();
@@ -45,8 +79,7 @@ export function verifyBoundedFleetPlan({ contract, specialists, plan }) {
   const costExact = Math.abs(calculatedCost - Number(plan.selected?.metrics.totalCostUsd ?? 0)) < 1e-9;
   const hardBudgetRespected = calculatedCost <= contract.limits.maximumTotalCostUsd;
   const roleProposalLimitRespected = (plan.selected?.roleGaps.length ?? 0) <= contract.limits.maximumNewRoleProposals;
-  const noAuthorityEscalation = Object.values(plan.authority).every((item) => item === false);
-  const checks = { exactCoverage, noDoubleRoute, capacityRespected, costExact, hardBudgetRespected, roleProposalLimitRespected, noAuthorityEscalation, noIncompatibleAssignments: incompatibleAssignments === 0, specialistIdentityIntact: changedHashes === 0 };
+  const checks = { exactCoverage, noDoubleRoute, capacityRespected, costExact, hardBudgetRespected, roleProposalLimitRespected, noAuthorityEscalation, noIncompatibleAssignments: incompatibleAssignments === 0, specialistIdentityIntact: changedHashes === 0 && exactSpecialistSet };
   const verification = {
     schemaVersion: "das.bounded-fleet-verification.v1",
     verifierId: "bounded-level2-independent-plan-verifier-v1",

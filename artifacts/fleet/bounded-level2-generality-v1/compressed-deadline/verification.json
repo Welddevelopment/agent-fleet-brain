@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "das.bounded-fleet-verification.v1",
+  "verifierId": "bounded-level2-independent-plan-verifier-v1",
+  "independent": true,
+  "passed": true,
+  "checks": {
+    "exactCoverage": true,
+    "noDoubleRoute": true,
+    "capacityRespected": true,
+    "costExact": true,
+    "hardBudgetRespected": true,
+    "roleProposalLimitRespected": true,
+    "noAuthorityEscalation": true,
+    "noIncompatibleAssignments": true,
+    "specialistIdentityIntact": true
+  },
+  "assignmentCount": 3,
+  "roleGapCount": 2,
+  "calculatedCostUsd": 6.05,
+  "contractHash": "4cc3ef043310c7b64c3be8b4552f2839661a571f975084cdff71e82ca66771b2",
+  "planHash": "1f8ddf582cc556fce167fbce6d7767b64366282d90ef17eefb0aeaae436d12a5",
+  "verificationHash": "4c0bfbec9e25484cd074a7f886fb9b64d74cb06806cca8f1341ec1232c640537"
+}
