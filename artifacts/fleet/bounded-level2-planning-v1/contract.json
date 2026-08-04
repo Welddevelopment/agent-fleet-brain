@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "das.bounded-fleet-contract.v1",
+  "companyId": "fictional-multi-department-company",
+  "goal": "Clear today's approved support, procurement, CRM and finance operations before their deadlines while preserving authority, quality and the $10 operating ceiling.",
+  "planningWindow": "2026-08-05-day-shift",
+  "workload": [
+    {
+      "id": "support-morning-queue",
+      "outcome": "Resolve or precisely hand off every assigned support ticket",
+      "source": "trusted-support-queue-adapter",
+      "volume": 60,
+      "dueWithinMs": 2000,
+      "maximumUnitCostUsd": 0.2,
+      "minimumOutcomeScore": 0.97,
+      "risk": "medium",
+      "requirement": {
+        "systems": [
+          "support-local"
+        ],
+        "tools": [
+          "create-escalation",
+          "draft-response",
+          "read-ticket"
+        ],
+        "contextSources": [
+          "assigned-queue",
+          "incident-state",
+          "support-policy"
+        ],
+        "authorityActions": [
+          "create-escalation",
+          "draft-response"
+        ],
+        "verifierId": "support-plan-verifier-v1",
+        "policyHash": "36beb7efe04850628e7a0f401c9bc02566099211a5e6c1ae0cc1db1214f9b0a9"
+      }
+    },
+    {
+      "id": "approved-stock-shortages",
+      "outcome": "Cover approved stock shortages with the smallest permitted draft action",
+      "source": "trusted-procurement-adapter",
+      "volume": 20,
+      "dueWithinMs": 2500,
+      "maximumUnitCostUsd": 0.15,
+      "minimumOutcomeScore": 0.99,
+      "risk": "high",
+      "requirement": {
+        "systems": [
+          "procurement-local"
+        ],
+        "tools": [
+          "draft-order",
+          "read-demand",
+          "read-inventory"
+        ],
+        "contextSources": [
+          "approved-demand",
+          "inventory",
+          "supplier-policy"
+        ],
+        "authorityActions": [
+          "draft-order"
+        ],
+        "verifierId": "procurement-plan-verifier-v1",
+        "policyHash": "75e46b0dfe07422b71414188e7e28d72a74c1c72eefd25e391b8d0ccef5d5470"
+      }
+    },
+    {
+      "id": "inbound-lead-batch",
+      "outcome": "Route assigned leads without violating consent or identity boundaries",
+      "source": "trusted-crm-adapter",
+      "volume": 25,
+      "dueWithinMs": 2000,
+      "maximumUnitCostUsd": 0.12,
+      "minimumOutcomeScore": 0.98,
+      "risk": "medium",
+      "requirement": {
+        "systems": [
+          "crm-local"
+        ],
+        "tools": [
+          "assign-owner",
+          "read-consent",
+          "read-lead"
+        ],
+        "contextSources": [
+          "assigned-leads",
+          "consent",
+          "territory-policy"
+        ],
+        "authorityActions": [
+          "assign-owner"
+        ],
+        "verifierId": "revops-plan-verifier-v1",
+        "policyHash": "6ec3ec9d4ce046a7fe047e8028e889df93122e370ce0dd9920e250cef74873b7"
+      }
+    },
+    {
+      "id": "unmatched-payments",
+      "outcome": "Reconcile unmatched payments to invoices without posting final ledger changes",
+      "source": "trusted-ledger-adapter",
+      "volume": 10,
+      "dueWithinMs": 3000,
+      "maximumUnitCostUsd": 0.18,
+      "minimumOutcomeScore": 0.99,
+      "risk": "high",
+      "requirement": {
+        "systems": [
+          "ledger-local"
+        ],
+        "tools": [
+          "draft-reconciliation",
+          "read-invoice",
+          "read-payment"
+        ],
+        "contextSources": [
+          "finance-policy",
+          "open-invoices",
+          "payments"
+        ],
+        "authorityActions": [
+          "draft-reconciliation"
+        ],
+        "verifierId": "finance-plan-verifier-v1",
+        "policyHash": "0f64166760c4911d3a6e89ef7d15a8506c71c04ad8cd9ad71a62376fd00cb502"
+      }
+    }
+  ],
+  "priorities": {
+    "quality": 1,
+    "cost": 0.4,
+    "speed": 0.2
+  },
+  "limits": {
+    "maximumTotalCostUsd": 10,
+    "maximumNewRoleProposals": 1,
+    "allowAutomaticRoleCreation": false,
+    "allowAutomaticSpend": false,
+    "allowAutomaticActivation": false
+  },
+  "evidenceBoundary": "Trusted bounded workload inventory and planning limits. This contract does not authorize execution, model spend, role creation or activation.",
+  "contractHash": "109d8ef161ac469b25ba75004b9ff3aa8025bda55b482461a87c7df7df7a2dec"
+}

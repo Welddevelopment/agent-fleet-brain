@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "das.bounded-level2-planning-rehearsal.v1",
+  "status": "completed",
+  "broadGoal": "Clear today's approved support, procurement, CRM and finance operations before their deadlines while preserving authority, quality and the $10 operating ceiling.",
+  "workloadClasses": 4,
+  "provedSpecialists": 4,
+  "planStatus": "partially-routable-awaiting-role-approval",
+  "selectedStrategy": "speed-first",
+  "assignedVolume": 105,
+  "totalVolume": 115,
+  "splitWorkloads": [
+    "support-morning-queue"
+  ],
+  "roleGapWorkloads": [
+    "unmatched-payments"
+  ],
+  "totalEstimatedCostUsd": 7.25,
+  "hardCostLimitUsd": 10,
+  "verificationPassed": true,
+  "automaticAuthoritiesGranted": 0,
+  "modelCalls": 0,
+  "paidModelSpendUsd": 0,
+  "contractHash": "109d8ef161ac469b25ba75004b9ff3aa8025bda55b482461a87c7df7df7a2dec",
+  "planHash": "50a640e89c939b6ac9348daba121bb22a8fd9c83f7c06908c0e4fb3a3ab6c2db",
+  "verificationHash": "769b0aa5286ba16f1e2da72a2a73e2319fdbe3851695b429f50edaf7e4426e9a",
+  "evidenceBoundary": "Deterministic bounded planning over a fictional trusted workload inventory and fictional proved specialist records. No specialist executed, no role was created and no customer evidence is claimed.",
+  "summaryHash": "5f663a6f847157de305b405587ad23497c7d80bd6ea8b18db6afac8150d9313e"
+}

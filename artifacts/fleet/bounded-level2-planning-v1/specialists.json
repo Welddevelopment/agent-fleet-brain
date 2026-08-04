@@ -1,0 +1,164 @@
+[
+  {
+    "schemaVersion": "das.bounded-fleet-specialist.v1",
+    "id": "support-quality-specialist",
+    "roleId": "support-operations",
+    "version": "1",
+    "status": "proved-active",
+    "capability": {
+      "systems": [
+        "support-local"
+      ],
+      "tools": [
+        "create-escalation",
+        "draft-response",
+        "read-ticket"
+      ],
+      "contextSources": [
+        "assigned-queue",
+        "incident-state",
+        "support-policy"
+      ],
+      "authorityActions": [
+        "create-escalation",
+        "draft-response"
+      ],
+      "verifierId": "support-plan-verifier-v1",
+      "policyHash": "36beb7efe04850628e7a0f401c9bc02566099211a5e6c1ae0cc1db1214f9b0a9"
+    },
+    "performance": {
+      "passRate": 1,
+      "outcomeScore": 1,
+      "meanUnitCostUsd": 0.12,
+      "medianLatencyMs": 700,
+      "capacityPerWindow": 30,
+      "unsafeAttempts": 0
+    },
+    "evidence": {
+      "selectionHash": "3d9fb9d21c2c1034809bcb2e68be94ecebe78bc6707e4c2c9ec87f4b005e7b69",
+      "verifierReceiptHash": "495cb141717b3e1428cab1de3f4f09f1243ebdd226715a16fbb4dac8756bb5f5"
+    },
+    "specialistHash": "d415cbf4043812a0da78cea7975e2fd935fb0c368c759aa84a58106cd8405038"
+  },
+  {
+    "schemaVersion": "das.bounded-fleet-specialist.v1",
+    "id": "support-efficient-specialist",
+    "roleId": "support-operations",
+    "version": "1",
+    "status": "proved-active",
+    "capability": {
+      "systems": [
+        "support-local"
+      ],
+      "tools": [
+        "create-escalation",
+        "draft-response",
+        "read-ticket"
+      ],
+      "contextSources": [
+        "assigned-queue",
+        "incident-state",
+        "support-policy"
+      ],
+      "authorityActions": [
+        "create-escalation",
+        "draft-response"
+      ],
+      "verifierId": "support-plan-verifier-v1",
+      "policyHash": "36beb7efe04850628e7a0f401c9bc02566099211a5e6c1ae0cc1db1214f9b0a9"
+    },
+    "performance": {
+      "passRate": 1,
+      "outcomeScore": 0.98,
+      "meanUnitCostUsd": 0.04,
+      "medianLatencyMs": 1100,
+      "capacityPerWindow": 50,
+      "unsafeAttempts": 0
+    },
+    "evidence": {
+      "selectionHash": "2e0dc8e8994e73e7da71771d144ed01fc43306d18b99c496e1eacf8d74a2b78f",
+      "verifierReceiptHash": "62d6c56d8577a1edd6c9689ae41b9793c9ffd3f64f7019d863aa744cf781d87c"
+    },
+    "specialistHash": "07397d953f3d63917a2679bc0b7a59586e5d8d8a9cd3f13e78a0017ffb0b4a82"
+  },
+  {
+    "schemaVersion": "das.bounded-fleet-specialist.v1",
+    "id": "procurement-specialist",
+    "roleId": "procurement-coverage",
+    "version": "1",
+    "status": "proved-active",
+    "capability": {
+      "systems": [
+        "procurement-local"
+      ],
+      "tools": [
+        "draft-order",
+        "read-demand",
+        "read-inventory"
+      ],
+      "contextSources": [
+        "approved-demand",
+        "inventory",
+        "supplier-policy"
+      ],
+      "authorityActions": [
+        "draft-order"
+      ],
+      "verifierId": "procurement-plan-verifier-v1",
+      "policyHash": "75e46b0dfe07422b71414188e7e28d72a74c1c72eefd25e391b8d0ccef5d5470"
+    },
+    "performance": {
+      "passRate": 1,
+      "outcomeScore": 1,
+      "meanUnitCostUsd": 0.06,
+      "medianLatencyMs": 900,
+      "capacityPerWindow": 30,
+      "unsafeAttempts": 0
+    },
+    "evidence": {
+      "selectionHash": "cea2b878fad3a58e702e51481c8cb53f3d03e99c1445c94cd18105e6aa98a645",
+      "verifierReceiptHash": "b78ce26c0b2b3179812a9d73d31bd50c42fae0b4377137d5a74282ef39b0605e"
+    },
+    "specialistHash": "f983c732e9ce9e04c0775c50d23e555d105dd3b87eeb529ecc5c623034912c99"
+  },
+  {
+    "schemaVersion": "das.bounded-fleet-specialist.v1",
+    "id": "revops-specialist",
+    "roleId": "revenue-operations",
+    "version": "1",
+    "status": "proved-active",
+    "capability": {
+      "systems": [
+        "crm-local"
+      ],
+      "tools": [
+        "assign-owner",
+        "read-consent",
+        "read-lead"
+      ],
+      "contextSources": [
+        "assigned-leads",
+        "consent",
+        "territory-policy"
+      ],
+      "authorityActions": [
+        "assign-owner"
+      ],
+      "verifierId": "revops-plan-verifier-v1",
+      "policyHash": "6ec3ec9d4ce046a7fe047e8028e889df93122e370ce0dd9920e250cef74873b7"
+    },
+    "performance": {
+      "passRate": 1,
+      "outcomeScore": 0.99,
+      "meanUnitCostUsd": 0.05,
+      "medianLatencyMs": 850,
+      "capacityPerWindow": 35,
+      "unsafeAttempts": 0
+    },
+    "evidence": {
+      "selectionHash": "bfe3913cd2a6844504df20a9e5ae4d3ed3a6041ea66c1d5cc59ed3de5cc7990a",
+      "verifierReceiptHash": "f054440e54db5d287b616d46f01ffe94b8f07d541125bef4fcc5094361be4be2"
+    },
+    "specialistHash": "a31ca8f70c4d4bfcaaeefcd61b4e39f12becd8f9c12a2bba7b278a28c9d21137"
+  }
+]
