@@ -1,0 +1,116 @@
+.fleet-workspace { width: 100%; overflow-x: hidden; }
+
+.fleet-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 8fr) minmax(300px, 4fr);
+  gap: clamp(44px, 8vw, 120px);
+  align-items: end;
+  padding: 18px 0 56px;
+  border-bottom: 1px solid var(--line);
+}
+
+.fleet-hero h1 {
+  max-width: 1180px;
+  margin: 10px 0 0;
+  font-size: clamp(46px, 5vw, 74px);
+  line-height: .94;
+  letter-spacing: -.065em;
+}
+
+.fleet-goal { padding-left: 24px; border-left: 1px solid var(--line); }
+.fleet-goal span,
+.fleet-summary span,
+.fleet-turn-states span,
+.fleet-ledger-copy dt,
+.fleet-boundary span {
+  color: #717b84;
+  font: 9px/1.45 ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: .11em;
+}
+.fleet-goal p { color: #c3c9ce; font-size: 14px; line-height: 1.65; }
+.fleet-goal strong { color: var(--green); font: 10px/1.4 ui-monospace, monospace; text-transform: uppercase; letter-spacing: .08em; }
+
+.fleet-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) repeat(3, minmax(0, 2fr));
+  grid-auto-flow: dense;
+  margin: 46px 0 112px;
+  border: 1px solid var(--line);
+  background: var(--line);
+  gap: 1px;
+}
+.fleet-summary article { min-width: 0; padding: 24px; background: #0c1013; }
+.fleet-summary strong { display: block; margin: 16px 0 8px; font-size: clamp(28px, 4vw, 54px); letter-spacing: -.055em; }
+.fleet-summary strong i { color: #566069; font-size: .44em; font-style: normal; }
+.fleet-summary p { margin: 0; color: #818a92; font-size: 11px; line-height: 1.55; }
+.fleet-progress { background: radial-gradient(circle at 20% -30%, rgba(169,245,204,.12), transparent 42%), #0c1013 !important; }
+.fleet-progress-track { height: 3px; margin: 15px 0 17px; background: #263029; overflow: hidden; }
+.fleet-progress-track i { display: block; height: 100%; background: var(--green); box-shadow: 0 0 14px rgba(169,245,204,.55); }
+
+.fleet-turn {
+  display: grid;
+  grid-template-columns: minmax(280px, 5fr) minmax(0, 7fr);
+  gap: clamp(50px, 8vw, 120px);
+  align-items: start;
+  margin-bottom: 132px;
+}
+.fleet-turn-copy { position: sticky; top: 32px; }
+.fleet-turn-copy h2,
+.fleet-ledger-copy h2 { margin: 12px 0 18px; font-size: clamp(34px, 4.4vw, 62px); line-height: 1; letter-spacing: -.055em; }
+.fleet-turn-copy > p:last-child,
+.fleet-ledger-copy > p { max-width: 580px; color: #919aa2; font-size: 13px; line-height: 1.7; }
+.fleet-turn-states { display: grid; grid-template-columns: 1fr; }
+.fleet-turn-states > i { height: 54px; padding: 17px 0 0 28px; border-left: 1px solid #313840; color: #667079; font-style: normal; }
+.fleet-turn-states article { padding: 28px; border: 1px solid var(--line); background: #0c1013; transition: transform 350ms ease, border-color 350ms ease; }
+.fleet-turn-states article:hover { transform: translateX(5px); border-color: #46525c; }
+.fleet-turn-states article.candidate { border-color: #5a5032; background: radial-gradient(circle at 92% 0, rgba(243,202,120,.08), transparent 35%), #0c1013; }
+.fleet-turn-states article.complete { border-color: #355743; background: radial-gradient(circle at 92% 0, rgba(169,245,204,.09), transparent 35%), #0c1013; }
+.fleet-turn-states strong { display: block; margin: 14px 0; font-size: clamp(22px, 3vw, 36px); letter-spacing: -.045em; overflow-wrap: anywhere; }
+.fleet-turn-states p { margin: 0; color: #8c959d; font-size: 12px; line-height: 1.65; }
+
+.fleet-ledger {
+  display: grid;
+  grid-template-columns: minmax(300px, 5fr) minmax(0, 7fr);
+  gap: clamp(48px, 7vw, 100px);
+  align-items: start;
+  margin-bottom: 108px;
+}
+.fleet-ledger-copy dl { display: grid; grid-template-columns: 1fr 1fr; margin: 32px 0 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.fleet-ledger-copy dl div { padding: 18px 0; }
+.fleet-ledger-copy dl div + div { padding-left: 18px; border-left: 1px solid var(--line); }
+.fleet-ledger-copy dd { margin: 8px 0 0; font-size: 24px; letter-spacing: -.04em; }
+.fleet-assignment-stack { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.fleet-assignment { display: grid; grid-template-columns: minmax(180px, 4fr) minmax(300px, 8fr); min-width: 0; padding: 22px; background: #0c1013; transition: background 350ms ease; }
+.fleet-assignment:hover { background: #11161a; }
+.fleet-assignment.residual { background: radial-gradient(circle at 100% 0, rgba(169,245,204,.08), transparent 30%), #0c1013; }
+.fleet-assignment-main span { display: block; color: #737d86; font-size: 10px; }
+.fleet-assignment-main strong { display: block; margin: 7px 0; font-size: 15px; letter-spacing: -.025em; }
+.fleet-assignment-main small { color: var(--green); font: 9px/1.5 ui-monospace, monospace; text-transform: uppercase; }
+.fleet-assignment dl { display: grid; grid-template-columns: 1fr 1fr 2fr; margin: 0; }
+.fleet-assignment dl div { min-width: 0; padding-left: 16px; border-left: 1px solid var(--line); }
+.fleet-assignment dt { color: #69737c; font: 8px/1.4 ui-monospace, monospace; text-transform: uppercase; }
+.fleet-assignment dd { margin: 8px 0 0; color: #c1c7cc; font-size: 11px; overflow-wrap: anywhere; }
+
+.fleet-boundary { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; border: 1px solid var(--line); background: var(--line); }
+.fleet-boundary > div { padding: 26px; background: #0c1013; }
+.fleet-boundary strong { display: block; margin-top: 12px; font-size: 14px; line-height: 1.55; }
+.fleet-boundary p { grid-column: 1 / -1; margin: 0; padding: 20px 26px; background: #090c0f; color: #737d86; font-size: 11px; line-height: 1.65; }
+
+@media (max-width: 1050px) {
+  .fleet-hero,
+  .fleet-turn,
+  .fleet-ledger { grid-template-columns: 1fr; }
+  .fleet-turn-copy { position: static; }
+  .fleet-summary { grid-template-columns: repeat(3, 1fr); }
+  .fleet-progress { grid-column: 1 / -1; }
+}
+
+@media (max-width: 700px) {
+  .fleet-summary,
+  .fleet-boundary { grid-template-columns: 1fr; }
+  .fleet-progress { grid-column: auto; }
+  .fleet-assignment { grid-template-columns: 1fr; gap: 18px; }
+  .fleet-assignment dl { border-top: 1px solid var(--line); padding-top: 16px; }
+  .fleet-boundary p { grid-column: auto; }
+}
