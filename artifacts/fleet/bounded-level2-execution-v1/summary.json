@@ -10,28 +10,28 @@
       "workloadId": "support-morning-queue",
       "quantity": 30,
       "verificationPassed": true,
-      "observationHash": "88d7449fd2d509af396087a89dd126a44bfcbf922ccb5c697fcdd6a58087eabc"
+      "observationHash": "a989d8fb31ef5ca7c9160937d5e65857f21836d7c00057c382fa3c12a8f9852b"
     },
     {
       "assignmentId": "fleet-assignment-c88c715e902f8c78",
       "workloadId": "support-morning-queue",
       "quantity": 30,
       "verificationPassed": true,
-      "observationHash": "f019981007a1b7f187832ca049c4e4203a4d17fd93f477184ac3d53cde38247e"
+      "observationHash": "f96680596f7c6c7040bb65dfba7e0bc1958eb9ed66e1c06021cf41e012471362"
     },
     {
       "assignmentId": "fleet-assignment-52e60bb45ba2323f",
       "workloadId": "approved-stock-shortages",
       "quantity": 20,
       "verificationPassed": true,
-      "observationHash": "b83a7bc90ce1dfcf80487071f6478d642cbb9d13ee294ff48091a7bec627726a"
+      "observationHash": "40b23c8b61444235d1ea465c373edd1c8260389b93faeac49d80f3bafe02745f"
     },
     {
       "assignmentId": "fleet-assignment-61e4bcd7c790f678",
       "workloadId": "inbound-lead-batch",
       "quantity": 25,
       "verificationPassed": true,
-      "observationHash": "0b890dc89c3aa3c6d2f336233ad4bb3ae886eb346aadeb4924574dc1a0f03929"
+      "observationHash": "382ff765b6bf9ca0ee1e460d8f637f384f2244af921450cce8fc7702ac2a8dde"
     }
   ],
   "roleGapWorkloads": [
@@ -45,5 +45,5 @@
   "paidModelSpendUsd": 0,
   "actualModelCostUsd": 0,
   "evidenceBoundary": "All 105 routed fictional items were executed by deterministic reference strategies in fresh disposable role worlds and passed their role-specific external-state verifiers. This proves joined local coordination mechanics, not model-agent performance, customer value or production reliability.",
-  "summaryHash": "e5168a5bfc8b629b8e1dd90c1390561c929a87b33395c5f9706c616bff296e9c"
+  "summaryHash": "26b1da75635a5c388163ee75a16ba2c4863e7d85448858cf91819f915b783477"
 }

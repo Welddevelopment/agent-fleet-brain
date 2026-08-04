@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "das.bounded-fleet-continuation-controller.v1",
+  "continuationHash": "b1783b1f12d20cf2646475f5be0ecd9460e123c26d96ee7d773464c8968086e5",
+  "expandedPlanHash": "cd721ce4dfc8b2a454871b5ff7c41961892eb06d8384769a9c47bb0a958a5d08",
+  "status": "original-broad-goal-completed",
+  "authorization": {
+    "approvedBy": "fictional-accountable-owner",
+    "approvedAt": "2026-08-05T16:00:00.000Z",
+    "assignmentHashes": [
+      "8caec6c43cca67c132b1120bff8a50c41a67243cbeecac87e0940ba820aab611"
+    ]
+  },
+  "observations": [
+    {
+      "schemaVersion": "das.fleet-assignment-observation.v1",
+      "contractHash": "6c40b1130cf290295d7de6ad290fed1d15962b750ed02f9b22f6cb34e04c07bf",
+      "planHash": "cd721ce4dfc8b2a454871b5ff7c41961892eb06d8384769a9c47bb0a958a5d08",
+      "assignmentId": "fleet-assignment-43b18b95025244d1",
+      "assignmentHash": "8caec6c43cca67c132b1120bff8a50c41a67243cbeecac87e0940ba820aab611",
+      "workloadId": "unmatched-payments",
+      "specialistId": "finance-close:balanced",
+      "specialistHash": "1c432999d9ca4e5e65b0bc36d2cea098cb586287c6530d5e585b7e552b09ae3e",
+      "verifierId": "finance-close:external-state-verifier",
+      "independentlyVerified": true,
+      "verificationPassed": true,
+      "completedQuantity": 10,
+      "actualCostUsd": 0,
+      "unsafeAttempts": 0,
+      "incorrectSideEffects": 0,
+      "verificationReceiptHash": "e22051216f6a615d3b48f24ed1530597f6400b68371aa140b7c771bce2e64ed8",
+      "evidenceBoundary": "The exact newly selected deterministic finance candidate processed all ten residual fictional cases; the finance role's independent external-state verifier passed every case.",
+      "observationHash": "eb740d3d44cf62e4199b7f864a2105234dc782f1252640a12f05c1159980ef45"
+    }
+  ],
+  "integrityHash": "ab6182e889652b92fd6812333f08ceac110a67f3fc62f0454b74c8a6dc4bb207"
+}

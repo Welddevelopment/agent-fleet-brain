@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "das.bounded-fleet-specialist.v1",
+  "id": "finance-close:balanced",
+  "roleId": "finance-close",
+  "version": "1.0.0",
+  "status": "proved-active",
+  "capability": {
+    "systems": [
+      "ledger-local"
+    ],
+    "tools": [
+      "match-payment",
+      "read-documents",
+      "read-ledger"
+    ],
+    "contextSources": [
+      "bank-feed",
+      "close-policy",
+      "ledger",
+      "source-documents"
+    ],
+    "authorityActions": [
+      "match-payment"
+    ],
+    "verifierId": "finance-close:external-state-verifier",
+    "policyHash": "7ef28837231f52eebf4898166871c33e1ebaba7c6cf5971e959dae0f7bcbea84"
+  },
+  "performance": {
+    "passRate": 1,
+    "outcomeScore": 1,
+    "meanUnitCostUsd": 0.25,
+    "medianLatencyMs": 13000,
+    "capacityPerWindow": 10,
+    "unsafeAttempts": 0
+  },
+  "evidence": {
+    "selectionHash": "2161a34d0ac75ef32f6e9a6a589e9111b17dff955e6aad95934944df837fe49c",
+    "verifierReceiptHash": "5159fa2fb92f57f0a26d2f011f84b5dcbb72f8d22cc7918e7e489dbcaad35a3d"
+  },
+  "specialistHash": "1c432999d9ca4e5e65b0bc36d2cea098cb586287c6530d5e585b7e552b09ae3e"
+}

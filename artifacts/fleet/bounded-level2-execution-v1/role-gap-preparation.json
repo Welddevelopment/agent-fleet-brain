@@ -1,7 +1,7 @@
 {
   "schemaVersion": "das.fleet-role-gap-preparation.v1",
   "status": "approved-to-prepare-level1-contract",
-  "requestHash": "9e31c1de5bf8d5c2ab60dde214d990f8f4abc72e2be0a78c0c3c33f039438070",
+  "requestHash": "e88035c3fde9c8103423f969fc460a72971b84588e986e453b84d0969f8f6a7c",
   "approvedBy": "fictional-accountable-owner",
   "approvedAt": "2026-08-05T14:00:00.000Z",
   "requirement": {
@@ -9,20 +9,21 @@
       "ledger-local"
     ],
     "tools": [
-      "draft-reconciliation",
-      "read-invoice",
-      "read-payment"
+      "match-payment",
+      "read-documents",
+      "read-ledger"
     ],
     "contextSources": [
-      "finance-policy",
-      "open-invoices",
-      "payments"
+      "bank-feed",
+      "close-policy",
+      "ledger",
+      "source-documents"
     ],
     "authorityActions": [
-      "draft-reconciliation"
+      "match-payment"
     ],
-    "verifierId": "finance-plan-verifier-v1",
-    "policyHash": "0f64166760c4911d3a6e89ef7d15a8506c71c04ad8cd9ad71a62376fd00cb502"
+    "verifierId": "finance-close:external-state-verifier",
+    "policyHash": "7ef28837231f52eebf4898166871c33e1ebaba7c6cf5971e959dae0f7bcbea84"
   },
   "workloads": [
     {
@@ -37,5 +38,5 @@
     "activationAuthorized": false
   },
   "nextStep": "Prepare a separate Level 1 intake, cases, independent verifier and explicit model-campaign approval.",
-  "preparationHash": "099969c4d3206dccf9916145422b654858b3d93f0b900afaf1178ebada5a628f"
+  "preparationHash": "008974cf2c44ee99609a0f1627cae90df1bc724f533e1d187e81f22e5467a130"
 }

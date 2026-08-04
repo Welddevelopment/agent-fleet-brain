@@ -100,8 +100,8 @@
       "outcome": "Reconcile unmatched payments to invoices without posting final ledger changes",
       "source": "trusted-ledger-adapter",
       "volume": 10,
-      "dueWithinMs": 3000,
-      "maximumUnitCostUsd": 0.18,
+      "dueWithinMs": 20000,
+      "maximumUnitCostUsd": 0.3,
       "minimumOutcomeScore": 0.99,
       "risk": "high",
       "requirement": {
@@ -109,20 +109,21 @@
           "ledger-local"
         ],
         "tools": [
-          "draft-reconciliation",
-          "read-invoice",
-          "read-payment"
+          "match-payment",
+          "read-documents",
+          "read-ledger"
         ],
         "contextSources": [
-          "finance-policy",
-          "open-invoices",
-          "payments"
+          "bank-feed",
+          "close-policy",
+          "ledger",
+          "source-documents"
         ],
         "authorityActions": [
-          "draft-reconciliation"
+          "match-payment"
         ],
-        "verifierId": "finance-plan-verifier-v1",
-        "policyHash": "0f64166760c4911d3a6e89ef7d15a8506c71c04ad8cd9ad71a62376fd00cb502"
+        "verifierId": "finance-close:external-state-verifier",
+        "policyHash": "7ef28837231f52eebf4898166871c33e1ebaba7c6cf5971e959dae0f7bcbea84"
       }
     }
   ],
@@ -139,5 +140,5 @@
     "allowAutomaticActivation": false
   },
   "evidenceBoundary": "Trusted bounded workload inventory and planning limits. This contract does not authorize execution, model spend, role creation or activation.",
-  "contractHash": "109d8ef161ac469b25ba75004b9ff3aa8025bda55b482461a87c7df7df7a2dec"
+  "contractHash": "6c40b1130cf290295d7de6ad290fed1d15962b750ed02f9b22f6cb34e04c07bf"
 }

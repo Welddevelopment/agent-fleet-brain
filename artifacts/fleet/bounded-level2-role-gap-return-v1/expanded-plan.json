@@ -1,6 +1,6 @@
 {
   "schemaVersion": "das.bounded-fleet-plan.v1",
-  "status": "partially-routable-awaiting-role-approval",
+  "status": "fully-routable-awaiting-execution-approval",
   "contractHash": "6c40b1130cf290295d7de6ad290fed1d15962b750ed02f9b22f6cb34e04c07bf",
   "specialistHashes": [
     {
@@ -18,9 +18,13 @@
     {
       "id": "revops-specialist",
       "specialistHash": "a31ca8f70c4d4bfcaaeefcd61b4e39f12becd8f9c12a2bba7b278a28c9d21137"
+    },
+    {
+      "id": "finance-close:balanced",
+      "specialistHash": "1c432999d9ca4e5e65b0bc36d2cea098cb586287c6530d5e585b7e552b09ae3e"
     }
   ],
-  "selectedVariantHash": "2b805c2ba205e169ae12fc176168e0f5609f6ef8762ad78faeb09d700c729056",
+  "selectedVariantHash": "23eb6ce72bb456f352948d9384d06aca8a70e9b987e6dc83c4cce5ae78f9fd41",
   "selected": {
     "strategy": "speed-first",
     "assignments": [
@@ -71,121 +75,88 @@
         "expectedLatencyMs": 850,
         "verifierId": "revops-plan-verifier-v1",
         "assignmentHash": "01a60378c35acce92f7ccf3d91c36bd5408c3c4ab860bcdf21b5eb1fa7c4784a"
-      }
-    ],
-    "roleGaps": [
+      },
       {
-        "schemaVersion": "das.bounded-role-gap-request.v1",
-        "id": "role-gap-1f1b47dd2032cb1c",
-        "status": "awaiting-explicit-human-approval",
-        "workloads": [
-          {
-            "id": "unmatched-payments",
-            "volume": 10,
-            "outcome": "Reconcile unmatched payments to invoices without posting final ledger changes"
-          }
-        ],
-        "outcome": "Reconcile unmatched payments to invoices without posting final ledger changes",
-        "requirement": {
-          "systems": [
-            "ledger-local"
-          ],
-          "tools": [
-            "match-payment",
-            "read-documents",
-            "read-ledger"
-          ],
-          "contextSources": [
-            "bank-feed",
-            "close-policy",
-            "ledger",
-            "source-documents"
-          ],
-          "authorityActions": [
-            "match-payment"
-          ],
-          "verifierId": "finance-close:external-state-verifier",
-          "policyHash": "7ef28837231f52eebf4898166871c33e1ebaba7c6cf5971e959dae0f7bcbea84"
-        },
-        "observedVolume": 10,
-        "risk": "high",
-        "compilerAuthority": {
-          "modelSpendAuthorized": false,
-          "roleCreationAuthorized": false,
-          "activationAuthorized": false
-        },
-        "nextStep": "Confirm this is a stable role boundary, then create a separate Level 1 comparison contract and independent verifier evidence.",
-        "reason": "no-compatible-proved-specialist",
-        "requestHash": "e88035c3fde9c8103423f969fc460a72971b84588e986e453b84d0969f8f6a7c"
+        "assignmentId": "fleet-assignment-43b18b95025244d1",
+        "workloadId": "unmatched-payments",
+        "specialistId": "finance-close:balanced",
+        "specialistHash": "1c432999d9ca4e5e65b0bc36d2cea098cb586287c6530d5e585b7e552b09ae3e",
+        "quantity": 10,
+        "estimatedCostUsd": 2.5,
+        "expectedOutcomeScore": 1,
+        "expectedLatencyMs": 13000,
+        "verifierId": "finance-close:external-state-verifier",
+        "assignmentHash": "8caec6c43cca67c132b1120bff8a50c41a67243cbeecac87e0940ba820aab611"
       }
     ],
+    "roleGaps": [],
     "metrics": {
-      "assignedVolume": 105,
+      "assignedVolume": 115,
       "totalVolume": 115,
-      "coverageRate": 0.9130434782608695,
-      "totalCostUsd": 7.25,
+      "coverageRate": 1,
+      "totalCostUsd": 9.75,
       "withinHardCostLimit": true,
-      "weightedOutcomeScore": 0.991904761904762,
-      "maximumExpectedLatencyMs": 1100,
-      "proposedRoles": 1
+      "weightedOutcomeScore": 0.9926086956521739,
+      "maximumExpectedLatencyMs": 13000,
+      "proposedRoles": 0
     },
-    "variantHash": "2b805c2ba205e169ae12fc176168e0f5609f6ef8762ad78faeb09d700c729056"
+    "variantHash": "23eb6ce72bb456f352948d9384d06aca8a70e9b987e6dc83c4cce5ae78f9fd41"
   },
   "alternatives": [
     {
       "strategy": "balanced",
-      "variantHash": "f39a3f5c91c0b8d452a3c8300ab2b3310e10738176585df63e687a69d68ab9b3",
+      "variantHash": "af849e3433965a1aa8718087aed4897b0d3df2398d294cbc9c7898e16dd68c97",
       "metrics": {
-        "assignedVolume": 105,
+        "assignedVolume": 115,
         "totalVolume": 115,
-        "coverageRate": 0.9130434782608695,
-        "totalCostUsd": 7.25,
+        "coverageRate": 1,
+        "totalCostUsd": 9.75,
         "withinHardCostLimit": true,
-        "weightedOutcomeScore": 0.991904761904762,
-        "maximumExpectedLatencyMs": 1100,
-        "proposedRoles": 1
+        "weightedOutcomeScore": 0.9926086956521739,
+        "maximumExpectedLatencyMs": 13000,
+        "proposedRoles": 0
       }
     },
     {
       "strategy": "quality-first",
-      "variantHash": "4dc78fa364a2090ca0526983d4df6066e6705234f25135e7ca6f6a921a4d5acc",
+      "variantHash": "5d0796bddadf302dcbdef365f4c8a4df6bb1208286dbbf5c9af87f1a4da2563f",
       "metrics": {
-        "assignedVolume": 105,
+        "assignedVolume": 115,
         "totalVolume": 115,
-        "coverageRate": 0.9130434782608695,
-        "totalCostUsd": 7.25,
+        "coverageRate": 1,
+        "totalCostUsd": 9.75,
         "withinHardCostLimit": true,
-        "weightedOutcomeScore": 0.991904761904762,
-        "maximumExpectedLatencyMs": 1100,
-        "proposedRoles": 1
+        "weightedOutcomeScore": 0.9926086956521739,
+        "maximumExpectedLatencyMs": 13000,
+        "proposedRoles": 0
       }
     },
     {
       "strategy": "cost-first",
-      "variantHash": "3310630755fea48d050c8492ea0d08c87827a7479a338264cc8ae8cca3fe2b7c",
+      "variantHash": "edf73ab79b2480729150321826f9e00d66df0fb769a3a6201ac1ec260e59c774",
       "metrics": {
-        "assignedVolume": 105,
+        "assignedVolume": 115,
         "totalVolume": 115,
-        "coverageRate": 0.9130434782608695,
-        "totalCostUsd": 5.65,
+        "coverageRate": 1,
+        "totalCostUsd": 8.15,
         "withinHardCostLimit": true,
-        "weightedOutcomeScore": 0.9880952380952381,
-        "maximumExpectedLatencyMs": 1100,
-        "proposedRoles": 1
+        "weightedOutcomeScore": 0.9891304347826086,
+        "maximumExpectedLatencyMs": 13000,
+        "proposedRoles": 0
       }
     },
     {
       "strategy": "speed-first",
-      "variantHash": "2b805c2ba205e169ae12fc176168e0f5609f6ef8762ad78faeb09d700c729056",
+      "variantHash": "23eb6ce72bb456f352948d9384d06aca8a70e9b987e6dc83c4cce5ae78f9fd41",
       "metrics": {
-        "assignedVolume": 105,
+        "assignedVolume": 115,
         "totalVolume": 115,
-        "coverageRate": 0.9130434782608695,
-        "totalCostUsd": 7.25,
+        "coverageRate": 1,
+        "totalCostUsd": 9.75,
         "withinHardCostLimit": true,
-        "weightedOutcomeScore": 0.991904761904762,
-        "maximumExpectedLatencyMs": 1100,
-        "proposedRoles": 1
+        "weightedOutcomeScore": 0.9926086956521739,
+        "maximumExpectedLatencyMs": 13000,
+        "proposedRoles": 0
       }
     }
   ],
@@ -196,5 +167,5 @@
     "activationAuthorized": false
   },
   "evidenceBoundary": "Bounded deterministic planning over trusted workload and proved specialist records. No task ran and no new specialist was created.",
-  "planHash": "576bafb76da46495ed8c5c7a49fed57d83f131ee7f30f54f8e75b02bfc2106ee"
+  "planHash": "cd721ce4dfc8b2a454871b5ff7c41961892eb06d8384769a9c47bb0a958a5d08"
 }

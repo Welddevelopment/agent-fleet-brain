@@ -1,0 +1,345 @@
+{
+  "roleId": "finance-close",
+  "selectionVersion": 1,
+  "selectedAt": "2026-08-05T15:00:00.000Z",
+  "decision": "activate-compiler-specialist",
+  "selected": {
+    "candidate": {
+      "id": "finance-close:balanced",
+      "roleId": "finance-close",
+      "model": {
+        "family": "model-policy",
+        "tier": "balanced"
+      },
+      "instructions": {
+        "style": "structured",
+        "emphasis": [
+          "outcome",
+          "policy",
+          "safe-completion"
+        ]
+      },
+      "context": {
+        "sources": [
+          "ledger",
+          "close-policy",
+          "source-documents",
+          "bank-feed",
+          "contract-terms",
+          "accrual-policy"
+        ],
+        "selection": "relevance-ranked"
+      },
+      "tools": [
+        "read-ledger",
+        "read-documents",
+        "match-payment",
+        "draft-journal",
+        "draft-schedule"
+      ],
+      "memory": {
+        "kind": "structured-task-ledger",
+        "scope": "role-and-tenant"
+      },
+      "authority": {
+        "allowedActions": [
+          "match-payment",
+          "draft-journal",
+          "draft-schedule"
+        ]
+      },
+      "escalation": {
+        "enabled": true,
+        "threshold": 0.25,
+        "mode": "precise-blocker"
+      },
+      "verifier": {
+        "kind": "independent-external-state",
+        "binding": "finance-close:external-state-verifier"
+      },
+      "limits": {
+        "maxCostPerTaskUsd": 0.25,
+        "maxLatencyMs": 13000
+      },
+      "strategy": {
+        "qualityWeight": 0.65,
+        "costWeight": 0.2,
+        "speedWeight": 0.15,
+        "riskTolerance": 0.2,
+        "requireCompleteContext": true
+      },
+      "provenance": {
+        "kind": "compiler-generated",
+        "parents": [],
+        "rationale": "Balanced quality, cost, speed, and safe completion.",
+        "knowledgeIds": []
+      },
+      "version": "1.0.0",
+      "fingerprint": "c3b358eb2e4577c7942bf0825a7394f7b746d7dd4279d81f20c3b3c26a99552c"
+    },
+    "evidence": {
+      "candidateId": "finance-close:balanced",
+      "successRate": 1,
+      "unsafeAttempts": 0,
+      "frozenResultHash": "5159fa2fb92f57f0a26d2f011f84b5dcbb72f8d22cc7918e7e489dbcaad35a3d"
+    },
+    "status": "recommended-active"
+  },
+  "alternatives": [
+    {
+      "candidate": {
+        "id": "finance-close:quality",
+        "roleId": "finance-close",
+        "model": {
+          "family": "model-policy",
+          "tier": "high-reasoning"
+        },
+        "instructions": {
+          "style": "deliberative",
+          "emphasis": [
+            "constraint-satisfaction",
+            "counterexample-check",
+            "outcome"
+          ]
+        },
+        "context": {
+          "sources": [
+            "ledger",
+            "close-policy",
+            "source-documents",
+            "bank-feed",
+            "contract-terms",
+            "accrual-policy"
+          ],
+          "selection": "full-bounded"
+        },
+        "tools": [
+          "read-ledger",
+          "read-documents",
+          "match-payment",
+          "draft-journal",
+          "draft-schedule"
+        ],
+        "memory": {
+          "kind": "decision-and-outcome-ledger",
+          "scope": "role-and-tenant"
+        },
+        "authority": {
+          "allowedActions": [
+            "match-payment",
+            "draft-journal",
+            "draft-schedule"
+          ]
+        },
+        "escalation": {
+          "enabled": true,
+          "threshold": 0.18,
+          "mode": "precise-blocker"
+        },
+        "verifier": {
+          "kind": "independent-external-state",
+          "binding": "finance-close:external-state-verifier"
+        },
+        "limits": {
+          "maxCostPerTaskUsd": 0.45,
+          "maxLatencyMs": 18000
+        },
+        "strategy": {
+          "qualityWeight": 0.82,
+          "costWeight": 0.08,
+          "speedWeight": 0.1,
+          "riskTolerance": 0.12,
+          "requireCompleteContext": true
+        },
+        "provenance": {
+          "kind": "compiler-generated",
+          "parents": [],
+          "rationale": "Maximize externally verified quality within the declared operating ceiling.",
+          "knowledgeIds": []
+        },
+        "version": "1.0.0",
+        "fingerprint": "6e8822785c957fb9989e5b9b3fd0e46ff6cf5e0edf90b34438a7827db8772f83"
+      },
+      "evidence": null,
+      "status": "preserved-not-selected"
+    },
+    {
+      "candidate": {
+        "id": "finance-close:economy",
+        "roleId": "finance-close",
+        "model": {
+          "family": "model-policy",
+          "tier": "efficient"
+        },
+        "instructions": {
+          "style": "concise",
+          "emphasis": [
+            "policy",
+            "minimum-sufficient-action"
+          ]
+        },
+        "context": {
+          "sources": [
+            "ledger",
+            "close-policy",
+            "source-documents",
+            "bank-feed",
+            "contract-terms"
+          ],
+          "selection": "minimal-relevant"
+        },
+        "tools": [
+          "read-ledger",
+          "read-documents",
+          "match-payment",
+          "draft-journal",
+          "draft-schedule"
+        ],
+        "memory": {
+          "kind": "compact-outcome-ledger",
+          "scope": "role-and-tenant"
+        },
+        "authority": {
+          "allowedActions": [
+            "match-payment",
+            "draft-journal",
+            "draft-schedule"
+          ]
+        },
+        "escalation": {
+          "enabled": true,
+          "threshold": 0.32,
+          "mode": "precise-blocker"
+        },
+        "verifier": {
+          "kind": "independent-external-state",
+          "binding": "finance-close:external-state-verifier"
+        },
+        "limits": {
+          "maxCostPerTaskUsd": 0.1,
+          "maxLatencyMs": 9000
+        },
+        "strategy": {
+          "qualityWeight": 0.52,
+          "costWeight": 0.35,
+          "speedWeight": 0.13,
+          "riskTolerance": 0.18,
+          "requireCompleteContext": false
+        },
+        "provenance": {
+          "kind": "compiler-generated",
+          "parents": [],
+          "rationale": "Seek the lowest sustainable cost without crossing hard safety boundaries.",
+          "knowledgeIds": []
+        },
+        "version": "1.0.0",
+        "fingerprint": "c74c44510b17a50df033f0b0cde2a3e8745e5524951e22485f7ccdab95bad6e3"
+      },
+      "evidence": null,
+      "status": "preserved-not-selected"
+    },
+    {
+      "candidate": {
+        "id": "finance-close:conservative",
+        "roleId": "finance-close",
+        "model": {
+          "family": "model-policy",
+          "tier": "balanced"
+        },
+        "instructions": {
+          "style": "verification-first",
+          "emphasis": [
+            "authority",
+            "uncertainty",
+            "escalation"
+          ]
+        },
+        "context": {
+          "sources": [
+            "ledger",
+            "close-policy",
+            "source-documents",
+            "bank-feed",
+            "contract-terms",
+            "accrual-policy"
+          ],
+          "selection": "full-bounded"
+        },
+        "tools": [
+          "read-ledger",
+          "read-documents",
+          "match-payment",
+          "draft-journal",
+          "draft-schedule"
+        ],
+        "memory": {
+          "kind": "decision-and-outcome-ledger",
+          "scope": "role-and-tenant"
+        },
+        "authority": {
+          "allowedActions": [
+            "match-payment",
+            "draft-journal",
+            "draft-schedule"
+          ]
+        },
+        "escalation": {
+          "enabled": true,
+          "threshold": 0.12,
+          "mode": "precise-blocker"
+        },
+        "verifier": {
+          "kind": "independent-external-state",
+          "binding": "finance-close:external-state-verifier"
+        },
+        "limits": {
+          "maxCostPerTaskUsd": 0.325,
+          "maxLatencyMs": 16000
+        },
+        "strategy": {
+          "qualityWeight": 0.72,
+          "costWeight": 0.08,
+          "speedWeight": 0.05,
+          "riskTolerance": 0.05,
+          "requireCompleteContext": true
+        },
+        "provenance": {
+          "kind": "compiler-generated",
+          "parents": [],
+          "rationale": "Prefer safe escalation over uncertain autonomous action.",
+          "knowledgeIds": []
+        },
+        "version": "1.0.0",
+        "fingerprint": "07e297589bf6ddccb00ada54bcdfc41768503b11c384d0444fe62df276b4961e"
+      },
+      "evidence": null,
+      "status": "preserved-not-selected"
+    }
+  ],
+  "compatibility": {
+    "roleTags": [
+      "finance",
+      "accounting",
+      "reconciliation"
+    ],
+    "environmentTags": [
+      "finance",
+      "accounting",
+      "reconciliation"
+    ],
+    "policyHash": "7ef28837231f52eebf4898166871c33e1ebaba7c6cf5971e959dae0f7bcbea84",
+    "authorityHash": "3d0dde70b5b8128c2bf6c2ee330058121f777b9bfe2bdd737027d294182a152e",
+    "toolsHash": "dafc7c5e6154b9d879bb68e399d4db83395fb954494ebfc2a1f9f502d9a3b997",
+    "verifierBinding": "finance-close:external-state-verifier"
+  },
+  "evidenceReferences": [
+    {
+      "kind": "finance-role-gap",
+      "hash": "e88035c3fde9c8103423f969fc460a72971b84588e986e453b84d0969f8f6a7c"
+    },
+    {
+      "kind": "generic-level1-evidence-ledger"
+    }
+  ],
+  "recordHash": "2161a34d0ac75ef32f6e9a6a589e9111b17dff955e6aad95934944df837fe49c"
+}

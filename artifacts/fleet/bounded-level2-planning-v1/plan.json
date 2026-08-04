@@ -1,7 +1,7 @@
 {
   "schemaVersion": "das.bounded-fleet-plan.v1",
   "status": "partially-routable-awaiting-role-approval",
-  "contractHash": "109d8ef161ac469b25ba75004b9ff3aa8025bda55b482461a87c7df7df7a2dec",
+  "contractHash": "6c40b1130cf290295d7de6ad290fed1d15962b750ed02f9b22f6cb34e04c07bf",
   "specialistHashes": [
     {
       "id": "support-quality-specialist",
@@ -20,7 +20,7 @@
       "specialistHash": "a31ca8f70c4d4bfcaaeefcd61b4e39f12becd8f9c12a2bba7b278a28c9d21137"
     }
   ],
-  "selectedVariantHash": "1a609f453da75b54ce9ec1f796d735a84204f482ac9b5ec016c1dddea2ce33b5",
+  "selectedVariantHash": "2b805c2ba205e169ae12fc176168e0f5609f6ef8762ad78faeb09d700c729056",
   "selected": {
     "strategy": "speed-first",
     "assignments": [
@@ -76,7 +76,7 @@
     "roleGaps": [
       {
         "schemaVersion": "das.bounded-role-gap-request.v1",
-        "id": "role-gap-af365010177e1d46",
+        "id": "role-gap-1f1b47dd2032cb1c",
         "status": "awaiting-explicit-human-approval",
         "workloads": [
           {
@@ -91,20 +91,21 @@
             "ledger-local"
           ],
           "tools": [
-            "draft-reconciliation",
-            "read-invoice",
-            "read-payment"
+            "match-payment",
+            "read-documents",
+            "read-ledger"
           ],
           "contextSources": [
-            "finance-policy",
-            "open-invoices",
-            "payments"
+            "bank-feed",
+            "close-policy",
+            "ledger",
+            "source-documents"
           ],
           "authorityActions": [
-            "draft-reconciliation"
+            "match-payment"
           ],
-          "verifierId": "finance-plan-verifier-v1",
-          "policyHash": "0f64166760c4911d3a6e89ef7d15a8506c71c04ad8cd9ad71a62376fd00cb502"
+          "verifierId": "finance-close:external-state-verifier",
+          "policyHash": "7ef28837231f52eebf4898166871c33e1ebaba7c6cf5971e959dae0f7bcbea84"
         },
         "observedVolume": 10,
         "risk": "high",
@@ -115,7 +116,7 @@
         },
         "nextStep": "Confirm this is a stable role boundary, then create a separate Level 1 comparison contract and independent verifier evidence.",
         "reason": "no-compatible-proved-specialist",
-        "requestHash": "9e31c1de5bf8d5c2ab60dde214d990f8f4abc72e2be0a78c0c3c33f039438070"
+        "requestHash": "e88035c3fde9c8103423f969fc460a72971b84588e986e453b84d0969f8f6a7c"
       }
     ],
     "metrics": {
@@ -128,12 +129,12 @@
       "maximumExpectedLatencyMs": 1100,
       "proposedRoles": 1
     },
-    "variantHash": "1a609f453da75b54ce9ec1f796d735a84204f482ac9b5ec016c1dddea2ce33b5"
+    "variantHash": "2b805c2ba205e169ae12fc176168e0f5609f6ef8762ad78faeb09d700c729056"
   },
   "alternatives": [
     {
       "strategy": "balanced",
-      "variantHash": "76337da1709919978355ace559df41c8d8e6100f7cb2d9ba5db161d86b239493",
+      "variantHash": "f39a3f5c91c0b8d452a3c8300ab2b3310e10738176585df63e687a69d68ab9b3",
       "metrics": {
         "assignedVolume": 105,
         "totalVolume": 115,
@@ -147,7 +148,7 @@
     },
     {
       "strategy": "quality-first",
-      "variantHash": "418cd5db06d4bea65446e8385093a075e438b4bdae56e4e03c7e4596e711062a",
+      "variantHash": "4dc78fa364a2090ca0526983d4df6066e6705234f25135e7ca6f6a921a4d5acc",
       "metrics": {
         "assignedVolume": 105,
         "totalVolume": 115,
@@ -161,7 +162,7 @@
     },
     {
       "strategy": "cost-first",
-      "variantHash": "ad9d9d788b2f9a0049d8f5ac960d2eba5e25e0d702b2b0f7fd34859c1b4ac900",
+      "variantHash": "3310630755fea48d050c8492ea0d08c87827a7479a338264cc8ae8cca3fe2b7c",
       "metrics": {
         "assignedVolume": 105,
         "totalVolume": 115,
@@ -175,7 +176,7 @@
     },
     {
       "strategy": "speed-first",
-      "variantHash": "1a609f453da75b54ce9ec1f796d735a84204f482ac9b5ec016c1dddea2ce33b5",
+      "variantHash": "2b805c2ba205e169ae12fc176168e0f5609f6ef8762ad78faeb09d700c729056",
       "metrics": {
         "assignedVolume": 105,
         "totalVolume": 115,
@@ -195,5 +196,5 @@
     "activationAuthorized": false
   },
   "evidenceBoundary": "Bounded deterministic planning over trusted workload and proved specialist records. No task ran and no new specialist was created.",
-  "planHash": "0fa55bab9b1f7a1c51ace57fb6d2ecf22684703ef67b974a57faf3052243f4ce"
+  "planHash": "576bafb76da46495ed8c5c7a49fed57d83f131ee7f30f54f8e75b02bfc2106ee"
 }

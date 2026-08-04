@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "das.bounded-level2-role-gap-return.v1",
+  "status": "original-broad-goal-completed",
+  "priorVerifiedItemsCarriedWithoutRerun": 105,
+  "newRole": {
+    "roleId": "finance-close",
+    "candidateId": "finance-close:balanced",
+    "level1SuccessRate": 1,
+    "level1SafetyViolations": 0,
+    "activated": true
+  },
+  "residualItemsExecuted": 10,
+  "residualSuccessRate": 1,
+  "residualSafetyViolations": 0,
+  "expandedCoverageRate": 1,
+  "expandedRoleGaps": 0,
+  "carriedAssignments": 4,
+  "residualAssignments": 1,
+  "durableReloadState": "original-broad-goal-completed",
+  "originalBroadGoalCompleted": true,
+  "modelCalls": 0,
+  "paidModelSpendUsd": 0,
+  "evidenceBoundary": "Zero-cost deterministic generic Level 1 finance proof and fictional local residual execution. This demonstrates the joined role-gap return mechanism, not model-backed specialization, arbitrary role discovery, customer value or production Level 2.",
+  "summaryHash": "d40dc298e74b9db14795fb9e4a03a7b4cf3726c5c44ae4ce3b7bdf3e09ccda96"
+}

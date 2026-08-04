@@ -1,0 +1,41 @@
+{
+  "activated": true,
+  "previous": null,
+  "current": "finance-close:balanced",
+  "event": {
+    "roleId": "finance-close",
+    "specialistId": "finance-close:balanced",
+    "version": "1.0.0",
+    "reason": "compiler-recommendation",
+    "readiness": {
+      "ready": true,
+      "checks": [
+        {
+          "id": "role",
+          "passed": true
+        },
+        {
+          "id": "policies",
+          "passed": true
+        },
+        {
+          "id": "authority",
+          "passed": true
+        },
+        {
+          "id": "systems",
+          "passed": true
+        },
+        {
+          "id": "verification",
+          "passed": true
+        },
+        {
+          "id": "transition",
+          "passed": true
+        }
+      ]
+    },
+    "at": "2026-08-04T17:04:02.149Z"
+  }
+}

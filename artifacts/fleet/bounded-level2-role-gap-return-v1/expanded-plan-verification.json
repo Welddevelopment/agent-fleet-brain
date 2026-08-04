@@ -14,10 +14,10 @@
     "noIncompatibleAssignments": true,
     "specialistIdentityIntact": true
   },
-  "assignmentCount": 4,
-  "roleGapCount": 1,
-  "calculatedCostUsd": 7.25,
+  "assignmentCount": 5,
+  "roleGapCount": 0,
+  "calculatedCostUsd": 9.75,
   "contractHash": "6c40b1130cf290295d7de6ad290fed1d15962b750ed02f9b22f6cb34e04c07bf",
-  "planHash": "576bafb76da46495ed8c5c7a49fed57d83f131ee7f30f54f8e75b02bfc2106ee",
-  "verificationHash": "2fcc93962f2ab1949ccb6ff3d1a4098cc8a12abafb1f0609d0a16a82bfb83055"
+  "planHash": "cd721ce4dfc8b2a454871b5ff7c41961892eb06d8384769a9c47bb0a958a5d08",
+  "verificationHash": "a8373fe85df512c446c3ddd90b096c95000e96ba4d3e4b89d5d5553792a89b84"
 }

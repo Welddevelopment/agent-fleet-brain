@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "das.bounded-fleet-continuation.v1",
+  "status": "awaiting-residual-execution-approval",
+  "contractHash": "6c40b1130cf290295d7de6ad290fed1d15962b750ed02f9b22f6cb34e04c07bf",
+  "priorPlanHash": "576bafb76da46495ed8c5c7a49fed57d83f131ee7f30f54f8e75b02bfc2106ee",
+  "priorControllerStateHash": "b629349db2141888845e7452811df05e7714710e36334530398a1c3328513739",
+  "expandedPlanHash": "cd721ce4dfc8b2a454871b5ff7c41961892eb06d8384769a9c47bb0a958a5d08",
+  "addedSpecialistHash": "1c432999d9ca4e5e65b0bc36d2cea098cb586287c6530d5e585b7e552b09ae3e",
+  "activationHash": "9ae8a30858e3d127c6a628e61047e6a18e5a10e24d842105eb461f4c637d443a",
+  "carriedAssignmentHashes": [
+    "01a60378c35acce92f7ccf3d91c36bd5408c3c4ab860bcdf21b5eb1fa7c4784a",
+    "6ea4fffdadb78395518b75578a8915e9c3c1b3e4ac2c65ceedac39e66a58e02f",
+    "ca31d3011d5453c39f91caea5eecf74e797358468d352e4c0e836baafd794779",
+    "fea827f0e373bcd9aba02f73c641ceb67c1df7253d7a95799bbe0d754d79f9d2"
+  ],
+  "carriedObservationHashes": [
+    "382ff765b6bf9ca0ee1e460d8f637f384f2244af921450cce8fc7702ac2a8dde",
+    "40b23c8b61444235d1ea465c373edd1c8260389b93faeac49d80f3bafe02745f",
+    "a989d8fb31ef5ca7c9160937d5e65857f21836d7c00057c382fa3c12a8f9852b",
+    "f96680596f7c6c7040bb65dfba7e0bc1958eb9ed66e1c06021cf41e012471362"
+  ],
+  "residualAssignments": [
+    {
+      "assignmentId": "fleet-assignment-43b18b95025244d1",
+      "workloadId": "unmatched-payments",
+      "specialistId": "finance-close:balanced",
+      "specialistHash": "1c432999d9ca4e5e65b0bc36d2cea098cb586287c6530d5e585b7e552b09ae3e",
+      "quantity": 10,
+      "estimatedCostUsd": 2.5,
+      "expectedOutcomeScore": 1,
+      "expectedLatencyMs": 13000,
+      "verifierId": "finance-close:external-state-verifier",
+      "assignmentHash": "8caec6c43cca67c132b1120bff8a50c41a67243cbeecac87e0940ba820aab611"
+    }
+  ],
+  "authority": {
+    "executionAuthorized": false,
+    "modelSpendAuthorized": false,
+    "roleCreationAuthorized": false
+  },
+  "evidenceBoundary": "Residual-only continuation plan. Previously verified assignments are carried by hash and cannot be repeated through this controller.",
+  "continuationHash": "b1783b1f12d20cf2646475f5be0ecd9460e123c26d96ee7d773464c8968086e5"
+}
