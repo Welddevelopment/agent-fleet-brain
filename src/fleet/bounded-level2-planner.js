@@ -81,7 +81,9 @@ function buildVariant({ contract, specialists, strategy }) {
     for (const specialist of compatible) {
       const quantity = Math.min(unassigned, remaining.get(specialist.id));
       if (!quantity) continue;
-      assignments.push({ workloadId: item.id, specialistId: specialist.id, specialistHash: specialist.specialistHash, quantity, estimatedCostUsd: quantity * specialist.performance.meanUnitCostUsd, expectedOutcomeScore: specialist.performance.outcomeScore, expectedLatencyMs: specialist.performance.medianLatencyMs, verifierId: specialist.capability.verifierId });
+      const assignment = { assignmentId: `fleet-assignment-${digest({ workloadId: item.id, specialistId: specialist.id }).slice(0, 16)}`, workloadId: item.id, specialistId: specialist.id, specialistHash: specialist.specialistHash, quantity, estimatedCostUsd: quantity * specialist.performance.meanUnitCostUsd, expectedOutcomeScore: specialist.performance.outcomeScore, expectedLatencyMs: specialist.performance.medianLatencyMs, verifierId: specialist.capability.verifierId };
+      assignment.assignmentHash = digest(assignment);
+      assignments.push(assignment);
       remaining.set(specialist.id, remaining.get(specialist.id) - quantity);
       unassigned -= quantity;
       if (!unassigned) break;

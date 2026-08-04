@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "das.fleet-role-gap-preparation.v1",
+  "status": "approved-to-prepare-level1-contract",
+  "requestHash": "9e31c1de5bf8d5c2ab60dde214d990f8f4abc72e2be0a78c0c3c33f039438070",
+  "approvedBy": "fictional-accountable-owner",
+  "approvedAt": "2026-08-05T14:00:00.000Z",
+  "requirement": {
+    "systems": [
+      "ledger-local"
+    ],
+    "tools": [
+      "draft-reconciliation",
+      "read-invoice",
+      "read-payment"
+    ],
+    "contextSources": [
+      "finance-policy",
+      "open-invoices",
+      "payments"
+    ],
+    "authorityActions": [
+      "draft-reconciliation"
+    ],
+    "verifierId": "finance-plan-verifier-v1",
+    "policyHash": "0f64166760c4911d3a6e89ef7d15a8506c71c04ad8cd9ad71a62376fd00cb502"
+  },
+  "workloads": [
+    {
+      "id": "unmatched-payments",
+      "volume": 10,
+      "outcome": "Reconcile unmatched payments to invoices without posting final ledger changes"
+    }
+  ],
+  "authority": {
+    "modelSpendAuthorized": false,
+    "roleCreationAuthorized": false,
+    "activationAuthorized": false
+  },
+  "nextStep": "Prepare a separate Level 1 intake, cases, independent verifier and explicit model-campaign approval.",
+  "preparationHash": "099969c4d3206dccf9916145422b654858b3d93f0b900afaf1178ebada5a628f"
+}

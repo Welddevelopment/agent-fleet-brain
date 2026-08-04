@@ -18,10 +18,16 @@ export function verifyBoundedFleetPlan({ contract, specialists, plan }) {
   let calculatedCost = 0;
   let incompatibleAssignments = 0;
   let changedHashes = 0;
+  const assignmentIds = new Set();
   for (const assignment of plan.selected?.assignments ?? []) {
     const item = workloadById.get(assignment.workloadId);
     const specialist = specialistById.get(assignment.specialistId);
     if (!item || !specialist) { incompatibleAssignments += 1; continue; }
+    const assignmentCopy = structuredClone(assignment);
+    const assignmentHash = assignmentCopy.assignmentHash;
+    delete assignmentCopy.assignmentHash;
+    if (!assignment.assignmentId || assignmentIds.has(assignment.assignmentId) || digest(assignmentCopy) !== assignmentHash) changedHashes += 1;
+    assignmentIds.add(assignment.assignmentId);
     if (assignment.specialistHash !== specialist.specialistHash) changedHashes += 1;
     if (!specialistCompatibility(specialist, item).compatible || assignment.verifierId !== item.requirement.verifierId) incompatibleAssignments += 1;
     assignedByWorkload.set(item.id, (assignedByWorkload.get(item.id) ?? 0) + assignment.quantity);

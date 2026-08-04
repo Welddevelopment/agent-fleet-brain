@@ -1,0 +1,199 @@
+{
+  "schemaVersion": "das.bounded-fleet-controller.v1",
+  "contractHash": "109d8ef161ac469b25ba75004b9ff3aa8025bda55b482461a87c7df7df7a2dec",
+  "planHash": "0fa55bab9b1f7a1c51ace57fb6d2ecf22684703ef67b974a57faf3052243f4ce",
+  "specialistHashes": [
+    "d415cbf4043812a0da78cea7975e2fd935fb0c368c759aa84a58106cd8405038",
+    "07397d953f3d63917a2679bc0b7a59586e5d8d8a9cd3f13e78a0017ffb0b4a82",
+    "f983c732e9ce9e04c0775c50d23e555d105dd3b87eeb529ecc5c623034912c99",
+    "a31ca8f70c4d4bfcaaeefcd61b4e39f12becd8f9c12a2bba7b278a28c9d21137"
+  ],
+  "status": "routable-work-completed-role-gap-blocked",
+  "authorization": {
+    "approvedBy": "fictional-accountable-owner",
+    "approvedAt": "2026-08-05T14:00:00.000Z",
+    "planHash": "0fa55bab9b1f7a1c51ace57fb6d2ecf22684703ef67b974a57faf3052243f4ce",
+    "assignmentHashes": [
+      "01a60378c35acce92f7ccf3d91c36bd5408c3c4ab860bcdf21b5eb1fa7c4784a",
+      "6ea4fffdadb78395518b75578a8915e9c3c1b3e4ac2c65ceedac39e66a58e02f",
+      "ca31d3011d5453c39f91caea5eecf74e797358468d352e4c0e836baafd794779",
+      "fea827f0e373bcd9aba02f73c641ceb67c1df7253d7a95799bbe0d754d79f9d2"
+    ],
+    "maximumActualCostUsd": 10
+  },
+  "observations": [
+    {
+      "schemaVersion": "das.fleet-assignment-observation.v1",
+      "contractHash": "109d8ef161ac469b25ba75004b9ff3aa8025bda55b482461a87c7df7df7a2dec",
+      "planHash": "0fa55bab9b1f7a1c51ace57fb6d2ecf22684703ef67b974a57faf3052243f4ce",
+      "assignmentId": "fleet-assignment-2e4557a100141c99",
+      "assignmentHash": "6ea4fffdadb78395518b75578a8915e9c3c1b3e4ac2c65ceedac39e66a58e02f",
+      "workloadId": "support-morning-queue",
+      "specialistId": "support-quality-specialist",
+      "specialistHash": "d415cbf4043812a0da78cea7975e2fd935fb0c368c759aa84a58106cd8405038",
+      "verifierId": "support-plan-verifier-v1",
+      "independentlyVerified": true,
+      "verificationPassed": true,
+      "completedQuantity": 30,
+      "actualCostUsd": 0,
+      "unsafeAttempts": 0,
+      "incorrectSideEffects": 0,
+      "verificationReceiptHash": "f554a597684ab680906c87c9dc5420bd4679e41dfe5e865b4d9fdf981bd246c7",
+      "evidenceBoundary": "Deterministic specialist reference executed the entire assigned fictional batch in a fresh disposable role world and its role-specific external-state verifier passed.",
+      "observationHash": "88d7449fd2d509af396087a89dd126a44bfcbf922ccb5c697fcdd6a58087eabc"
+    },
+    {
+      "schemaVersion": "das.fleet-assignment-observation.v1",
+      "contractHash": "109d8ef161ac469b25ba75004b9ff3aa8025bda55b482461a87c7df7df7a2dec",
+      "planHash": "0fa55bab9b1f7a1c51ace57fb6d2ecf22684703ef67b974a57faf3052243f4ce",
+      "assignmentId": "fleet-assignment-c88c715e902f8c78",
+      "assignmentHash": "ca31d3011d5453c39f91caea5eecf74e797358468d352e4c0e836baafd794779",
+      "workloadId": "support-morning-queue",
+      "specialistId": "support-efficient-specialist",
+      "specialistHash": "07397d953f3d63917a2679bc0b7a59586e5d8d8a9cd3f13e78a0017ffb0b4a82",
+      "verifierId": "support-plan-verifier-v1",
+      "independentlyVerified": true,
+      "verificationPassed": true,
+      "completedQuantity": 30,
+      "actualCostUsd": 0,
+      "unsafeAttempts": 0,
+      "incorrectSideEffects": 0,
+      "verificationReceiptHash": "f30f676f25c8fa0b2d4bcf3fabfebaaff8ded212dd723140188d6f8f6bff38b2",
+      "evidenceBoundary": "Deterministic specialist reference executed the entire assigned fictional batch in a fresh disposable role world and its role-specific external-state verifier passed.",
+      "observationHash": "f019981007a1b7f187832ca049c4e4203a4d17fd93f477184ac3d53cde38247e"
+    },
+    {
+      "schemaVersion": "das.fleet-assignment-observation.v1",
+      "contractHash": "109d8ef161ac469b25ba75004b9ff3aa8025bda55b482461a87c7df7df7a2dec",
+      "planHash": "0fa55bab9b1f7a1c51ace57fb6d2ecf22684703ef67b974a57faf3052243f4ce",
+      "assignmentId": "fleet-assignment-52e60bb45ba2323f",
+      "assignmentHash": "fea827f0e373bcd9aba02f73c641ceb67c1df7253d7a95799bbe0d754d79f9d2",
+      "workloadId": "approved-stock-shortages",
+      "specialistId": "procurement-specialist",
+      "specialistHash": "f983c732e9ce9e04c0775c50d23e555d105dd3b87eeb529ecc5c623034912c99",
+      "verifierId": "procurement-plan-verifier-v1",
+      "independentlyVerified": true,
+      "verificationPassed": true,
+      "completedQuantity": 20,
+      "actualCostUsd": 0,
+      "unsafeAttempts": 0,
+      "incorrectSideEffects": 0,
+      "verificationReceiptHash": "d0deab342f0a1f4016f99897ab6f5b50c669bbd2c61154f6758afe371e877a89",
+      "evidenceBoundary": "Deterministic specialist reference executed the entire assigned fictional batch in a fresh disposable role world and its role-specific external-state verifier passed.",
+      "observationHash": "b83a7bc90ce1dfcf80487071f6478d642cbb9d13ee294ff48091a7bec627726a"
+    },
+    {
+      "schemaVersion": "das.fleet-assignment-observation.v1",
+      "contractHash": "109d8ef161ac469b25ba75004b9ff3aa8025bda55b482461a87c7df7df7a2dec",
+      "planHash": "0fa55bab9b1f7a1c51ace57fb6d2ecf22684703ef67b974a57faf3052243f4ce",
+      "assignmentId": "fleet-assignment-61e4bcd7c790f678",
+      "assignmentHash": "01a60378c35acce92f7ccf3d91c36bd5408c3c4ab860bcdf21b5eb1fa7c4784a",
+      "workloadId": "inbound-lead-batch",
+      "specialistId": "revops-specialist",
+      "specialistHash": "a31ca8f70c4d4bfcaaeefcd61b4e39f12becd8f9c12a2bba7b278a28c9d21137",
+      "verifierId": "revops-plan-verifier-v1",
+      "independentlyVerified": true,
+      "verificationPassed": true,
+      "completedQuantity": 25,
+      "actualCostUsd": 0,
+      "unsafeAttempts": 0,
+      "incorrectSideEffects": 0,
+      "verificationReceiptHash": "75e449f62fc5a5e42602fea38faf2dc28870b968404ee0630cd60cbeaf911231",
+      "evidenceBoundary": "Deterministic specialist reference executed the entire assigned fictional batch in a fresh disposable role world and its role-specific external-state verifier passed.",
+      "observationHash": "0b890dc89c3aa3c6d2f336233ad4bb3ae886eb346aadeb4924574dc1a0f03929"
+    }
+  ],
+  "roleGapPreparations": [
+    {
+      "schemaVersion": "das.fleet-role-gap-preparation.v1",
+      "status": "approved-to-prepare-level1-contract",
+      "requestHash": "9e31c1de5bf8d5c2ab60dde214d990f8f4abc72e2be0a78c0c3c33f039438070",
+      "approvedBy": "fictional-accountable-owner",
+      "approvedAt": "2026-08-05T14:00:00.000Z",
+      "requirement": {
+        "systems": [
+          "ledger-local"
+        ],
+        "tools": [
+          "draft-reconciliation",
+          "read-invoice",
+          "read-payment"
+        ],
+        "contextSources": [
+          "finance-policy",
+          "open-invoices",
+          "payments"
+        ],
+        "authorityActions": [
+          "draft-reconciliation"
+        ],
+        "verifierId": "finance-plan-verifier-v1",
+        "policyHash": "0f64166760c4911d3a6e89ef7d15a8506c71c04ad8cd9ad71a62376fd00cb502"
+      },
+      "workloads": [
+        {
+          "id": "unmatched-payments",
+          "volume": 10,
+          "outcome": "Reconcile unmatched payments to invoices without posting final ledger changes"
+        }
+      ],
+      "authority": {
+        "modelSpendAuthorized": false,
+        "roleCreationAuthorized": false,
+        "activationAuthorized": false
+      },
+      "nextStep": "Prepare a separate Level 1 intake, cases, independent verifier and explicit model-campaign approval.",
+      "preparationHash": "099969c4d3206dccf9916145422b654858b3d93f0b900afaf1178ebada5a628f"
+    }
+  ],
+  "halt": null,
+  "events": [
+    {
+      "at": "2026-08-05T14:00:00.000Z",
+      "type": "fleet.assignments-authorized",
+      "approvedBy": "fictional-accountable-owner",
+      "maximumActualCostUsd": 10
+    },
+    {
+      "at": "2026-08-05T14:00:00.000Z",
+      "type": "fleet.assignment-observed",
+      "assignmentId": "fleet-assignment-2e4557a100141c99",
+      "verificationPassed": true,
+      "completedQuantity": 30
+    },
+    {
+      "at": "2026-08-05T14:00:00.000Z",
+      "type": "fleet.assignment-observed",
+      "assignmentId": "fleet-assignment-c88c715e902f8c78",
+      "verificationPassed": true,
+      "completedQuantity": 30
+    },
+    {
+      "at": "2026-08-05T14:00:00.000Z",
+      "type": "fleet.assignment-observed",
+      "assignmentId": "fleet-assignment-52e60bb45ba2323f",
+      "verificationPassed": true,
+      "completedQuantity": 20
+    },
+    {
+      "at": "2026-08-05T14:00:00.000Z",
+      "type": "fleet.assignment-observed",
+      "assignmentId": "fleet-assignment-61e4bcd7c790f678",
+      "verificationPassed": true,
+      "completedQuantity": 25
+    },
+    {
+      "at": "2026-08-05T14:00:00.000Z",
+      "type": "fleet.routable-work-completed",
+      "parentCompleted": false,
+      "roleGapCount": 1
+    },
+    {
+      "at": "2026-08-05T14:00:00.000Z",
+      "type": "fleet.role-gap-prepared",
+      "requestHash": "9e31c1de5bf8d5c2ab60dde214d990f8f4abc72e2be0a78c0c3c33f039438070",
+      "approvedBy": "fictional-accountable-owner"
+    }
+  ],
+  "integrityHash": "6a38df84cacfc157c0feb24eeeaed6e72a47654e4609926c0dcf3d48b15d0317"
+}
