@@ -1,5 +1,10 @@
+import path from "node:path";
 import { digest } from "../core/canonical.js";
+import { DurableBudgetGuard, PersistentModelResponseCache } from "../core/durable-model-campaign.js";
+import { EvidenceLedger } from "../core/evidence.js";
+import { MeteredModelGateway } from "../core/model-gateway.js";
 import { CURRENT_MODEL_PRICING_USD } from "../providers/model-pricing.js";
+import { OpenAIResponsesProvider } from "../providers/openai-responses.js";
 import { assertBoundedFleetContract } from "./bounded-level2-contract.js";
 import { assertBoundedFleetPlan } from "./bounded-level2-planner.js";
 
@@ -88,9 +93,21 @@ export function assertProspectiveFleetCampaignAuthorization({ plan, environment 
   requireCondition(environment.DAS_PROSPECTIVE_FLEET_APPROVAL === campaignApproval, "This exact prospective fleet campaign is not explicitly approved");
   requireCondition(environment.DAS_PROSPECTIVE_FLEET_PLAN_HASH === plan.planHash, "Prospective fleet approval is not bound to the exact plan");
   const limit = Number(environment.DAS_PROSPECTIVE_FLEET_LIMIT_USD);
-  requireCondition(Number.isFinite(limit) && limit > 0 && limit <= plan.hardSpendLimitUsd, "Prospective fleet campaign needs an explicit limit inside the frozen fleet ceiling");
+  const plannedMinimum = plan.assignments.reduce((sum, assignment) => sum + Number(assignment.maximumTaskCostUsd), 0);
+  requireCondition(Number.isFinite(limit) && limit >= plannedMinimum && limit <= plan.hardSpendLimitUsd, "Prospective fleet campaign needs an explicit limit covering every selected task and inside the frozen fleet ceiling");
   requireCondition(environment.DAS_PROSPECTIVE_FLEET_PRICING_VERIFIED_ON === pricingVerifiedDate, "Prospective fleet pricing was not freshly verified today");
   requireCondition(environment.DAS_PROSPECTIVE_FLEET_PRICING_TABLE_HASH === plan.pricingTableHash, "Prospective fleet pricing hash is not approved");
   requireCondition(environment.OPENAI_API_KEY, "OPENAI_API_KEY is missing");
   return Object.freeze({ campaignId: plan.campaignId, planHash: plan.planHash, limitUsd: limit, paidCallsAuthorized: true, pricingVerifiedDate, pricingTableHash: plan.pricingTableHash });
+}
+
+export function createProspectiveFleetCampaignRuntime({ plan, environment = process.env, stateDirectory = "artifacts/fleet/prospective-model-campaign-v1/model-run", fetchImpl = fetch, pricingVerifiedDate } = {}) {
+  const authorization = assertProspectiveFleetCampaignAuthorization({ plan, environment, pricingVerifiedDate });
+  const root = path.resolve(stateDirectory);
+  const budget = new DurableBudgetGuard({ filePath: path.join(root, "budget.json"), hardLimitUsd: authorization.limitUsd, campaignId: plan.campaignId });
+  const cache = new PersistentModelResponseCache({ filePath: path.join(root, "response-cache.json") });
+  const evidence = new EvidenceLedger(path.join(root, "evidence.jsonl"));
+  const provider = new OpenAIResponsesProvider({ apiKey: environment.OPENAI_API_KEY, pricingByModel: CURRENT_MODEL_PRICING_USD, fetchImpl, allowPaidCalls: true, environment });
+  const gateway = new MeteredModelGateway({ provider, budget, cache, evidence, secrets: [environment.OPENAI_API_KEY] });
+  return Object.freeze({ root, authorization, budget, cache, evidence, provider, gateway });
 }
