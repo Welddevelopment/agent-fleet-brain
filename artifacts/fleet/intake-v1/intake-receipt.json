@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "das.fleet-planning-intake.v1",
+  "status": "contract-compiled-awaiting-plan",
+  "companyId": "fictional-adapter-driven-company",
+  "tenantId": "fictional-company:local",
+  "contractHash": "2142521d5965f21b8ce6de18063b0a91bcb749fbba26da48ca51f557dd90e9c1",
+  "snapshotReceipts": [
+    {
+      "adapterId": "realistic-procurement-specialist:workload-adapter",
+      "descriptorHash": "8a6925bcf1f30a727aad15f837b66d50ed44b9eee1dc6cc49fbefb105038c91c",
+      "snapshotHash": "3c04ee4596b2281fd3f226d530eb4f7fd654e9ec63b9f028ebbe2ced02feae6a",
+      "capturedAt": "2026-08-05T18:00:00.000Z",
+      "items": 1
+    },
+    {
+      "adapterId": "realistic-support-operations-specialist:workload-adapter",
+      "descriptorHash": "348a0d1b9e78b103cb1f1669fd73376528211210cc8015182af32d2219c73c56",
+      "snapshotHash": "91da6fe4ea14dfd7fa256278ee7a1639a3ddcb8c4d863bc966a404dad2b56df8",
+      "capturedAt": "2026-08-05T18:00:00.000Z",
+      "items": 1
+    },
+    {
+      "adapterId": "realistic-revenue-operations-specialist:workload-adapter",
+      "descriptorHash": "3ceda5ad723ac29a00efe5878b316d57635d2594eb72a06786c864957a56d000",
+      "snapshotHash": "d7f7df0d4c27099921b957add914d372b130ccefc72a96144ec99828eb903b8f",
+      "capturedAt": "2026-08-05T18:00:00.000Z",
+      "items": 1
+    }
+  ],
+  "authority": {
+    "executionAuthorized": false,
+    "modelSpendAuthorized": false,
+    "roleCreationAuthorized": false,
+    "activationAuthorized": false
+  },
+  "evidenceBoundary": "Fresh trusted customer-local workload snapshots compiled into a bounded fleet contract. The ordinary goal is human-supplied; workload classification is adapter-declared, not autonomous strategic decomposition.",
+  "receiptHash": "cbdcb97db71cc332d3e456149d7eb1817a36f7d9905a97f772131c3bb627b0a0"
+}

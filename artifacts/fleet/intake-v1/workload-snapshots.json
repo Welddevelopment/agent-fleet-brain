@@ -1,0 +1,77 @@
+[
+  {
+    "schemaVersion": "das.trusted-fleet-workload-snapshot.v1",
+    "adapterId": "realistic-procurement-specialist:workload-adapter",
+    "adapterVersion": "1",
+    "adapterDescriptorHash": "8a6925bcf1f30a727aad15f837b66d50ed44b9eee1dc6cc49fbefb105038c91c",
+    "tenantId": "fictional-company:local",
+    "systemId": "procurement-local",
+    "capturedAt": "2026-08-05T18:00:00.000Z",
+    "items": [
+      {
+        "id": "procurement-local:current-batch",
+        "operationId": "cover-approved-shortage",
+        "volume": 1,
+        "dueWithinMs": 180000,
+        "maximumUnitCostUsd": 0.005360406666666671,
+        "minimumOutcomeScore": 1
+      }
+    ],
+    "authority": {
+      "executionAuthorized": false,
+      "modelSpendAuthorized": false,
+      "roleCreationAuthorized": false
+    },
+    "snapshotHash": "3c04ee4596b2281fd3f226d530eb4f7fd654e9ec63b9f028ebbe2ced02feae6a"
+  },
+  {
+    "schemaVersion": "das.trusted-fleet-workload-snapshot.v1",
+    "adapterId": "realistic-support-operations-specialist:workload-adapter",
+    "adapterVersion": "1",
+    "adapterDescriptorHash": "348a0d1b9e78b103cb1f1669fd73376528211210cc8015182af32d2219c73c56",
+    "tenantId": "fictional-company:local",
+    "systemId": "support-local",
+    "capturedAt": "2026-08-05T18:00:00.000Z",
+    "items": [
+      {
+        "id": "support-local:current-batch",
+        "operationId": "resolve-assigned-ticket",
+        "volume": 1,
+        "dueWithinMs": 300000,
+        "maximumUnitCostUsd": 0.01148565333333333,
+        "minimumOutcomeScore": 1
+      }
+    ],
+    "authority": {
+      "executionAuthorized": false,
+      "modelSpendAuthorized": false,
+      "roleCreationAuthorized": false
+    },
+    "snapshotHash": "91da6fe4ea14dfd7fa256278ee7a1639a3ddcb8c4d863bc966a404dad2b56df8"
+  },
+  {
+    "schemaVersion": "das.trusted-fleet-workload-snapshot.v1",
+    "adapterId": "realistic-revenue-operations-specialist:workload-adapter",
+    "adapterVersion": "1",
+    "adapterDescriptorHash": "3ceda5ad723ac29a00efe5878b316d57635d2594eb72a06786c864957a56d000",
+    "tenantId": "fictional-company:local",
+    "systemId": "crm-local",
+    "capturedAt": "2026-08-05T18:00:00.000Z",
+    "items": [
+      {
+        "id": "crm-local:current-batch",
+        "operationId": "route-assigned-lead",
+        "volume": 1,
+        "dueWithinMs": 300000,
+        "maximumUnitCostUsd": 0.014479329999999986,
+        "minimumOutcomeScore": 1
+      }
+    ],
+    "authority": {
+      "executionAuthorized": false,
+      "modelSpendAuthorized": false,
+      "roleCreationAuthorized": false
+    },
+    "snapshotHash": "d7f7df0d4c27099921b957add914d372b130ccefc72a96144ec99828eb903b8f"
+  }
+]

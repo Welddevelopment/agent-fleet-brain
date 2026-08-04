@@ -1,0 +1,107 @@
+[
+  {
+    "schemaVersion": "das.trusted-fleet-adapter.v1",
+    "id": "realistic-procurement-specialist:workload-adapter",
+    "version": "1",
+    "tenantId": "fictional-company:local",
+    "systemId": "procurement-local",
+    "source": "customer-local-trusted-inventory",
+    "trustStatus": "verified-local",
+    "operations": {
+      "cover-approved-shortage": {
+        "outcome": "Cover the approved shortage with the smallest safe draft action",
+        "risk": "high",
+        "requirement": {
+          "systems": [
+            "procurement-local"
+          ],
+          "tools": [
+            "draft-purchase-order",
+            "read-inventory"
+          ],
+          "contextSources": [
+            "approved-demand",
+            "purchasing-policy"
+          ],
+          "authorityActions": [
+            "draft-order"
+          ],
+          "verifierId": "realistic-procurement-external-state-v1",
+          "policyHash": "bb98ccab3551fa8c771fe86fee50cc7e9ff1c6235ba9a2775e04aa2ebd79a08d"
+        }
+      }
+    },
+    "evidenceBoundary": "Trusted customer-local workload adapter descriptor. It declares bounded inventory operations and grants no execution authority.",
+    "descriptorHash": "8a6925bcf1f30a727aad15f837b66d50ed44b9eee1dc6cc49fbefb105038c91c"
+  },
+  {
+    "schemaVersion": "das.trusted-fleet-adapter.v1",
+    "id": "realistic-support-operations-specialist:workload-adapter",
+    "version": "1",
+    "tenantId": "fictional-company:local",
+    "systemId": "support-local",
+    "source": "customer-local-trusted-inventory",
+    "trustStatus": "verified-local",
+    "operations": {
+      "resolve-assigned-ticket": {
+        "outcome": "Resolve or precisely hand off the assigned support ticket",
+        "risk": "high",
+        "requirement": {
+          "systems": [
+            "support-local"
+          ],
+          "tools": [
+            "draft-response",
+            "read-ticket"
+          ],
+          "contextSources": [
+            "assigned-ticket-queue",
+            "support-policy"
+          ],
+          "authorityActions": [
+            "draft-support-response"
+          ],
+          "verifierId": "realistic-support-external-state-v1",
+          "policyHash": "2085b8901ee4644c9055744a929ef19132a4745fa204066364985a81e7b3ed0d"
+        }
+      }
+    },
+    "evidenceBoundary": "Trusted customer-local workload adapter descriptor. It declares bounded inventory operations and grants no execution authority.",
+    "descriptorHash": "348a0d1b9e78b103cb1f1669fd73376528211210cc8015182af32d2219c73c56"
+  },
+  {
+    "schemaVersion": "das.trusted-fleet-adapter.v1",
+    "id": "realistic-revenue-operations-specialist:workload-adapter",
+    "version": "1",
+    "tenantId": "fictional-company:local",
+    "systemId": "crm-local",
+    "source": "customer-local-trusted-inventory",
+    "trustStatus": "verified-local",
+    "operations": {
+      "route-assigned-lead": {
+        "outcome": "Route the assigned lead while preserving consent and identity boundaries",
+        "risk": "high",
+        "requirement": {
+          "systems": [
+            "crm-local"
+          ],
+          "tools": [
+            "assign-lead-owner",
+            "read-lead"
+          ],
+          "contextSources": [
+            "assigned-lead-queue",
+            "routing-policy"
+          ],
+          "authorityActions": [
+            "assign-lead-owner"
+          ],
+          "verifierId": "realistic-revops-external-state-v1",
+          "policyHash": "f8a1c6fa2c8133d6a65ac6a7d666fa7d862e58b728daf53da37a7a2a1680b164"
+        }
+      }
+    },
+    "evidenceBoundary": "Trusted customer-local workload adapter descriptor. It declares bounded inventory operations and grants no execution authority.",
+    "descriptorHash": "3ceda5ad723ac29a00efe5878b316d57635d2594eb72a06786c864957a56d000"
+  }
+]

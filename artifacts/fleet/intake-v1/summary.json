@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "das.fleet-intake-summary.v1",
+  "status": "completed",
+  "trustedAdapters": 3,
+  "freshSnapshots": 3,
+  "workloadsCompiled": 3,
+  "routedItems": 3,
+  "verificationPassed": true,
+  "authorityGranted": false,
+  "modelCalls": 0,
+  "paidModelSpendUsd": 0,
+  "evidenceBoundary": "Three fresh fictional customer-local adapter snapshots compiled into a 3/3 verified fleet plan. This is bounded input plumbing, not autonomous strategic decomposition or customer evidence.",
+  "summaryHash": "09ece9a5252909d899743eeb79134536f7d45d66b037488b0ea8fbe01fc2e4ca"
+}
