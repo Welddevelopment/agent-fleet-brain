@@ -17,9 +17,24 @@ test("fleet console exposes a sanitized verified parent-goal continuation", () =
   assert.equal(state.continuation.parentCompleted, true);
   assert.equal(state.plan.assignments.length, 5);
   assert.equal(state.plan.assignments.filter((item) => item.phase === "residual").length, 1);
+  assert.equal(state.intake.adapters, 3);
+  assert.equal(state.intake.snapshots, 3);
+  assert.equal(state.intake.workloads.length, 3);
+  assert.equal(state.intake.authorityGranted, false);
   assert.equal(JSON.stringify(state).includes("summaryHash"), false);
   assert.equal(JSON.stringify(state).includes("assignmentHash"), false);
   assert.match(state.boundary, /deterministic/i);
+});
+
+test("fleet console fails closed when the trusted intake receipt is mutated", () => {
+  const temporary = fs.mkdtempSync(path.join(os.tmpdir(), "das-fleet-intake-console-"));
+  const source = JSON.parse(fs.readFileSync("artifacts/fleet/intake-v1/intake-receipt.json", "utf8"));
+  source.authority.activationAuthorized = true;
+  const mutated = path.join(temporary, "mutated-intake.json");
+  fs.writeFileSync(mutated, JSON.stringify(source));
+  const state = loadFleetConsoleState({ intakeReceiptPath: mutated });
+  assert.equal(state.integrity, "invalid");
+  assert.match(state.error, /integrity/i);
 });
 
 test("fleet console fails closed when a source summary is mutated", () => {

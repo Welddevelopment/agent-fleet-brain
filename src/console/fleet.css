@@ -48,6 +48,27 @@
 .fleet-progress-track { height: 3px; margin: 15px 0 17px; background: #263029; overflow: hidden; }
 .fleet-progress-track i { display: block; height: 100%; background: var(--green); box-shadow: 0 0 14px rgba(169,245,204,.55); }
 
+.fleet-intake {
+  display: grid;
+  grid-template-columns: minmax(280px, 5fr) minmax(0, 7fr);
+  gap: clamp(50px, 8vw, 120px);
+  align-items: start;
+  margin-bottom: 132px;
+}
+.fleet-intake-copy h2 { margin: 12px 0 18px; font-size: clamp(34px, 4.4vw, 62px); line-height: 1; letter-spacing: -.055em; }
+.fleet-intake-copy > p:last-of-type { max-width: 580px; color: #919aa2; font-size: 13px; line-height: 1.7; }
+.fleet-intake-copy > div { display: flex; align-items: baseline; gap: 14px; margin-top: 30px; padding-top: 18px; border-top: 1px solid var(--line); }
+.fleet-intake-copy > div strong { color: var(--green); font-size: 19px; }
+.fleet-intake-copy > div span { color: #717b84; font: 9px/1.45 ui-monospace, monospace; text-transform: uppercase; letter-spacing: .08em; }
+.fleet-intake-stack { display: grid; grid-template-columns: 1fr; gap: 1px; border: 1px solid var(--line); background: var(--line); }
+.fleet-intake-stack article { min-width: 0; padding: 22px 24px; background: #0c1013; }
+.fleet-intake-stack article span,
+.fleet-intake-stack article small { color: #717b84; font: 9px/1.45 ui-monospace, monospace; text-transform: uppercase; letter-spacing: .08em; }
+.fleet-intake-stack article strong { display: block; margin: 8px 0; font-size: 17px; letter-spacing: -.025em; }
+.fleet-intake-stack article p { margin: 0 0 13px; color: #a7afb5; font-size: 12px; line-height: 1.6; }
+.fleet-intake-stack article small { color: var(--green); }
+.fleet-intake-stack footer { padding: 18px 24px; background: #090c0f; color: #737d86; font-size: 11px; line-height: 1.65; }
+
 .fleet-turn {
   display: grid;
   grid-template-columns: minmax(280px, 5fr) minmax(0, 7fr);
@@ -99,6 +120,7 @@
 
 @media (max-width: 1050px) {
   .fleet-hero,
+  .fleet-intake,
   .fleet-turn,
   .fleet-ledger { grid-template-columns: 1fr; }
   .fleet-turn-copy { position: static; }

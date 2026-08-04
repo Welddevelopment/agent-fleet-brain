@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { digest } from "../core/canonical.js";
+import { assertBoundedFleetContract } from "../fleet/bounded-level2-contract.js";
 import { assertBoundedFleetPlan } from "../fleet/bounded-level2-planner.js";
 
 function requireCondition(condition, message) {
@@ -28,14 +29,28 @@ export function loadFleetConsoleState({
   executionSummaryPath = "artifacts/fleet/bounded-level2-execution-v1/summary.json",
   returnSummaryPath = "artifacts/fleet/bounded-level2-role-gap-return-v1/summary.json",
   expandedPlanPath = "artifacts/fleet/bounded-level2-role-gap-return-v1/expanded-plan.json",
+  intakeSummaryPath = "artifacts/fleet/intake-v1/summary.json",
+  intakeReceiptPath = "artifacts/fleet/intake-v1/intake-receipt.json",
+  intakeContractPath = "artifacts/fleet/intake-v1/contract.json",
 } = {}) {
   try {
     const execution = readJson(executionSummaryPath);
     const returned = readJson(returnSummaryPath);
     const expandedPlan = readJson(expandedPlanPath);
+    const intakeSummary = readJson(intakeSummaryPath);
+    const intakeReceipt = readJson(intakeReceiptPath);
+    const intakeContract = readJson(intakeContractPath);
     assertSummaryHash(execution, "das.bounded-level2-execution-rehearsal.v1");
     assertSummaryHash(returned, "das.bounded-level2-role-gap-return.v1");
+    assertSummaryHash(intakeSummary, "das.fleet-intake-summary.v1");
     assertBoundedFleetPlan(expandedPlan);
+    assertBoundedFleetContract(intakeContract);
+    const intakeReceiptPayload = structuredClone(intakeReceipt);
+    const intakeReceiptHash = intakeReceiptPayload.receiptHash;
+    delete intakeReceiptPayload.receiptHash;
+    requireCondition(intakeReceipt?.schemaVersion === "das.fleet-planning-intake.v1" && intakeReceiptHash && digest(intakeReceiptPayload) === intakeReceiptHash, "Fleet intake receipt integrity mismatch");
+    requireCondition(intakeReceipt.contractHash === intakeContract.contractHash && intakeSummary.trustedAdapters === 3 && intakeSummary.freshSnapshots === 3 && intakeSummary.workloadsCompiled === 3 && intakeSummary.verificationPassed === true, "Fleet intake checkpoint is incomplete");
+    requireCondition(Object.values(intakeReceipt.authority).every((value) => value === false), "Fleet intake unexpectedly grants authority");
     requireCondition(execution.parentGoalCompleted === false && execution.fictionalItemsIndependentlyVerified === 105, "Fleet execution checkpoint is not the expected blocked state");
     requireCondition(returned.originalBroadGoalCompleted === true && returned.expandedCoverageRate === 1 && returned.expandedRoleGaps === 0, "Fleet return checkpoint did not safely complete");
     requireCondition(returned.priorVerifiedItemsCarriedWithoutRerun === execution.fictionalItemsIndependentlyVerified, "Fleet return did not preserve prior verified work");
@@ -87,6 +102,19 @@ export function loadFleetConsoleState({
         hardCostLimitUsd: 10,
         expectedOutcomeScore: expandedPlan.selected.metrics.weightedOutcomeScore,
         assignments,
+      },
+      intake: {
+        status: "verified-at-planning-time",
+        adapters: intakeSummary.trustedAdapters,
+        snapshots: intakeSummary.freshSnapshots,
+        workloads: intakeContract.workload.map((item) => ({
+          workload: humanize(item.id),
+          system: item.requirement.systems.map(humanize).join(", "),
+          outcome: item.outcome,
+          source: "Trusted customer-local adapter",
+        })),
+        authorityGranted: false,
+        boundary: "The broad goal is human supplied. Trusted adapters classify bounded local work; the system does not infer arbitrary company strategy from raw data.",
       },
       boundary: returned.evidenceBoundary,
       nextGate: "Fresh model-backed specialist construction and improvement remain separately paid empirical gates.",
