@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "das.prospective-fleet-model-campaign-plan.v1",
+  "campaignId": "prospective-bounded-level2-model-campaign-v1",
+  "intakeReceiptHash": "99bf94c21244cc85923ebc3b73a7c752de338152dc3da2ce38cb4dfc953dfbbe",
+  "contractHash": "5d595f08a6a212ec0719e45f111a8285a639d817cb15b91fd8fab71f1fd0b2e4",
+  "fleetPlanHash": "db4ca6c5279111051ceaded126ccac004ac0526739470a1fdb5fae07658bb6bd",
+  "planVerificationHash": "9dbe81f335f8903f3828167273f62f15fa0fbe1895b4897575b1d6dac2131181",
+  "assignments": [
+    {
+      "assignmentId": "fleet-assignment-314b50a617544d7d",
+      "assignmentHash": "aa2e34b0fecaa0a4165de6c7291f729da00b485a2a3707a2744527b36dcfc649",
+      "workloadId": "procurement-local:current-batch",
+      "roleId": "realistic-procurement-specialist",
+      "specialistId": "baseline-ordinary-manual-luna",
+      "candidateFingerprint": "507d510b80150240a77a44d29841ee0ada0b2ab799356c510d579e401c13d808",
+      "selectionRecordHash": "136c1277ef67e45204ef23c220324633a884970321a1140688fdb800aea9b30a",
+      "verifierId": "realistic-procurement-external-state-v1",
+      "model": "gpt-5.6-luna",
+      "maximumTaskCostUsd": 0.25,
+      "maximumTaskLatencyMs": 180000
+    },
+    {
+      "assignmentId": "fleet-assignment-bad152e4d496db1a",
+      "assignmentHash": "3eae30744a7ddd95dde1d0eabe97c39a91f12cf70fe3a21d82a644fc1f2827af",
+      "workloadId": "support-local:current-batch",
+      "roleId": "realistic-support-operations-specialist",
+      "specialistId": "support-compiler-candidate-5:opt-1:opt-2:refined-1:refined-1:refined-1",
+      "candidateFingerprint": "005549f2593b875da146e978e172c8f4360080a06d99135154a902185d015d81",
+      "selectionRecordHash": "f6d270b8aa501c536612eed526a6f2965418abb86d10d880ad0004cf91ffdf29",
+      "verifierId": "realistic-support-external-state-v1",
+      "model": "gpt-5.6-luna",
+      "maximumTaskCostUsd": 0.5,
+      "maximumTaskLatencyMs": 300000
+    },
+    {
+      "assignmentId": "fleet-assignment-189c4073b2190206",
+      "assignmentHash": "20001ac1adc191e930365e5bbb3e0eaaf1a96a21868abe87a728bc2928073031",
+      "workloadId": "crm-local:current-batch",
+      "roleId": "realistic-revenue-operations-specialist",
+      "specialistId": "revops-baseline-ordinary-manual-luna",
+      "candidateFingerprint": "ac1ebf10b6d3062696d8c17188a070e31a9f8656146d34d9245fcf3a7b70a9dc",
+      "selectionRecordHash": "cbef70620eb167c06c895d7a79f64347f2c46505a79cf4f06ca9c6ded5cda8c9",
+      "verifierId": "realistic-revops-external-state-v1",
+      "model": "gpt-5.6-luna",
+      "maximumTaskCostUsd": 0.55,
+      "maximumTaskLatencyMs": 300000
+    }
+  ],
+  "sealedTasks": {
+    "count": 3,
+    "digest": "3ea2430b523aa72988f3b80c3ffa5888a586516d94ba4306581e3ca670648d35",
+    "payloadsIncluded": false
+  },
+  "exactModels": [
+    "gpt-5.6-luna"
+  ],
+  "maximumTaskEvaluations": 3,
+  "maxTurnsPerTask": 24,
+  "maximumModelTurns": 72,
+  "hardSpendLimitUsd": 1.3,
+  "pricingTableHash": "c63d69dcbb81e27a0dfe228cf632bfb58dddc768dd319de1aec245c4e941b307",
+  "gates": {
+    "paidCallsDefault": "disabled",
+    "requiredGlobalApproval": "DAS_ENABLE_PAID_MODEL_CALLS=JOEL_APPROVED",
+    "requiredCampaignApproval": "DAS_PROSPECTIVE_FLEET_APPROVAL=JOEL_APPROVED_PROSPECTIVE_FLEET_V1",
+    "requiredPlanHash": "DAS_PROSPECTIVE_FLEET_PLAN_HASH=<exact plan hash>",
+    "requiredExplicitLimit": "DAS_PROSPECTIVE_FLEET_LIMIT_USD=<positive number no greater than frozen fleet limit>",
+    "requiredPricingDate": "DAS_PROSPECTIVE_FLEET_PRICING_VERIFIED_ON=<current UTC date>",
+    "requiredPricingHash": "DAS_PROSPECTIVE_FLEET_PRICING_TABLE_HASH=c63d69dcbb81e27a0dfe228cf632bfb58dddc768dd319de1aec245c4e941b307"
+  },
+  "authority": {
+    "modelSpendAuthorized": false,
+    "executionAuthorized": false,
+    "activationAuthorized": false,
+    "roleCreationAuthorized": false
+  },
+  "evidenceBoundary": "Zero-cost prospective Level 2 model-campaign plan. It binds fresh sealed role tasks to exact selected Level 1 specialists and the verified fleet plan, but authorizes no call or execution and proves no result.",
+  "planHash": "2a1c1a44e547550a3ea7eabcc524ff0268c4edf688cc859aa803cd53dcb8fab3"
+}

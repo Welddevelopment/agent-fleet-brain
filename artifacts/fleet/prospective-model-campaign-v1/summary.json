@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "das.prospective-fleet-campaign-preflight.v1",
+  "status": "ready-awaiting-explicit-paid-approval",
+  "selectedSpecialists": 3,
+  "sealedTasks": 3,
+  "maximumTaskEvaluations": 3,
+  "maximumModelTurns": 72,
+  "hardSpendLimitUsd": 1.3,
+  "checks": {
+    "procurementReferencePassed": true,
+    "procurementControlFailed": true,
+    "supportReferencePassed": true,
+    "supportControlFailed": true,
+    "revopsReferencePassed": true,
+    "revopsControlFailed": true,
+    "vaultStillSealed": true,
+    "noTaskPayloadInPlan": true,
+    "noAuthorityGranted": true
+  },
+  "modelCalls": 0,
+  "paidModelSpendUsd": 0,
+  "evidenceBoundary": "Three fresh sealed fictional role tasks are runnable and discriminating under deterministic references, and are bound to exact selected Level 1 specialists in a zero-authority prospective fleet plan. No model task ran and no prospective Level 2 result exists.",
+  "summaryHash": "2e7a68da7a8ee9e8bf30376e8004cf08d339af386af1b8f1475f3938912f686b"
+}
