@@ -48,7 +48,7 @@
   ],
   "sealedTasks": {
     "count": 3,
-    "digest": "3ea2430b523aa72988f3b80c3ffa5888a586516d94ba4306581e3ca670648d35",
+    "digest": "bb375c5c9e15917747f9a4600bf3d9a7a3208a21ee97e53fe69965e7b09f236d",
     "payloadsIncluded": false
   },
   "exactModels": [
@@ -75,5 +75,5 @@
     "roleCreationAuthorized": false
   },
   "evidenceBoundary": "Zero-cost prospective Level 2 model-campaign plan. It binds fresh sealed role tasks to exact selected Level 1 specialists and the verified fleet plan, but authorizes no call or execution and proves no result.",
-  "planHash": "2a1c1a44e547550a3ea7eabcc524ff0268c4edf688cc859aa803cd53dcb8fab3"
+  "planHash": "648a5ecd88d25e3fd046d5b53e4e60923a7a215f8ed66595f54eb73cd83fda28"
 }
