@@ -1,0 +1,41 @@
+/* Agent Fleet Brain — standalone console shell.
+   Shares fleet.css with the DAS console (one visual truth for the fleet view) but
+   owns its own identity: a cool blue accent, no specialist sidebar, a top nav
+   whose anchors are the demo beats. */
+
+:root{color-scheme:dark;font-family:Geist,"SF Pro Display","Helvetica Neue",sans-serif;background:#07090d;color:#f4f5f1;
+  --line:#232a34;--muted:#8e969f;--paper:#0c1016;--green:#8fc9ff;--accent:#8fc9ff;--amber:#f3ca78;--red:#ff8e8e}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(circle at 70% -18%,#0f2438 0,transparent 34%),#07090d}
+.ambient{position:fixed;inset:0;pointer-events:none;opacity:.16;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(to bottom,#000,transparent 72%)}
+
+.topbar{height:74px;padding:0 32px;display:flex;align-items:center;justify-content:space-between;gap:24px;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5;background:rgba(7,9,13,.82);backdrop-filter:blur(14px)}
+.wordmark{color:#fff;text-decoration:none;font-weight:640;letter-spacing:-.03em;display:flex;align-items:center;gap:10px;font-size:15px}
+.mark{width:12px;height:12px;border-radius:3px;background:linear-gradient(135deg,var(--accent),#3f7fb8);box-shadow:0 0 22px rgba(143,201,255,.45)}
+.topnav{display:flex;gap:22px}
+.topnav a{color:var(--muted);text-decoration:none;font-size:13px;letter-spacing:.01em}
+.topnav a:hover{color:#fff}
+.topbar-status{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:12px;white-space:nowrap}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 18px var(--accent)}
+
+main{max-width:1240px;margin:0 auto;padding:0 32px 96px}
+.kicker{color:var(--accent);font:11px ui-monospace,monospace;text-transform:uppercase;letter-spacing:.12em}
+.lede{color:#aab0b6;line-height:1.65;max-width:760px;font-size:16px}
+.notice{margin-top:16px;color:var(--amber);font-size:12px;line-height:1.55}
+.notice.error{color:var(--red)}
+.fb-title{font-size:clamp(38px,5vw,72px);line-height:.98;letter-spacing:-.06em;margin:12px 0 18px;max-width:1100px}
+.fb-block{padding:72px 0}
+
+/* The honest-boundary frame that opens the page. Deliberately quiet, not a warning. */
+.fb-frame{padding:40px 0 8px}
+.fb-frame-inner{border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:14px;padding:26px 30px;background:linear-gradient(180deg,rgba(143,201,255,.05),transparent);max-width:980px}
+.fb-frame-inner h2{margin:10px 0 12px;font-size:clamp(20px,2.2vw,28px);line-height:1.2;letter-spacing:-.03em;font-weight:560}
+.fb-frame-inner p:last-child{margin:0;color:#aab0b6;line-height:1.65;font-size:15px}
+
+.fb-separate{margin-top:18px;padding-top:18px;border-top:1px solid var(--line);color:#aab0b6;font-size:14px;line-height:1.6}
+.fb-separate strong{color:#fff}
+
+/* Anchor targets sit below the sticky bar */
+[id]{scroll-margin-top:96px}
+
+@media (max-width:820px){.topnav{display:none}.topbar{padding:0 18px}main{padding:0 18px 72px}}

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Agent Fleet Brain</title>
+    <link rel="stylesheet" href="/fleet-console.css">
+    <link rel="stylesheet" href="/fleet.css">
+  </head>
+  <body>
+    <div class="ambient" aria-hidden="true"></div>
+    <header class="topbar">
+      <a class="wordmark" href="/"><span class="mark" aria-hidden="true"></span>Agent Fleet Brain</a>
+      <nav class="topnav" aria-label="Sections">
+        <a href="#goal">Goal</a>
+        <a href="#intake">Intake</a>
+        <a href="#return">The return</a>
+        <a href="#ledger">Ledger</a>
+        <a href="#boundary-section">Boundary</a>
+      </nav>
+      <div class="topbar-status"><span class="status-dot"></span><span id="status-label">Loading preserved evidence</span></div>
+    </header>
+    <main id="main" aria-live="polite"></main>
+    <script src="/vendor/gsap.js"></script>
+    <script src="/vendor/ScrollTrigger.js"></script>
+    <script type="module" src="/fleet-console.js"></script>
+  </body>
+</html>
