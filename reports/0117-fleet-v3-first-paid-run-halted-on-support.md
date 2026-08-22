@@ -12,6 +12,50 @@ role's independent verification and never started the third.
 PROP-0006 preregistered this outcome as valid: *"A tie, a role-gap stop, or a
 loss is a valid result."* It is recorded here as a loss, not softened.
 
+## The crucial fact, which the first version of this report omitted
+
+**The role that failed is the only compiler-created specialist in the registry.**
+
+| Role | Specialist | Level 1 decision | V3 result |
+|---|---|---|---|
+| procurement | `baseline-ordinary-manual-luna` | retain-existing-specialist | **passed** |
+| support | `support-compiler-candidate-5:opt-1:opt-2:refined-1:refined-1:refined-1` | **activate-compiler-specialist** | **failed** |
+| revops | `revops-baseline-ordinary-manual-luna` | retain-existing-specialist | never ran |
+
+Procurement and revops run baselines the registry describes as "plausible
+manually configured specialist without compiler tournament or failure-driven
+refinement". DAS compared its generated alternatives against them and correctly
+declined to replace them.
+
+Support is the one DAS built - origin `compiler-refinement`, five rounds of
+optimisation and refinement grounded in preserved development failures. **It is
+the specialist that failed here**, while an un-compiled manual baseline passed
+its own harder case.
+
+So V3 tested two things at once and they separated. **Fleet Brain's controller
+passed**: it allocated, verified independently, caught the defect and halted.
+**DAS's central claim took the hit**: that compiling with failure-driven
+refinement beats a plausible manual configuration. At V2 scale - 3 tickets, one
+credit - the compiled specialist passed. At roughly triple the load it dropped a
+required step twice. The refinement did not generalise past the load it was
+proven at.
+
+**Limits, stated plainly.** This is NOT a controlled comparison. Procurement and
+support are different roles, different tasks, different difficulty; one pass and
+one fail across unrelated work cannot show "manual beats compiled". DAS also
+never claimed the compiled specialist generalises beyond its frozen cases - V3
+is the first test outside that boundary, so failing is informative rather than a
+broken promise.
+
+**The test that would settle it, and it is cheap.** The registry preserves three
+alternatives for the support role for exactly this safe-switching purpose,
+including `support-baseline-ordinary-manual-luna`. Run the compiled specialist
+and that manual baseline on the identical V3 eight-ticket case, same verifier,
+head to head - roughly $0.13. If the baseline also fails, the case is simply
+harder and compiling is not implicated. If the baseline passes where the
+compiled specialist failed, DAS's activated specialist is worse under load than
+the one it replaced. That is worth knowing before it reaches an investor.
+
 ## Per role
 
 | Role | Verified | Tool calls | Cost | Time |
