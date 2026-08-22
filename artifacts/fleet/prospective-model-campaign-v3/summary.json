@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "das.prospective-fleet-campaign-preflight.v3",
+  "status": "ready-awaiting-explicit-paid-approval",
+  "campaignId": "prospective-bounded-level2-model-campaign-v3",
+  "planHash": "5c2688be96f90dae1154a2943b515a675007b815f30c3f8d8ff54010df4d2557",
+  "selectedSpecialists": 3,
+  "sealedTasks": 3,
+  "subItemsByRole": {
+    "realistic-procurement-specialist": 5,
+    "realistic-support-operations-specialist": 8,
+    "realistic-revenue-operations-specialist": 9
+  },
+  "subItemCount": 22,
+  "maximumTaskEvaluations": 3,
+  "roleTurnCeilings": {
+    "realistic-procurement-specialist": 48,
+    "realistic-support-operations-specialist": 80,
+    "realistic-revenue-operations-specialist": 96
+  },
+  "maximumModelTurns": 224,
+  "hardSpendLimitUsd": 1.3,
+  "checks": {
+    "procurementReferencePassed": true,
+    "procurementControlFailed": true,
+    "supportReferencePassed": true,
+    "supportControlFailed": true,
+    "revopsReferencePassed": true,
+    "revopsControlFailed": true,
+    "vaultStillSealed": true,
+    "noTaskPayloadInPlan": true,
+    "noAuthorityGranted": true
+  },
+  "modelCalls": 0,
+  "paidModelSpendUsd": 0,
+  "scopeNote": "Three roles, not the four PROP-0006 suggested: the sealed Level 1 registry admits exactly three specialists and a fourth needs its own selection. Joel chose this scope on 2026-08-22. The 20-30 sub-item target IS met.",
+  "ceilingNote": "APR-0003 records a $5 ceiling. The fleet's derived hard limit is $1.3, being the sum of the three specialists' per-task ceilings, and the authorization check refuses anything above it. $1.3 is the real cap.",
+  "evidenceBoundary": "Three fresh sealed fictional role tasks are runnable and discriminating under deterministic references, and are bound to exact selected Level 1 specialists in a zero-authority prospective fleet plan. No model task ran and no prospective Level 2 result exists.",
+  "summaryHash": "e19511af0a42d766a1de1005d85ee10ed796b78d3c3759cf49df25d2e5be4b81"
+}

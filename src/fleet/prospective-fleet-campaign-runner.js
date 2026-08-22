@@ -7,6 +7,7 @@ import { runModelSupportCase } from "../experiments/model-support-runner.js";
 import { BoundedFleetController, assertFleetAssignmentObservation, createFleetAssignmentObservation } from "./bounded-level2-controller.js";
 import { runProspectiveFleetCampaignPreflight } from "./prospective-fleet-campaign-fixture.js";
 import { createProspectiveFleetCampaignRuntime } from "./prospective-fleet-campaign.js";
+import { PROSPECTIVE_FLEET_V2_CAMPAIGN } from "./prospective-fleet-v3.js";
 
 function requireCondition(condition, message) { if (!condition) throw new Error(message); }
 function writePrivate(file, value) {
@@ -130,20 +131,25 @@ function persistProgress({ file, preflight, results, controller, runtime }) {
   return progress;
 }
 
-export async function runProspectiveFleetModelCampaign({ environment = process.env, stateDirectory = "artifacts/fleet/prospective-model-campaign-v2/model-run", fetchImpl = fetch } = {}) {
-  const preflight = await runProspectiveFleetCampaignPreflight();
-  const frozenPlanFile = path.resolve("artifacts/fleet/prospective-model-campaign-v2/plan.json");
+export async function runProspectiveFleetModelCampaign({ environment = process.env, campaign = PROSPECTIVE_FLEET_V2_CAMPAIGN, stateDirectory, fetchImpl = fetch } = {}) {
+  const preflight = await runProspectiveFleetCampaignPreflight(campaign.preflight);
+  // The runner used to hardcode V2's paths while taking its campaign id from the
+  // preflight. That is how a paid V3 attempt on 2026-08-22 nearly re-ran the
+  // already-completed V2. Bind the two together explicitly instead.
+  requireCondition(preflight.plan.campaignId === campaign.campaignId, `Prospective Fleet preflight built ${preflight.plan.campaignId}, not the requested ${campaign.campaignId}`);
+  const frozenPlanFile = path.resolve(path.join(campaign.artifactRoot, "plan.json"));
+  const runDirectory = stateDirectory ?? path.join(campaign.artifactRoot, "model-run");
   requireCondition(fs.existsSync(frozenPlanFile), "Frozen prospective Fleet plan artifact is missing");
   const savedPlan = JSON.parse(fs.readFileSync(frozenPlanFile, "utf8"));
   requireCondition(savedPlan.planHash === preflight.plan.planHash && digest(Object.fromEntries(Object.entries(savedPlan).filter(([key]) => key !== "planHash"))) === savedPlan.planHash, "Prospective Fleet runner plan differs from the committed preflight");
-  const runtime = createProspectiveFleetCampaignRuntime({ plan: preflight.plan, environment, stateDirectory, fetchImpl });
+  const runtime = createProspectiveFleetCampaignRuntime({ plan: preflight.plan, environment, stateDirectory: runDirectory, fetchImpl, campaignApproval: campaign.campaignApproval });
   const tasks = preflight.vault.release({ plan: preflight.plan, authorization: runtime.authorization });
   const selections = new Map(preflight.selections.map((selection) => [selection.roleId, selection]));
   const specialists = preflight.intake.admission.admissions.map((item) => item.specialist);
   const specialistByRole = new Map(specialists.map((specialist) => [specialist.roleId, specialist]));
   const controllerPath = path.join(runtime.root, "fleet-controller.json");
   const controller = new BoundedFleetController({ contract: preflight.intake.intake.contract, specialists, plan: preflight.intake.plan, planVerification: preflight.intake.verification, filePath: controllerPath });
-  if (controller.status().state === "awaiting-execution-approval") controller.authorizeAssignments({ approvedBy: "joel-exact-prospective-fleet-v2", planHash: preflight.intake.plan.planHash, assignmentHashes: preflight.intake.plan.selected.assignments.map((item) => item.assignmentHash), maximumActualCostUsd: runtime.authorization.limitUsd });
+  if (controller.status().state === "awaiting-execution-approval") controller.authorizeAssignments({ approvedBy: campaign.approvedBy, planHash: preflight.intake.plan.planHash, assignmentHashes: preflight.intake.plan.selected.assignments.map((item) => item.assignmentHash), maximumActualCostUsd: runtime.authorization.limitUsd });
   const progressPath = path.join(runtime.root, "progress.json");
   const savedProgress = readJsonIfPresent(progressPath);
   const results = restoreProspectiveFleetProgress({ progress: savedProgress, plan: preflight.plan, intake: preflight.intake, assignments: preflight.intake.plan.selected.assignments, specialists, tasks, controller });
@@ -160,7 +166,7 @@ export async function runProspectiveFleetModelCampaign({ environment = process.e
       const candidate = selection.selected.candidate;
       const planAssignment = preflight.plan.assignments.find((item) => item.assignmentId === assignment.assignmentId);
       requireCondition(planAssignment?.maximumModelTurns, `Prospective Fleet assignment lacks its frozen role turn ceiling: ${task.roleId}`);
-      const result = await execute({ candidate, testCase: task.testCase, gateway: runtime.gateway, evidence: runtime.evidence, executionModel: candidate.model.family, maxTurns: planAssignment.maximumModelTurns, tenantPrefix: `prospective-fleet-v2:${task.roleId}` });
+      const result = await execute({ candidate, testCase: task.testCase, gateway: runtime.gateway, evidence: runtime.evidence, executionModel: candidate.model.family, maxTurns: planAssignment.maximumModelTurns, tenantPrefix: `${campaign.tenantPrefix}:${task.roleId}` });
       requireCondition(result?.candidateId === candidate.id && result?.candidateFingerprint === candidate.fingerprint, `Prospective Fleet model result identity changed: ${task.roleId}`);
       const observation = createProspectiveFleetResultObservation({ intake: preflight.intake, assignment, specialist, result });
       results.push({ roleId: task.roleId, assignmentId: assignment.assignmentId, candidateId: candidate.id, candidateFingerprint: candidate.fingerprint, caseId: task.testCase.id, result, observation });
@@ -174,7 +180,7 @@ export async function runProspectiveFleetModelCampaign({ environment = process.e
     }
     const fleetStatus = controller.status();
     requireCondition(fleetStatus.parentGoalCompleted && results.length === tasks.length && runtime.evidence.verify(), "Prospective model-backed Fleet campaign did not complete safely");
-    const summary = jsonStable({ schemaVersion: "das.prospective-fleet-model-result.v1", status: "completed", campaignId: preflight.plan.campaignId, planHash: preflight.plan.planHash, taskCount: tasks.length, results, fleetStatus, budget: runtime.budget.snapshot(), evidenceLedgerValid: true, evidenceBoundary: "Fresh prospective model-backed execution in three fictional local role worlds. This is not customer evidence, arbitrary company intelligence or production reliability." });
+    const summary = jsonStable({ schemaVersion: "das.prospective-fleet-model-result.v1", status: "completed", campaignId: preflight.plan.campaignId, planHash: preflight.plan.planHash, taskCount: tasks.length, results, fleetStatus, budget: runtime.budget.snapshot(), evidenceLedgerValid: true, evidenceBoundary: `Fresh prospective model-backed execution in ${tasks.length} fictional local role worlds. This is not customer evidence, arbitrary company intelligence or production reliability.` });
     summary.summaryHash = digest(summary);
     writePrivate(path.join(runtime.root, "summary.json"), summary);
     return summary;

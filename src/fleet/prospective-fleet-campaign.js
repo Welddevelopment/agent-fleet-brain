@@ -102,8 +102,8 @@ export function assertProspectiveFleetCampaignAuthorization({ plan, environment 
   return Object.freeze({ campaignId: plan.campaignId, planHash: plan.planHash, limitUsd: limit, paidCallsAuthorized: true, pricingVerifiedDate, pricingTableHash: plan.pricingTableHash });
 }
 
-export function createProspectiveFleetCampaignRuntime({ plan, environment = process.env, stateDirectory = "artifacts/fleet/prospective-model-campaign-v2/model-run", fetchImpl = fetch, pricingVerifiedDate } = {}) {
-  const authorization = assertProspectiveFleetCampaignAuthorization({ plan, environment, pricingVerifiedDate });
+export function createProspectiveFleetCampaignRuntime({ plan, environment = process.env, stateDirectory = "artifacts/fleet/prospective-model-campaign-v2/model-run", fetchImpl = fetch, pricingVerifiedDate, campaignApproval = PROSPECTIVE_FLEET_CAMPAIGN_APPROVAL } = {}) {
+  const authorization = assertProspectiveFleetCampaignAuthorization({ plan, environment, pricingVerifiedDate, campaignApproval });
   const root = path.resolve(stateDirectory);
   const budget = new DurableBudgetGuard({ filePath: path.join(root, "budget.json"), hardLimitUsd: authorization.limitUsd, campaignId: plan.campaignId });
   const cache = new PersistentModelResponseCache({ filePath: path.join(root, "response-cache.json") });
