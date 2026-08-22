@@ -32,13 +32,28 @@ optimisation and refinement grounded in preserved development failures. **It is
 the specialist that failed here**, while an un-compiled manual baseline passed
 its own harder case.
 
-So V3 tested two things at once and they separated. **Fleet Brain's controller
-passed**: it allocated, verified independently, caught the defect and halted.
-**DAS's central claim took the hit**: that compiling with failure-driven
-refinement beats a plausible manual configuration. At V2 scale - 3 tickets, one
-credit - the compiled specialist passed. At roughly triple the load it dropped a
+**This is one ladder, not two products.** Fleet Brain IS DAS Level 2 - the
+README describes it without the name: "a bounded Level 2 control mechanism
+[that] accepts trusted customer-local workload snapshots, allocates work across
+admitted specialists, identifies honest role gaps... and resumes the original
+broad goal", with "a three-role prospective model campaign... frozen... behind a
+separate $1.30 approval gate". That is this campaign. There is no seam between
+"Fleet Brain" and "DAS" to test separately: Level 2 is built out of Level 1's
+output, so exercising one necessarily exercises the other.
+
+The accurate reading of V3 is therefore: **Level 2 control worked; a Level 1
+product failed inside it.** The controller allocated, verified independently,
+caught the defect and halted. The specialist it caught is the one rung DAS
+actually built - and DAS's central claim, that compiling with failure-driven
+refinement beats a plausible manual configuration, is what took the hit. At V2
+scale (3 tickets, one credit) it passed. At roughly triple the load it dropped a
 required step twice. The refinement did not generalise past the load it was
 proven at.
+
+**A related correction worth recording:** the hub describes Fleet Brain as
+"where Capability Factory and DAS converge". There is no reference to Capability
+Factory anywhere in `src/fleet/` or `src/fleet-console/`. That convergence is a
+stated intention, not something built. What exists today is DAS Level 2.
 
 **Limits, stated plainly.** This is NOT a controlled comparison. Procurement and
 support are different roles, different tasks, different difficulty; one pass and
