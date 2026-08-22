@@ -24,52 +24,50 @@ loss is a valid result."* It is recorded here as a loss, not softened.
 
 Procurement and revops run baselines the registry describes as "plausible
 manually configured specialist without compiler tournament or failure-driven
-refinement". DAS compared its generated alternatives against them and correctly
-declined to replace them.
+refinement". The compiler's generated alternatives were compared against them
+and correctly declined as not an upgrade.
 
-Support is the one DAS built - origin `compiler-refinement`, five rounds of
-optimisation and refinement grounded in preserved development failures. **It is
-the specialist that failed here**, while an un-compiled manual baseline passed
-its own harder case.
+Support is the one the compiler actually produced - origin
+`compiler-refinement`, five rounds of optimisation and refinement grounded in
+preserved development failures. **It is the specialist that failed here**, while
+an un-compiled manual baseline passed its own harder case.
 
-**This is one ladder, not two products.** Fleet Brain IS DAS Level 2 - the
-README describes it without the name: "a bounded Level 2 control mechanism
-[that] accepts trusted customer-local workload snapshots, allocates work across
-admitted specialists, identifies honest role gaps... and resumes the original
-broad goal", with "a three-role prospective model campaign... frozen... behind a
-separate $1.30 approval gate". That is this campaign. There is no seam between
-"Fleet Brain" and "DAS" to test separately: Level 2 is built out of Level 1's
-output, so exercising one necessarily exercises the other.
+(Whether that compiler is properly attributed to DAS the startup or to Fleet
+Brain's own Level 1 is deliberately left open here. DAS's README calls itself "a
+bounded Level 1 specialist-agent compiler" while Joel describes Level 1 as Fleet
+Brain's own rung. That collision is a real documentation problem, not something
+to settle inside a result report.)
 
-The accurate reading of V3 is therefore: **Level 2 control worked; a Level 1
-product failed inside it.** The controller allocated, verified independently,
-caught the defect and halted. The specialist it caught is the one rung DAS
-actually built - and DAS's central claim, that compiling with failure-driven
-refinement beats a plausible manual configuration, is what took the hit. At V2
-scale (3 tickets, one credit) it passed. At roughly triple the load it dropped a
-required step twice. The refinement did not generalise past the load it was
-proven at.
+**RETRACTED (2026-08-22).** An earlier version of this report claimed "Fleet
+Brain IS DAS Level 2, not a second product". **That is wrong.** Joel corrected
+it directly: Fleet Brain and DAS are completely separate. The Level 1 / 1.5 / 2
+ladder is **Fleet Brain's own** maturity ladder - "we built level 1s, 1.5s of
+the actual fleet brain". Its code is *hosted* in the DAS repo because Fleet
+Brain has no repo by design; hosting is not ownership. The bad inference was
+reading "the code lives in the DAS repo" as "the thing belongs to DAS", helped
+along by DAS's README using the same Level numbering for its own maturity.
 
-**A related correction worth recording:** the hub describes Fleet Brain as
-"where Capability Factory and DAS converge". There is no reference to Capability
-Factory anywhere in `src/fleet/` or `src/fleet-console/`. That convergence is a
-stated intention, not something built. What exists today is DAS Level 2.
+**The correct framing.** Fleet Brain is the proposed operating system for a
+company's AI workforce. What exists today is a **bounded precursor** to it. The
+canonical description warns against both errors made in this report's history:
+"describe the current bounded Level 2 work as a precursor, not erase it as 'just
+an idea' and not inflate it into the full Fleet Brain."
 
-**Limits, stated plainly.** This is NOT a controlled comparison. Procurement and
-support are different roles, different tasks, different difficulty; one pass and
-one fail across unrelated work cannot show "manual beats compiled". DAS also
-never claimed the compiled specialist generalises beyond its frozen cases - V3
-is the first test outside that boundary, so failing is informative rather than a
-broken promise.
+**What V3 therefore is.** A Level 2 precursor run that exercised Level 1
+outputs. Level 2 control behaved correctly - allocated, verified independently,
+caught the defect, halted. A Level 1 specialist failed inside it: the registry's
+only `activate-compiler-specialist`, five rounds of compiler optimisation and
+failure-driven refinement. It passed at V2 scale (3 tickets, one credit) and
+dropped a required step twice at roughly triple the load, so the refinement did
+not generalise past its proving ground.
 
-**The test that would settle it, and it is cheap.** The registry preserves three
-alternatives for the support role for exactly this safe-switching purpose,
-including `support-baseline-ordinary-manual-luna`. Run the compiled specialist
-and that manual baseline on the identical V3 eight-ticket case, same verifier,
-head to head - roughly $0.13. If the baseline also fails, the case is simply
-harder and compiling is not implicated. If the baseline passes where the
-compiled specialist failed, DAS's activated specialist is worse under load than
-the one it replaced. That is worth knowing before it reaches an investor.
+**And V3 was arguably the wrong experiment.** `AGENT_FLEET_BRAIN.md` names the
+required next step as comparison "against a strong single general agent and a
+static predefined fleet on frozen unseen objectives", and explicitly rejects
+"only a do-nothing baseline". V3 scaled volume (9 sub-items to 22) using the
+same known specialists, trusted intake that already knew the classification, no
+specialist created and no CF - and its preflight uses the do-nothing baseline
+that was rejected. It moved the axis the vision does not care about.
 
 ## Per role
 
