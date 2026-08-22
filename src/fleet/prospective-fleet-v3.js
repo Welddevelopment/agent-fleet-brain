@@ -70,8 +70,25 @@ export const PROSPECTIVE_FLEET_V3_TURN_CEILINGS = Object.freeze({
  * charged, which is a false number entering the evidence.
  */
 export const PROSPECTIVE_FLEET_V3_PRICING_USD = Object.freeze({
-  "gpt-5.6-luna": Object.freeze({ inputPerMillionUsd: 0.2, cachedInputPerMillionUsd: 0.02, outputPerMillionUsd: 1.2 }),
+  "gpt-5.6-luna": Object.freeze({ inputPerMillionUsd: 0.2, cachedInputPerMillionUsd: 0.02, cacheWritePerMillionUsd: 0.25, outputPerMillionUsd: 1.2 }),
 });
+
+/**
+ * PROVENANCE, stated exactly. Joel directly confirmed two of these four numbers
+ * on 2026-08-22: input $0.20 and output $1.20 per million.
+ *
+ * `cachedInputPerMillionUsd` and `cacheWritePerMillionUsd` were NOT separately
+ * confirmed by him. They are carried from the table DAS-004/B3 froze
+ * independently the same day, which agrees exactly with Joel on both numbers he
+ * did confirm. Both are also the standard multipliers of the input price -
+ * cached input at 0.1x ($0.02) and cache write at 1.25x ($0.25) - so they are
+ * consistent rather than guessed. If the provider ever changes those ratios,
+ * these two rows are the ones to re-check first.
+ *
+ * The first V3 run attempt failed precisely because cache-write pricing was
+ * missing: the gateway refuses to settle a call it cannot price rather than
+ * guessing. That refusal is the control working.
+ */
 
 export const PROSPECTIVE_FLEET_V3_PRICING_VERIFIED_ON = "2026-08-22";
 export const PROSPECTIVE_FLEET_V3_PRICING_SOURCE = "https://developers.openai.com/api/docs/pricing";

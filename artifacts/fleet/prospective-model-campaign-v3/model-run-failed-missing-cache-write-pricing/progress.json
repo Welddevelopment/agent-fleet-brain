@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "das.prospective-fleet-progress.v1",
+  "campaignId": "prospective-bounded-level2-model-campaign-v3",
+  "planHash": "502c9503b765b6cce6c04a840f4f0107956f0c72396f6da7f598ddeadc576a60",
+  "results": [],
+  "fleetStatus": {
+    "schemaVersion": "das.bounded-fleet-status.v1",
+    "state": "authorized-not-started",
+    "contractHash": "5d595f08a6a212ec0719e45f111a8285a639d817cb15b91fd8fab71f1fd0b2e4",
+    "planHash": "db4ca6c5279111051ceaded126ccac004ac0526739470a1fdb5fae07658bb6bd",
+    "assignments": {
+      "total": 3,
+      "verifiedComplete": 0
+    },
+    "roleGaps": 0,
+    "parentGoalCompleted": false,
+    "actualCostUsd": 0,
+    "halt": null,
+    "roleGapPreparations": [],
+    "evidenceBoundary": "Durable bounded fleet execution-control state. Parent completion requires every assignment and no unresolved role gap."
+  },
+  "budget": {
+    "campaignId": "prospective-bounded-level2-model-campaign-v3",
+    "hardLimitUsd": 1.3,
+    "warningUsd": 1.04,
+    "spentUsd": 0,
+    "reservedUsd": 0,
+    "calls": []
+  },
+  "evidenceLedgerValid": true,
+  "progressHash": "ad1447fba93d039928b5579d7248b8ced736f39223d52674ca063aa06bc0cc6e"
+}

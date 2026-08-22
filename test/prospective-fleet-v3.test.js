@@ -86,7 +86,16 @@ test("V3 prices gpt-5.6-luna at the verified post-reduction rate, not the stale 
   // The shared table still holds pre-reduction luna pricing, stale by exactly 5x.
   // It is deliberately not edited: V2's frozen plan hash includes its digest and
   // V2 is sealed evidence. V3 therefore carries its own table, as B3 does.
-  assert.deepEqual(PROSPECTIVE_FLEET_V3_PRICING_USD["gpt-5.6-luna"], { inputPerMillionUsd: 0.2, cachedInputPerMillionUsd: 0.02, outputPerMillionUsd: 1.2 });
+  assert.deepEqual(PROSPECTIVE_FLEET_V3_PRICING_USD["gpt-5.6-luna"], { inputPerMillionUsd: 0.2, cachedInputPerMillionUsd: 0.02, cacheWritePerMillionUsd: 0.25, outputPerMillionUsd: 1.2 });
+
+  // The first V3 attempt failed because cache-write pricing was absent: the
+  // gateway refuses to settle a call it cannot price. Every V3 model needs all
+  // four rates present, or the run dies on the first cached request.
+  for (const rates of Object.values(PROSPECTIVE_FLEET_V3_PRICING_USD)) {
+    for (const key of ["inputPerMillionUsd", "cachedInputPerMillionUsd", "cacheWritePerMillionUsd", "outputPerMillionUsd"]) {
+      assert.equal(typeof rates[key], "number", `V3 pricing is missing ${key}`);
+    }
+  }
   assert.equal(CURRENT_MODEL_PRICING_USD["gpt-5.6-luna"].inputPerMillionUsd, 1);
   assert.equal(CURRENT_MODEL_PRICING_USD["gpt-5.6-luna"].outputPerMillionUsd, 6);
 

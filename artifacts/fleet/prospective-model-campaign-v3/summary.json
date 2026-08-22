@@ -2,7 +2,7 @@
   "schemaVersion": "das.prospective-fleet-campaign-preflight.v3",
   "status": "ready-awaiting-explicit-paid-approval",
   "campaignId": "prospective-bounded-level2-model-campaign-v3",
-  "planHash": "502c9503b765b6cce6c04a840f4f0107956f0c72396f6da7f598ddeadc576a60",
+  "planHash": "4e58a86d63a8534416b1f4f4953916a454d5975491090dff922e17141cf9e12c",
   "selectedSpecialists": 3,
   "sealedTasks": 3,
   "subItemsByRole": {
@@ -37,10 +37,11 @@
       "gpt-5.6-luna": {
         "inputPerMillionUsd": 0.2,
         "cachedInputPerMillionUsd": 0.02,
+        "cacheWritePerMillionUsd": 0.25,
         "outputPerMillionUsd": 1.2
       }
     },
-    "tableHash": "2ccdd9cc2821c6c65c8600a1aace99ab56e28706429a731d72839f6ccdc67ab5",
+    "tableHash": "0da5aba71af858710193e98133a6f79869a519c422b86efff6833f0eea03c559",
     "verifiedOn": "2026-08-22",
     "source": "https://developers.openai.com/api/docs/pricing",
     "independentlyVerified": true,
@@ -49,5 +50,5 @@
   "scopeNote": "Three roles, not the four PROP-0006 suggested: the sealed Level 1 registry admits exactly three specialists and a fourth needs its own selection. Joel chose this scope on 2026-08-22. The 20-30 sub-item target IS met.",
   "ceilingNote": "APR-0003 records a $5 ceiling. The fleet's derived hard limit is $1.3, being the sum of the three specialists' per-task ceilings, and the authorization check refuses anything above it. $1.3 is the real cap.",
   "evidenceBoundary": "Three fresh sealed fictional role tasks are runnable and discriminating under deterministic references, and are bound to exact selected Level 1 specialists in a zero-authority prospective fleet plan. No model task ran and no prospective Level 2 result exists.",
-  "summaryHash": "c27fbf086490b7cf3b24e8294a28972fa241ff45a9209647765c7a21d55c081e"
+  "summaryHash": "709abef4ef2086f467c77732fcdce3ce4416303714f3978b45b601f0db4b5075"
 }
