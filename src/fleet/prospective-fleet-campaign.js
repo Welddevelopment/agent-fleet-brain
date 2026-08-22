@@ -34,7 +34,7 @@ export function createProspectiveFleetCaseVault(tasks) {
   });
 }
 
-export function createProspectiveFleetCampaignPlan({ intake, selections, sealedTasks, turnCeilingsByRole, campaignId = PROSPECTIVE_FLEET_CAMPAIGN_ID, campaignApproval = PROSPECTIVE_FLEET_CAMPAIGN_APPROVAL }) {
+export function createProspectiveFleetCampaignPlan({ intake, selections, sealedTasks, turnCeilingsByRole, campaignId = PROSPECTIVE_FLEET_CAMPAIGN_ID, campaignApproval = PROSPECTIVE_FLEET_CAMPAIGN_APPROVAL, pricing = CURRENT_MODEL_PRICING_USD }) {
   assertBoundedFleetContract(intake?.intake?.contract);
   assertBoundedFleetPlan(intake?.plan);
   requireCondition(intake.verification?.passed === true && intake.plan.selected?.roleGaps.length === 0, "Prospective fleet campaign requires a complete independently verified plan");
@@ -63,7 +63,7 @@ export function createProspectiveFleetCampaignPlan({ intake, selections, sealedT
     maximumTaskEvaluations: assignments.length,
     maximumModelTurns: assignments.reduce((sum, item) => sum + item.maximumModelTurns, 0),
     hardSpendLimitUsd: intake.intake.contract.limits.maximumTotalCostUsd,
-    pricingTableHash: digest(CURRENT_MODEL_PRICING_USD),
+    pricingTableHash: digest(pricing),
     gates: {
       paidCallsDefault: "disabled",
       requiredGlobalApproval: "DAS_ENABLE_PAID_MODEL_CALLS=JOEL_APPROVED",
@@ -71,7 +71,7 @@ export function createProspectiveFleetCampaignPlan({ intake, selections, sealedT
       requiredPlanHash: "DAS_PROSPECTIVE_FLEET_PLAN_HASH=<exact plan hash>",
       requiredExplicitLimit: "DAS_PROSPECTIVE_FLEET_LIMIT_USD=<positive number no greater than frozen fleet limit>",
       requiredPricingDate: "DAS_PROSPECTIVE_FLEET_PRICING_VERIFIED_ON=<current UTC date>",
-      requiredPricingHash: `DAS_PROSPECTIVE_FLEET_PRICING_TABLE_HASH=${digest(CURRENT_MODEL_PRICING_USD)}`,
+      requiredPricingHash: `DAS_PROSPECTIVE_FLEET_PRICING_TABLE_HASH=${digest(pricing)}`,
     },
     authority: { modelSpendAuthorized: false, executionAuthorized: false, activationAuthorized: false, roleCreationAuthorized: false },
     evidenceBoundary: "Zero-cost prospective Level 2 model-campaign plan. It binds fresh sealed role tasks to exact selected Level 1 specialists and the verified fleet plan, but authorizes no call or execution and proves no result.",
@@ -102,13 +102,13 @@ export function assertProspectiveFleetCampaignAuthorization({ plan, environment 
   return Object.freeze({ campaignId: plan.campaignId, planHash: plan.planHash, limitUsd: limit, paidCallsAuthorized: true, pricingVerifiedDate, pricingTableHash: plan.pricingTableHash });
 }
 
-export function createProspectiveFleetCampaignRuntime({ plan, environment = process.env, stateDirectory = "artifacts/fleet/prospective-model-campaign-v2/model-run", fetchImpl = fetch, pricingVerifiedDate, campaignApproval = PROSPECTIVE_FLEET_CAMPAIGN_APPROVAL } = {}) {
+export function createProspectiveFleetCampaignRuntime({ plan, environment = process.env, stateDirectory = "artifacts/fleet/prospective-model-campaign-v2/model-run", fetchImpl = fetch, pricingVerifiedDate, campaignApproval = PROSPECTIVE_FLEET_CAMPAIGN_APPROVAL, pricing = CURRENT_MODEL_PRICING_USD } = {}) {
   const authorization = assertProspectiveFleetCampaignAuthorization({ plan, environment, pricingVerifiedDate, campaignApproval });
   const root = path.resolve(stateDirectory);
   const budget = new DurableBudgetGuard({ filePath: path.join(root, "budget.json"), hardLimitUsd: authorization.limitUsd, campaignId: plan.campaignId });
   const cache = new PersistentModelResponseCache({ filePath: path.join(root, "response-cache.json") });
   const evidence = new EvidenceLedger(path.join(root, "evidence.jsonl"));
-  const provider = new OpenAIResponsesProvider({ apiKey: environment.OPENAI_API_KEY, pricingByModel: CURRENT_MODEL_PRICING_USD, fetchImpl, allowPaidCalls: true, environment });
+  const provider = new OpenAIResponsesProvider({ apiKey: environment.OPENAI_API_KEY, pricingByModel: pricing, fetchImpl, allowPaidCalls: true, environment });
   const gateway = new MeteredModelGateway({ provider, budget, cache, evidence, secrets: [environment.OPENAI_API_KEY] });
   return Object.freeze({ root, authorization, budget, cache, evidence, provider, gateway });
 }

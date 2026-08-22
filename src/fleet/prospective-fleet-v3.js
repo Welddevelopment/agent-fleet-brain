@@ -45,17 +45,50 @@ export const PROSPECTIVE_FLEET_V3_TURN_CEILINGS = Object.freeze({
   "realistic-revenue-operations-specialist": 96,
 });
 
+/**
+ * PRICING — verified 2026-08-22, and deliberately NOT the shared fleet table.
+ *
+ * `CURRENT_MODEL_PRICING_USD` still carries the pre-reduction prices for
+ * gpt-5.6-luna: $1.00 input / $6.00 output per million. Those are stale by
+ * exactly 5x. Joel confirmed the current prices on 2026-08-22 as $0.20 input
+ * and $1.20 output per million, following an 80% reduction, which matches the
+ * table DAS-004/B3 froze independently on the same day.
+ *
+ * The shared table is NOT edited here on purpose. V2's frozen plan hash
+ * includes digest(CURRENT_MODEL_PRICING_USD), and V2 is sealed evidence with a
+ * completion receipt bound to that hash - changing the shared table would make
+ * V2 unreproducible. Five other campaign modules read it too. So V3 carries its
+ * own frozen table, exactly as B3 does.
+ *
+ * Only gpt-5.6-luna is listed because it is the only model V3 uses (all three
+ * admitted Level 1 specialists run on it) and the only row independently
+ * confirmed. An unverified row would be a guess wearing a verified label, and
+ * a lookup for any other model correctly throws.
+ *
+ * Correcting this matters in the direction that costs money: with the stale
+ * table every recorded V3 cost would be reported at 5x what was actually
+ * charged, which is a false number entering the evidence.
+ */
+export const PROSPECTIVE_FLEET_V3_PRICING_USD = Object.freeze({
+  "gpt-5.6-luna": Object.freeze({ inputPerMillionUsd: 0.2, cachedInputPerMillionUsd: 0.02, outputPerMillionUsd: 1.2 }),
+});
+
+export const PROSPECTIVE_FLEET_V3_PRICING_VERIFIED_ON = "2026-08-22";
+export const PROSPECTIVE_FLEET_V3_PRICING_SOURCE = "https://developers.openai.com/api/docs/pricing";
+
 export const PROSPECTIVE_FLEET_V3_CAMPAIGN = Object.freeze({
   campaignId: PROSPECTIVE_FLEET_V3_CAMPAIGN_ID,
   campaignApproval: PROSPECTIVE_FLEET_V3_APPROVAL,
   artifactRoot: PROSPECTIVE_FLEET_V3_ARTIFACT_ROOT,
   approvedBy: "joel-exact-prospective-fleet-v3",
   tenantPrefix: "prospective-fleet-v3",
+  pricing: PROSPECTIVE_FLEET_V3_PRICING_USD,
   preflight: Object.freeze({
     cases: prospectiveFleetV3Cases,
     campaignId: PROSPECTIVE_FLEET_V3_CAMPAIGN_ID,
     campaignApproval: PROSPECTIVE_FLEET_V3_APPROVAL,
     turnCeilingsByRole: PROSPECTIVE_FLEET_V3_TURN_CEILINGS,
+    pricing: PROSPECTIVE_FLEET_V3_PRICING_USD,
   }),
 });
 

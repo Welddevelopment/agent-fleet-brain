@@ -60,7 +60,7 @@
   "maximumTaskEvaluations": 3,
   "maximumModelTurns": 224,
   "hardSpendLimitUsd": 1.3,
-  "pricingTableHash": "2f3d8d4713253291a479d6335d703e9a6442d4e140d34048d16dd860e175c678",
+  "pricingTableHash": "2ccdd9cc2821c6c65c8600a1aace99ab56e28706429a731d72839f6ccdc67ab5",
   "gates": {
     "paidCallsDefault": "disabled",
     "requiredGlobalApproval": "DAS_ENABLE_PAID_MODEL_CALLS=JOEL_APPROVED",
@@ -68,7 +68,7 @@
     "requiredPlanHash": "DAS_PROSPECTIVE_FLEET_PLAN_HASH=<exact plan hash>",
     "requiredExplicitLimit": "DAS_PROSPECTIVE_FLEET_LIMIT_USD=<positive number no greater than frozen fleet limit>",
     "requiredPricingDate": "DAS_PROSPECTIVE_FLEET_PRICING_VERIFIED_ON=<current UTC date>",
-    "requiredPricingHash": "DAS_PROSPECTIVE_FLEET_PRICING_TABLE_HASH=2f3d8d4713253291a479d6335d703e9a6442d4e140d34048d16dd860e175c678"
+    "requiredPricingHash": "DAS_PROSPECTIVE_FLEET_PRICING_TABLE_HASH=2ccdd9cc2821c6c65c8600a1aace99ab56e28706429a731d72839f6ccdc67ab5"
   },
   "authority": {
     "modelSpendAuthorized": false,
@@ -77,5 +77,5 @@
     "roleCreationAuthorized": false
   },
   "evidenceBoundary": "Zero-cost prospective Level 2 model-campaign plan. It binds fresh sealed role tasks to exact selected Level 1 specialists and the verified fleet plan, but authorizes no call or execution and proves no result.",
-  "planHash": "5c2688be96f90dae1154a2943b515a675007b815f30c3f8d8ff54010df4d2557"
+  "planHash": "502c9503b765b6cce6c04a840f4f0107956f0c72396f6da7f598ddeadc576a60"
 }

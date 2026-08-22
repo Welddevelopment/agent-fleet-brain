@@ -142,7 +142,7 @@ export async function runProspectiveFleetModelCampaign({ environment = process.e
   requireCondition(fs.existsSync(frozenPlanFile), "Frozen prospective Fleet plan artifact is missing");
   const savedPlan = JSON.parse(fs.readFileSync(frozenPlanFile, "utf8"));
   requireCondition(savedPlan.planHash === preflight.plan.planHash && digest(Object.fromEntries(Object.entries(savedPlan).filter(([key]) => key !== "planHash"))) === savedPlan.planHash, "Prospective Fleet runner plan differs from the committed preflight");
-  const runtime = createProspectiveFleetCampaignRuntime({ plan: preflight.plan, environment, stateDirectory: runDirectory, fetchImpl, campaignApproval: campaign.campaignApproval });
+  const runtime = createProspectiveFleetCampaignRuntime({ plan: preflight.plan, environment, stateDirectory: runDirectory, fetchImpl, campaignApproval: campaign.campaignApproval, ...(campaign.pricing ? { pricing: campaign.pricing } : {}) });
   const tasks = preflight.vault.release({ plan: preflight.plan, authorization: runtime.authorization });
   const selections = new Map(preflight.selections.map((selection) => [selection.roleId, selection]));
   const specialists = preflight.intake.admission.admissions.map((item) => item.specialist);

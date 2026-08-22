@@ -29,6 +29,7 @@ export async function runProspectiveFleetCampaignPreflight({
   campaignId,
   campaignApproval,
   turnCeilingsByRole = DEFAULT_PROSPECTIVE_FLEET_TURN_CEILINGS,
+  pricing,
 } = {}) {
   const initial = runFleetIntakeFixture();
   const selections = initial.admission.registry.selections;
@@ -41,7 +42,7 @@ export async function runProspectiveFleetCampaignPreflight({
     { roleId: "realistic-revenue-operations-specialist", testCase: cases.revops },
   ];
   const vault = createProspectiveFleetCaseVault(tasks);
-  const plan = createProspectiveFleetCampaignPlan({ intake, selections, sealedTasks: vault, turnCeilingsByRole, ...(campaignId ? { campaignId } : {}), ...(campaignApproval ? { campaignApproval } : {}) });
+  const plan = createProspectiveFleetCampaignPlan({ intake, selections, sealedTasks: vault, turnCeilingsByRole, ...(campaignId ? { campaignId } : {}), ...(campaignApproval ? { campaignApproval } : {}), ...(pricing ? { pricing } : {}) });
   const procurement = await runRealisticProcurementCampaign({ suites: { development: [], validation: [], adversarial: [] }, unseenCases: [tasks[0].testCase], strategies: [referenceProcurementStrategy, doNothingStrategy] });
   const support = await Promise.all([referenceSupportStrategy, doNothingSupportStrategy].map((strategy) => evaluateSupportStrategy(strategy, tasks[1].testCase)));
   const revops = await Promise.all([referenceRevopsStrategy, doNothingRevopsStrategy].map((strategy) => evaluateRevopsStrategy(strategy, tasks[2].testCase)));

@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { digest } from "../core/canonical.js";
 import { runProspectiveFleetCampaignPreflight } from "../fleet/prospective-fleet-campaign-fixture.js";
-import { PROSPECTIVE_FLEET_V3_CAMPAIGN } from "../fleet/prospective-fleet-v3.js";
+import { PROSPECTIVE_FLEET_V3_CAMPAIGN, PROSPECTIVE_FLEET_V3_PRICING_SOURCE, PROSPECTIVE_FLEET_V3_PRICING_USD, PROSPECTIVE_FLEET_V3_PRICING_VERIFIED_ON } from "../fleet/prospective-fleet-v3.js";
 import { PROSPECTIVE_FLEET_V3_ITEM_COUNTS } from "../fleet/prospective-fleet-v3-cases.js";
 
 // Zero spend. Proves the V3 cases are runnable and discriminating under the
@@ -39,6 +39,14 @@ const summary = {
   checks: result.checks,
   modelCalls: 0,
   paidModelSpendUsd: 0,
+  pricing: {
+    table: PROSPECTIVE_FLEET_V3_PRICING_USD,
+    tableHash: result.plan.pricingTableHash,
+    verifiedOn: PROSPECTIVE_FLEET_V3_PRICING_VERIFIED_ON,
+    source: PROSPECTIVE_FLEET_V3_PRICING_SOURCE,
+    independentlyVerified: true,
+    note: "V3 carries its own frozen pricing table. The shared CURRENT_MODEL_PRICING_USD still holds the pre-reduction gpt-5.6-luna prices ($1.00 input / $6.00 output per million), which are stale by 5x. It is deliberately not edited: V2's frozen plan hash includes its digest and V2 is sealed evidence. Confirmed by Joel on 2026-08-22 and matching the table DAS-004/B3 froze independently the same day.",
+  },
   scopeNote: "Three roles, not the four PROP-0006 suggested: the sealed Level 1 registry admits exactly three specialists and a fourth needs its own selection. Joel chose this scope on 2026-08-22. The 20-30 sub-item target IS met.",
   ceilingNote: `APR-0003 records a $5 ceiling. The fleet's derived hard limit is $${result.plan.hardSpendLimitUsd}, being the sum of the three specialists' per-task ceilings, and the authorization check refuses anything above it. $${result.plan.hardSpendLimitUsd} is the real cap.`,
   evidenceBoundary: result.evidenceBoundary,

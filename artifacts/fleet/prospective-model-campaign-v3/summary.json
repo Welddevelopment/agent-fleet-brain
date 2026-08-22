@@ -2,7 +2,7 @@
   "schemaVersion": "das.prospective-fleet-campaign-preflight.v3",
   "status": "ready-awaiting-explicit-paid-approval",
   "campaignId": "prospective-bounded-level2-model-campaign-v3",
-  "planHash": "5c2688be96f90dae1154a2943b515a675007b815f30c3f8d8ff54010df4d2557",
+  "planHash": "502c9503b765b6cce6c04a840f4f0107956f0c72396f6da7f598ddeadc576a60",
   "selectedSpecialists": 3,
   "sealedTasks": 3,
   "subItemsByRole": {
@@ -32,8 +32,22 @@
   },
   "modelCalls": 0,
   "paidModelSpendUsd": 0,
+  "pricing": {
+    "table": {
+      "gpt-5.6-luna": {
+        "inputPerMillionUsd": 0.2,
+        "cachedInputPerMillionUsd": 0.02,
+        "outputPerMillionUsd": 1.2
+      }
+    },
+    "tableHash": "2ccdd9cc2821c6c65c8600a1aace99ab56e28706429a731d72839f6ccdc67ab5",
+    "verifiedOn": "2026-08-22",
+    "source": "https://developers.openai.com/api/docs/pricing",
+    "independentlyVerified": true,
+    "note": "V3 carries its own frozen pricing table. The shared CURRENT_MODEL_PRICING_USD still holds the pre-reduction gpt-5.6-luna prices ($1.00 input / $6.00 output per million), which are stale by 5x. It is deliberately not edited: V2's frozen plan hash includes its digest and V2 is sealed evidence. Confirmed by Joel on 2026-08-22 and matching the table DAS-004/B3 froze independently the same day."
+  },
   "scopeNote": "Three roles, not the four PROP-0006 suggested: the sealed Level 1 registry admits exactly three specialists and a fourth needs its own selection. Joel chose this scope on 2026-08-22. The 20-30 sub-item target IS met.",
   "ceilingNote": "APR-0003 records a $5 ceiling. The fleet's derived hard limit is $1.3, being the sum of the three specialists' per-task ceilings, and the authorization check refuses anything above it. $1.3 is the real cap.",
   "evidenceBoundary": "Three fresh sealed fictional role tasks are runnable and discriminating under deterministic references, and are bound to exact selected Level 1 specialists in a zero-authority prospective fleet plan. No model task ran and no prospective Level 2 result exists.",
-  "summaryHash": "e19511af0a42d766a1de1005d85ee10ed796b78d3c3759cf49df25d2e5be4b81"
+  "summaryHash": "c27fbf086490b7cf3b24e8294a28972fa241ff45a9209647765c7a21d55c081e"
 }

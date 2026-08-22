@@ -4,7 +4,7 @@ import { digest } from "../src/core/canonical.js";
 import { runProspectiveFleetCampaignPreflight } from "../src/fleet/prospective-fleet-campaign-fixture.js";
 import { runProspectiveFleetModelCampaign } from "../src/fleet/prospective-fleet-campaign-runner.js";
 import { PROSPECTIVE_FLEET_CAMPAIGN_APPROVAL, assertProspectiveFleetCampaignAuthorization } from "../src/fleet/prospective-fleet-campaign.js";
-import { PROSPECTIVE_FLEET_V3_APPROVAL, PROSPECTIVE_FLEET_V3_CAMPAIGN, PROSPECTIVE_FLEET_V3_CAMPAIGN_ID, PROSPECTIVE_FLEET_V3_TURN_CEILINGS } from "../src/fleet/prospective-fleet-v3.js";
+import { PROSPECTIVE_FLEET_V3_APPROVAL, PROSPECTIVE_FLEET_V3_CAMPAIGN, PROSPECTIVE_FLEET_V3_CAMPAIGN_ID, PROSPECTIVE_FLEET_V3_PRICING_USD, PROSPECTIVE_FLEET_V3_TURN_CEILINGS } from "../src/fleet/prospective-fleet-v3.js";
 import { PROSPECTIVE_FLEET_V3_ITEM_COUNTS } from "../src/fleet/prospective-fleet-v3-cases.js";
 import { CURRENT_MODEL_PRICING_USD } from "../src/providers/model-pricing.js";
 
@@ -41,7 +41,7 @@ test("V3 refuses V2's approval token, and V2 refuses V3's", async () => {
   // already-completed campaign. Separate tokens make that impossible.
   const v3 = await runProspectiveFleetCampaignPreflight(PROSPECTIVE_FLEET_V3_CAMPAIGN.preflight);
   const date = "2026-08-22";
-  const base = { DAS_ENABLE_PAID_MODEL_CALLS: "JOEL_APPROVED", DAS_PROSPECTIVE_FLEET_PLAN_HASH: v3.plan.planHash, DAS_PROSPECTIVE_FLEET_LIMIT_USD: String(v3.plan.hardSpendLimitUsd), DAS_PROSPECTIVE_FLEET_PRICING_VERIFIED_ON: date, DAS_PROSPECTIVE_FLEET_PRICING_TABLE_HASH: digest(CURRENT_MODEL_PRICING_USD), OPENAI_API_KEY: "test-key" };
+  const base = { DAS_ENABLE_PAID_MODEL_CALLS: "JOEL_APPROVED", DAS_PROSPECTIVE_FLEET_PLAN_HASH: v3.plan.planHash, DAS_PROSPECTIVE_FLEET_LIMIT_USD: String(v3.plan.hardSpendLimitUsd), DAS_PROSPECTIVE_FLEET_PRICING_VERIFIED_ON: date, DAS_PROSPECTIVE_FLEET_PRICING_TABLE_HASH: v3.plan.pricingTableHash, OPENAI_API_KEY: "test-key" };
 
   assert.throws(
     () => assertProspectiveFleetCampaignAuthorization({ plan: v3.plan, environment: { ...base, DAS_PROSPECTIVE_FLEET_APPROVAL: PROSPECTIVE_FLEET_CAMPAIGN_APPROVAL }, pricingVerifiedDate: date, campaignApproval: PROSPECTIVE_FLEET_V3_APPROVAL }),
@@ -55,7 +55,7 @@ test("V3 refuses V2's approval token, and V2 refuses V3's", async () => {
 
   // And the other direction: V3's token must not start V2.
   const v2 = await runProspectiveFleetCampaignPreflight();
-  const v2Base = { ...base, DAS_PROSPECTIVE_FLEET_PLAN_HASH: v2.plan.planHash, DAS_PROSPECTIVE_FLEET_LIMIT_USD: String(v2.plan.hardSpendLimitUsd) };
+  const v2Base = { ...base, DAS_PROSPECTIVE_FLEET_PLAN_HASH: v2.plan.planHash, DAS_PROSPECTIVE_FLEET_LIMIT_USD: String(v2.plan.hardSpendLimitUsd), DAS_PROSPECTIVE_FLEET_PRICING_TABLE_HASH: v2.plan.pricingTableHash };
   assert.throws(
     () => assertProspectiveFleetCampaignAuthorization({ plan: v2.plan, environment: { ...v2Base, DAS_PROSPECTIVE_FLEET_APPROVAL: PROSPECTIVE_FLEET_V3_APPROVAL }, pricingVerifiedDate: date }),
     /not explicitly approved/,
@@ -68,7 +68,7 @@ test("V3 cannot be authorized for APR-0003's $5 ceiling, only the derived $1.30"
   const v3 = await runProspectiveFleetCampaignPreflight(PROSPECTIVE_FLEET_V3_CAMPAIGN.preflight);
   assert.equal(v3.plan.hardSpendLimitUsd, 1.3);
   const date = "2026-08-22";
-  const base = { DAS_ENABLE_PAID_MODEL_CALLS: "JOEL_APPROVED", DAS_PROSPECTIVE_FLEET_APPROVAL: PROSPECTIVE_FLEET_V3_APPROVAL, DAS_PROSPECTIVE_FLEET_PLAN_HASH: v3.plan.planHash, DAS_PROSPECTIVE_FLEET_PRICING_VERIFIED_ON: date, DAS_PROSPECTIVE_FLEET_PRICING_TABLE_HASH: digest(CURRENT_MODEL_PRICING_USD), OPENAI_API_KEY: "test-key" };
+  const base = { DAS_ENABLE_PAID_MODEL_CALLS: "JOEL_APPROVED", DAS_PROSPECTIVE_FLEET_APPROVAL: PROSPECTIVE_FLEET_V3_APPROVAL, DAS_PROSPECTIVE_FLEET_PLAN_HASH: v3.plan.planHash, DAS_PROSPECTIVE_FLEET_PRICING_VERIFIED_ON: date, DAS_PROSPECTIVE_FLEET_PRICING_TABLE_HASH: v3.plan.pricingTableHash, OPENAI_API_KEY: "test-key" };
 
   for (const rejected of ["5", "1.31", "1.29", "0"]) {
     assert.throws(
@@ -80,6 +80,27 @@ test("V3 cannot be authorized for APR-0003's $5 ceiling, only the derived $1.30"
 
   const ok = assertProspectiveFleetCampaignAuthorization({ plan: v3.plan, environment: { ...base, DAS_PROSPECTIVE_FLEET_LIMIT_USD: "1.3" }, pricingVerifiedDate: date, campaignApproval: PROSPECTIVE_FLEET_V3_APPROVAL });
   assert.equal(ok.limitUsd, 1.3);
+});
+
+test("V3 prices gpt-5.6-luna at the verified post-reduction rate, not the stale shared table", async () => {
+  // The shared table still holds pre-reduction luna pricing, stale by exactly 5x.
+  // It is deliberately not edited: V2's frozen plan hash includes its digest and
+  // V2 is sealed evidence. V3 therefore carries its own table, as B3 does.
+  assert.deepEqual(PROSPECTIVE_FLEET_V3_PRICING_USD["gpt-5.6-luna"], { inputPerMillionUsd: 0.2, cachedInputPerMillionUsd: 0.02, outputPerMillionUsd: 1.2 });
+  assert.equal(CURRENT_MODEL_PRICING_USD["gpt-5.6-luna"].inputPerMillionUsd, 1);
+  assert.equal(CURRENT_MODEL_PRICING_USD["gpt-5.6-luna"].outputPerMillionUsd, 6);
+
+  const v3 = await runProspectiveFleetCampaignPreflight(PROSPECTIVE_FLEET_V3_CAMPAIGN.preflight);
+  assert.equal(v3.plan.pricingTableHash, digest(PROSPECTIVE_FLEET_V3_PRICING_USD));
+  assert.notEqual(v3.plan.pricingTableHash, digest(CURRENT_MODEL_PRICING_USD));
+
+  // Every model V3 actually uses must be priced by V3's own table, or costs
+  // would be computed from a table that does not cover them.
+  for (const model of v3.plan.exactModels) assert.ok(PROSPECTIVE_FLEET_V3_PRICING_USD[model], `V3 pricing table is missing ${model}`);
+
+  // V2 keeps the shared table, which is what its sealed receipt was priced with.
+  const v2 = await runProspectiveFleetCampaignPreflight();
+  assert.equal(v2.plan.pricingTableHash, digest(CURRENT_MODEL_PRICING_USD));
 });
 
 test("the runner refuses a campaign whose preflight built a different campaign", async () => {
