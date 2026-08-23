@@ -1,8 +1,9 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { digest } from "../core/canonical.js";
-import { DurableSpecialistRegistry } from "../compiler/durable-registry.js";
+import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
+import { dasArtifactPath, dasRepositoryRoot } from "./das-repository.js";
+import { DurableSpecialistRegistry } from "dynamic-agent-specialisation/src/compiler/durable-registry.js";
 import { createBoundedSpecialistRecord } from "./bounded-level2-contract.js";
 
 function requireCondition(condition, message) { if (!condition) throw new Error(message); }
@@ -23,7 +24,7 @@ function verifyEvidenceReferences(references, repositoryRoot) {
   });
 }
 
-export function admitLevel1SelectionToFleet({ registry, roleId, capability, capacityPerWindow = 1, repositoryRoot = "." }) {
+export function admitLevel1SelectionToFleet({ registry, roleId, capability, capacityPerWindow = 1, repositoryRoot = dasRepositoryRoot }) {
   requireCondition(registry instanceof DurableSpecialistRegistry, "Fleet admission requires an integrity-checked durable Level 1 registry");
   const selection = registry.latest(roleId);
   requireCondition(selection?.selected?.status === "recommended-active", `No active Level 1 selection exists for ${roleId}`);
@@ -75,6 +76,6 @@ export function admitLevel1SelectionToFleet({ registry, roleId, capability, capa
   return Object.freeze({ specialist, receipt: Object.freeze(receipt) });
 }
 
-export function loadLevel1FleetRegistry(filePath = "artifacts/level1/registry-v1.json") {
+export function loadLevel1FleetRegistry(filePath = dasArtifactPath("artifacts/level1/registry-v1.json")) {
   return DurableSpecialistRegistry.load(path.resolve(filePath));
 }

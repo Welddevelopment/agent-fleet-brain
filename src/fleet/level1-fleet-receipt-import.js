@@ -1,12 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
-import { digest } from "../core/canonical.js";
+import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
 import { BoundedFleetController, createFleetAssignmentObservation } from "./bounded-level2-controller.js";
 import { runLevel1FleetAdmissionFixture } from "./level1-fleet-admission-fixture.js";
+import { dasArtifactPath } from "./das-repository.js";
 
 function requireCondition(condition, message) { if (!condition) throw new Error(message); }
 
-export function importHistoricalLevel1ReceiptsToFleet({ controllerPath, summaryPath = "artifacts/runs/piece5-cross-role-current-runtime/v1/summary.json", admission = null } = {}) {
+export function importHistoricalLevel1ReceiptsToFleet({ controllerPath, summaryPath = dasArtifactPath("artifacts/runs/piece5-cross-role-current-runtime/v1/summary.json"), admission = null } = {}) {
   requireCondition(controllerPath, "Historical fleet receipt import needs an isolated durable controller path");
   const joined = admission ?? runLevel1FleetAdmissionFixture();
   const summary = JSON.parse(fs.readFileSync(path.resolve(summaryPath), "utf8"));

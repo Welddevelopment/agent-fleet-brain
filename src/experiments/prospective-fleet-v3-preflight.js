@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { digest } from "../core/canonical.js";
+import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
 import { runProspectiveFleetCampaignPreflight } from "../fleet/prospective-fleet-campaign-fixture.js";
 import { PROSPECTIVE_FLEET_V3_CAMPAIGN, PROSPECTIVE_FLEET_V3_PRICING_SOURCE, PROSPECTIVE_FLEET_V3_PRICING_USD, PROSPECTIVE_FLEET_V3_PRICING_VERIFIED_ON } from "../fleet/prospective-fleet-v3.js";
 import { PROSPECTIVE_FLEET_V3_ITEM_COUNTS } from "../fleet/prospective-fleet-v3-cases.js";

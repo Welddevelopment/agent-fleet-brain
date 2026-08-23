@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { digest } from "../core/canonical.js";
+import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
 import { runBoundedFleetGeneralityMatrix } from "../fleet/bounded-level2-generality.js";
 
 const outputDirectory = path.resolve("artifacts/fleet/bounded-level2-generality-v1");

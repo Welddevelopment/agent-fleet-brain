@@ -1,4 +1,4 @@
-import { digest } from "../core/canonical.js";
+import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
 import { createBoundedFleetContract } from "./bounded-level2-contract.js";
 
 function requireCondition(condition, message) { if (!condition) throw new Error(message); }

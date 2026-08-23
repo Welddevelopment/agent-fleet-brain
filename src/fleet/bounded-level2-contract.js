@@ -1,4 +1,4 @@
-import { digest } from "../core/canonical.js";
+import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
 
 const RISK = new Set(["low", "medium", "high"]);
 

@@ -1,12 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { digest } from "../src/core/canonical.js";
+import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
 import { runProspectiveFleetCampaignPreflight } from "../src/fleet/prospective-fleet-campaign-fixture.js";
 import { runProspectiveFleetModelCampaign } from "../src/fleet/prospective-fleet-campaign-runner.js";
 import { PROSPECTIVE_FLEET_CAMPAIGN_APPROVAL, assertProspectiveFleetCampaignAuthorization } from "../src/fleet/prospective-fleet-campaign.js";
 import { PROSPECTIVE_FLEET_V3_APPROVAL, PROSPECTIVE_FLEET_V3_CAMPAIGN, PROSPECTIVE_FLEET_V3_CAMPAIGN_ID, PROSPECTIVE_FLEET_V3_PRICING_USD, PROSPECTIVE_FLEET_V3_TURN_CEILINGS } from "../src/fleet/prospective-fleet-v3.js";
 import { PROSPECTIVE_FLEET_V3_ITEM_COUNTS } from "../src/fleet/prospective-fleet-v3-cases.js";
-import { CURRENT_MODEL_PRICING_USD } from "../src/providers/model-pricing.js";
+import { CURRENT_MODEL_PRICING_USD } from "dynamic-agent-specialisation/src/providers/model-pricing.js";
 
 const V2_FROZEN_PLAN_HASH = "997cd92e344c3f336c399fd1c7a46d9878f12b6e2a7ffbc56ef49f4bed06d5f9";
 

@@ -1,6 +1,6 @@
-import { createRealisticProcurementTask } from "../worlds/realistic-procurement-cases.js";
-import { createRealisticSupportTask } from "../worlds/realistic-support-cases.js";
-import { createRealisticRevopsTask } from "../worlds/realistic-revops-cases.js";
+import { createRealisticProcurementTask } from "dynamic-agent-specialisation/src/worlds/realistic-procurement-cases.js";
+import { createRealisticSupportTask } from "dynamic-agent-specialisation/src/worlds/realistic-support-cases.js";
+import { createRealisticRevopsTask } from "dynamic-agent-specialisation/src/worlds/realistic-revops-cases.js";
 
 // V3 scales the sealed work per role. V2 carried 9 sub-items across three cases
 // (2 procurement demands, 3 support tickets, 4 revops leads). V3 carries 22

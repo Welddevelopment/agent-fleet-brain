@@ -1,9 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
-import { digest } from "../core/canonical.js";
-import { runModelProcurementCase } from "../experiments/model-procurement-runner.js";
-import { runModelRevopsCase } from "../experiments/model-revops-runner.js";
-import { runModelSupportCase } from "../experiments/model-support-runner.js";
+import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
+import { runModelProcurementCase } from "dynamic-agent-specialisation/src/experiments/model-procurement-runner.js";
+import { runModelRevopsCase } from "dynamic-agent-specialisation/src/experiments/model-revops-runner.js";
+import { runModelSupportCase } from "dynamic-agent-specialisation/src/experiments/model-support-runner.js";
 import { BoundedFleetController, assertFleetAssignmentObservation, createFleetAssignmentObservation } from "./bounded-level2-controller.js";
 import { runProspectiveFleetCampaignPreflight } from "./prospective-fleet-campaign-fixture.js";
 import { createProspectiveFleetCampaignRuntime } from "./prospective-fleet-campaign.js";

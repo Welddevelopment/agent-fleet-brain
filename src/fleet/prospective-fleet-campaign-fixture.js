@@ -1,10 +1,10 @@
-import { doNothingStrategy, referenceProcurementStrategy } from "../evaluation/realistic-procurement-strategies.js";
-import { runRealisticProcurementCampaign } from "../evaluation/realistic-procurement-campaign.js";
-import { PROCUREMENT_MODEL_TURN_CEILING } from "../experiments/model-procurement-runner.js";
-import { REVOPS_MODEL_TURN_CEILING } from "../experiments/model-revops-runner.js";
-import { SUPPORT_MODEL_TURN_CEILING } from "../experiments/model-support-runner.js";
-import { doNothingRevopsStrategy, evaluateRevopsStrategy, referenceRevopsStrategy } from "../evaluation/realistic-revops-strategies.js";
-import { doNothingSupportStrategy, evaluateSupportStrategy, referenceSupportStrategy } from "../evaluation/realistic-support-strategies.js";
+import { doNothingStrategy, referenceProcurementStrategy } from "dynamic-agent-specialisation/src/evaluation/realistic-procurement-strategies.js";
+import { runRealisticProcurementCampaign } from "dynamic-agent-specialisation/src/evaluation/realistic-procurement-campaign.js";
+import { PROCUREMENT_MODEL_TURN_CEILING } from "dynamic-agent-specialisation/src/experiments/model-procurement-runner.js";
+import { REVOPS_MODEL_TURN_CEILING } from "dynamic-agent-specialisation/src/experiments/model-revops-runner.js";
+import { SUPPORT_MODEL_TURN_CEILING } from "dynamic-agent-specialisation/src/experiments/model-support-runner.js";
+import { doNothingRevopsStrategy, evaluateRevopsStrategy, referenceRevopsStrategy } from "dynamic-agent-specialisation/src/evaluation/realistic-revops-strategies.js";
+import { doNothingSupportStrategy, evaluateSupportStrategy, referenceSupportStrategy } from "dynamic-agent-specialisation/src/evaluation/realistic-support-strategies.js";
 import { runFleetIntakeFixture } from "./fleet-intake-fixture.js";
 import { createProspectiveFleetCampaignPlan, createProspectiveFleetCaseVault } from "./prospective-fleet-campaign.js";
 import { prospectiveFleetV2Cases } from "./prospective-fleet-v2-cases.js";

@@ -3,12 +3,12 @@ import test from "node:test";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { digest } from "../src/core/canonical.js";
+import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
 import { BoundedFleetController } from "../src/fleet/bounded-level2-controller.js";
 import { runProspectiveFleetCampaignPreflight } from "../src/fleet/prospective-fleet-campaign-fixture.js";
 import { assertProspectiveFleetProgress, createProspectiveFleetProgress, createProspectiveFleetResultObservation, restoreProspectiveFleetProgress } from "../src/fleet/prospective-fleet-campaign-runner.js";
 import { PROSPECTIVE_FLEET_CAMPAIGN_APPROVAL, assertProspectiveFleetCampaignAuthorization, createProspectiveFleetCampaignRuntime } from "../src/fleet/prospective-fleet-campaign.js";
-import { CURRENT_MODEL_PRICING_USD } from "../src/providers/model-pricing.js";
+import { CURRENT_MODEL_PRICING_USD } from "dynamic-agent-specialisation/src/providers/model-pricing.js";
 
 test("fresh sealed tasks bind to exact selected specialists without pre-authorizing spend", async () => {
   const result = await runProspectiveFleetCampaignPreflight();

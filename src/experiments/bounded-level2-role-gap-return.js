@@ -1,15 +1,15 @@
 import fs from "node:fs";
 import path from "node:path";
-import { digest } from "../core/canonical.js";
-import { EvidenceLedger } from "../core/evidence.js";
-import { runCandidateOnCases } from "../evaluation/runner.js";
+import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
+import { EvidenceLedger } from "dynamic-agent-specialisation/src/core/evidence.js";
+import { runCandidateOnCases } from "dynamic-agent-specialisation/src/evaluation/runner.js";
 import { BoundedFleetContinuationController, createBoundedFleetContinuation } from "../fleet/bounded-level2-continuation.js";
 import { createFleetAssignmentObservation } from "../fleet/bounded-level2-controller.js";
 import { createBoundedLevel2Fixture } from "../fleet/bounded-level2-fixture.js";
 import { createBoundedFleetPlan } from "../fleet/bounded-level2-planner.js";
 import { verifyBoundedFleetPlan } from "../fleet/bounded-level2-verifier.js";
 import { proveFinanceRoleGap } from "../fleet/finance-role-gap.js";
-import { financeCloseRole } from "../roles/finance-close.js";
+import { financeCloseRole } from "dynamic-agent-specialisation/src/roles/finance-close.js";
 
 const priorDirectory = path.resolve("artifacts/fleet/bounded-level2-execution-v1");
 const outputDirectory = path.resolve("artifacts/fleet/bounded-level2-role-gap-return-v1");

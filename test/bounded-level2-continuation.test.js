@@ -3,7 +3,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { digest } from "../src/core/canonical.js";
+import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
 import { createBoundedFleetContinuation, BoundedFleetContinuationController } from "../src/fleet/bounded-level2-continuation.js";
 import { BoundedFleetController, createFleetAssignmentObservation } from "../src/fleet/bounded-level2-controller.js";
 import { createBoundedLevel2Fixture } from "../src/fleet/bounded-level2-fixture.js";

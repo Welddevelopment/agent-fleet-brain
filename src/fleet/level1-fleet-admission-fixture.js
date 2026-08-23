@@ -2,6 +2,7 @@ import { createBoundedFleetContract } from "./bounded-level2-contract.js";
 import { createBoundedFleetPlan } from "./bounded-level2-planner.js";
 import { verifyBoundedFleetPlan } from "./bounded-level2-verifier.js";
 import { admitLevel1SelectionToFleet, loadLevel1FleetRegistry } from "./level1-fleet-admission.js";
+import { dasArtifactPath, dasRepositoryRoot } from "./das-repository.js";
 
 const DESCRIPTORS = [
   { roleId: "realistic-procurement-specialist", workloadId: "approved-shortage", system: "procurement-local", tools: ["read-inventory", "draft-purchase-order"], contextSources: ["approved-demand", "purchasing-policy"], authorityActions: ["draft-order"], verifierId: "realistic-procurement-external-state-v1" },
@@ -9,7 +10,7 @@ const DESCRIPTORS = [
   { roleId: "realistic-revenue-operations-specialist", workloadId: "assigned-lead", system: "crm-local", tools: ["read-lead", "assign-lead-owner"], contextSources: ["assigned-lead-queue", "routing-policy"], authorityActions: ["assign-lead-owner"], verifierId: "realistic-revops-external-state-v1" },
 ];
 
-export function runLevel1FleetAdmissionFixture({ registryPath = "artifacts/level1/registry-v1.json", repositoryRoot = "." } = {}) {
+export function runLevel1FleetAdmissionFixture({ registryPath = dasArtifactPath("artifacts/level1/registry-v1.json"), repositoryRoot = dasRepositoryRoot } = {}) {
   const registry = loadLevel1FleetRegistry(registryPath);
   const selections = new Map(registry.list().map((selection) => [selection.roleId, selection]));
   const admissions = DESCRIPTORS.map((descriptor) => admitLevel1SelectionToFleet({

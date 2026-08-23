@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { digest } from "../src/core/canonical.js";
+import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
 import { createBoundedFleetContract, createBoundedSpecialistRecord } from "../src/fleet/bounded-level2-contract.js";
 import { createBoundedLevel2Fixture } from "../src/fleet/bounded-level2-fixture.js";
 import { assertBoundedFleetPlan, createBoundedFleetPlan } from "../src/fleet/bounded-level2-planner.js";

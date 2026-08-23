@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { digest } from "../core/canonical.js";
+import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
 import { runFleetIntakeFixture } from "../fleet/fleet-intake-fixture.js";
 
 const result = runFleetIntakeFixture();

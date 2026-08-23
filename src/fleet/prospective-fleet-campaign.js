@@ -1,10 +1,10 @@
 import path from "node:path";
-import { digest } from "../core/canonical.js";
-import { DurableBudgetGuard, PersistentModelResponseCache } from "../core/durable-model-campaign.js";
-import { EvidenceLedger } from "../core/evidence.js";
-import { MeteredModelGateway } from "../core/model-gateway.js";
-import { CURRENT_MODEL_PRICING_USD } from "../providers/model-pricing.js";
-import { OpenAIResponsesProvider } from "../providers/openai-responses.js";
+import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
+import { DurableBudgetGuard, PersistentModelResponseCache } from "dynamic-agent-specialisation/src/core/durable-model-campaign.js";
+import { EvidenceLedger } from "dynamic-agent-specialisation/src/core/evidence.js";
+import { MeteredModelGateway } from "dynamic-agent-specialisation/src/core/model-gateway.js";
+import { CURRENT_MODEL_PRICING_USD } from "dynamic-agent-specialisation/src/providers/model-pricing.js";
+import { OpenAIResponsesProvider } from "dynamic-agent-specialisation/src/providers/openai-responses.js";
 import { assertBoundedFleetContract } from "./bounded-level2-contract.js";
 import { assertBoundedFleetPlan } from "./bounded-level2-planner.js";
 

@@ -1,6 +1,6 @@
-import { createRealisticProcurementTask } from "../worlds/realistic-procurement-cases.js";
-import { createRealisticSupportTask } from "../worlds/realistic-support-cases.js";
-import { createRealisticRevopsTask } from "../worlds/realistic-revops-cases.js";
+import { createRealisticProcurementTask } from "dynamic-agent-specialisation/src/worlds/realistic-procurement-cases.js";
+import { createRealisticSupportTask } from "dynamic-agent-specialisation/src/worlds/realistic-support-cases.js";
+import { createRealisticRevopsTask } from "dynamic-agent-specialisation/src/worlds/realistic-revops-cases.js";
 
 const disableDefaultOffers = (sku) => [1, 2, 3].map((index) => ({ id: `offer-${sku}-${index}`, active: false }));
 

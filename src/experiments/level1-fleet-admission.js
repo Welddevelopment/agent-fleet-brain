@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { digest } from "../core/canonical.js";
+import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
 import { runLevel1FleetAdmissionFixture } from "../fleet/level1-fleet-admission-fixture.js";
 
 const result = runLevel1FleetAdmissionFixture();

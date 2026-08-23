@@ -1,8 +1,8 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { digest } from "../core/canonical.js";
-import { EvidenceLedger } from "../core/evidence.js";
+import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
+import { EvidenceLedger } from "dynamic-agent-specialisation/src/core/evidence.js";
 
 const root = path.resolve("artifacts/fleet/prospective-model-campaign-v2/model-run");
 const summaryPath = path.join(root, "summary.json");

@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { digest } from "../core/canonical.js";
+import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
 import { assertBoundedFleetContract } from "../fleet/bounded-level2-contract.js";
 import { assertBoundedFleetPlan } from "../fleet/bounded-level2-planner.js";
 

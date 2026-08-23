@@ -1,0 +1,30 @@
+{
+  "name": "agent-fleet-brain",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "dependencies": {
+    "dynamic-agent-specialisation": "file:../Dynamic Agent Specialisation"
+  },
+  "scripts": {
+    "test": "node --test",
+    "fleet:console": "node src/fleet-console/server.js",
+    "fleet:planning:rehearsal": "node src/experiments/bounded-level2-planning-rehearsal.js",
+    "fleet:execution:rehearsal": "node src/experiments/bounded-level2-execution-rehearsal.js",
+    "fleet:role-gap:return": "node src/experiments/bounded-level2-role-gap-return.js",
+    "fleet:generality": "node src/experiments/bounded-level2-generality-matrix.js",
+    "fleet:admit-level1": "node src/experiments/level1-fleet-admission.js",
+    "fleet:import-level1-receipts": "node src/experiments/level1-fleet-receipt-import.js",
+    "fleet:intake": "node src/experiments/fleet-intake.js",
+    "fleet:prospective:preflight": "node src/experiments/prospective-fleet-campaign-preflight.js",
+    "fleet:prospective:v1:diagnose": "node src/experiments/prospective-fleet-v1-diagnosis.js",
+    "fleet:prospective:v2:seal": "node src/experiments/prospective-fleet-v2-seal.js",
+    "fleet:prospective:v3:preflight": "node src/experiments/prospective-fleet-v3-preflight.js",
+    "fleet:prospective:v3:seal": "node src/experiments/prospective-fleet-v3-seal.js",
+    "fleet:prospective:run": "node --env-file=.env src/experiments/prospective-fleet-model-campaign.js",
+    "fleet:prospective:v3:run": "node --env-file=.env src/experiments/prospective-fleet-v3-model-campaign.js"
+  }
+}

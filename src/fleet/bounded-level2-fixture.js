@@ -1,4 +1,4 @@
-import { digest } from "../core/canonical.js";
+import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
 import { createBoundedFleetContract, createBoundedSpecialistRecord } from "./bounded-level2-contract.js";
 
 const requirement = ({ system, tools, context, actions, verifier, policy }) => ({ systems: [system], tools, contextSources: context, authorityActions: actions, verifierId: verifier, policyHash: digest(policy) });

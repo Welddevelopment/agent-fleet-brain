@@ -1,17 +1,17 @@
 import fs from "node:fs";
 import path from "node:path";
-import { digest } from "../core/canonical.js";
-import { evaluateSupportStrategy, referenceSupportStrategy } from "../evaluation/realistic-support-strategies.js";
-import { referenceProcurementStrategy } from "../evaluation/realistic-procurement-strategies.js";
-import { evaluateRevopsStrategy, referenceRevopsStrategy } from "../evaluation/realistic-revops-strategies.js";
+import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
+import { evaluateSupportStrategy, referenceSupportStrategy } from "dynamic-agent-specialisation/src/evaluation/realistic-support-strategies.js";
+import { referenceProcurementStrategy } from "dynamic-agent-specialisation/src/evaluation/realistic-procurement-strategies.js";
+import { evaluateRevopsStrategy, referenceRevopsStrategy } from "dynamic-agent-specialisation/src/evaluation/realistic-revops-strategies.js";
 import { BoundedFleetController, createFleetAssignmentObservation } from "../fleet/bounded-level2-controller.js";
 import { createBoundedLevel2Fixture } from "../fleet/bounded-level2-fixture.js";
 import { createBoundedFleetPlan } from "../fleet/bounded-level2-planner.js";
 import { verifyBoundedFleetPlan } from "../fleet/bounded-level2-verifier.js";
-import { createRealisticProcurementTask } from "../worlds/realistic-procurement-cases.js";
-import { RealisticProcurementCompany, RealisticProcurementVerifier } from "../worlds/realistic-procurement-company.js";
-import { createRealisticSupportTask } from "../worlds/realistic-support-cases.js";
-import { createRealisticRevopsTask } from "../worlds/realistic-revops-cases.js";
+import { createRealisticProcurementTask } from "dynamic-agent-specialisation/src/worlds/realistic-procurement-cases.js";
+import { RealisticProcurementCompany, RealisticProcurementVerifier } from "dynamic-agent-specialisation/src/worlds/realistic-procurement-company.js";
+import { createRealisticSupportTask } from "dynamic-agent-specialisation/src/worlds/realistic-support-cases.js";
+import { createRealisticRevopsTask } from "dynamic-agent-specialisation/src/worlds/realistic-revops-cases.js";
 
 const outputDirectory = path.resolve("artifacts/fleet/bounded-level2-execution-v1");
 fs.mkdirSync(outputDirectory, { recursive: true });

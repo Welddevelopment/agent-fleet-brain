@@ -1,11 +1,11 @@
-import { digest } from "../core/canonical.js";
-import { EvidenceLedger } from "../core/evidence.js";
-import { compileSpecialist } from "../compiler/compiler.js";
-import { SpecialistRegistry } from "../compiler/registry.js";
-import { DurableSpecialistRegistry } from "../compiler/durable-registry.js";
-import { SpecialistControlPlane } from "../compiler/control-plane.js";
+import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
+import { EvidenceLedger } from "dynamic-agent-specialisation/src/core/evidence.js";
+import { compileSpecialist } from "dynamic-agent-specialisation/src/compiler/compiler.js";
+import { SpecialistRegistry } from "dynamic-agent-specialisation/src/compiler/registry.js";
+import { DurableSpecialistRegistry } from "dynamic-agent-specialisation/src/compiler/durable-registry.js";
+import { SpecialistControlPlane } from "dynamic-agent-specialisation/src/compiler/control-plane.js";
 import { createBoundedSpecialistRecord } from "./bounded-level2-contract.js";
-import { financeCloseRole } from "../roles/finance-close.js";
+import { financeCloseRole } from "dynamic-agent-specialisation/src/roles/finance-close.js";
 
 function requireCondition(condition, message) {
   if (!condition) throw new Error(message);

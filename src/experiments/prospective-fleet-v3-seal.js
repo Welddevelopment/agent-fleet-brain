@@ -1,8 +1,8 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { digest } from "../core/canonical.js";
-import { EvidenceLedger } from "../core/evidence.js";
+import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
+import { EvidenceLedger } from "dynamic-agent-specialisation/src/core/evidence.js";
 import { PROSPECTIVE_FLEET_V3_CAMPAIGN } from "../fleet/prospective-fleet-v3.js";
 import { PROSPECTIVE_FLEET_V3_ITEM_COUNTS } from "../fleet/prospective-fleet-v3-cases.js";
 

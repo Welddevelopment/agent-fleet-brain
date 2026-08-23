@@ -1,0 +1,6 @@
+node_modules/
+.env
+artifacts/private/
+artifacts/console/
+*.log
+.DS_Store

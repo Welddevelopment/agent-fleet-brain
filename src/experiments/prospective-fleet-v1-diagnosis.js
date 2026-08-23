@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { digest } from "../core/canonical.js";
+import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
 
 const repositoryRoot = path.resolve(".");
 const sourceRelativePath = "artifacts/fleet/prospective-model-campaign-v1/model-run/latest-failure.json";
