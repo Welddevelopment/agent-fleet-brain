@@ -23,7 +23,7 @@ import { runComparisonCampaign } from "../fleet/comparison-campaign.js";
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
 process.chdir(repositoryRoot);
 
-const outputDirectory = ensureFreshArtifactDirectory("artifacts/fleet-comparison/deterministic-v1", { repositoryRoot });
+const outputDirectory = ensureFreshArtifactDirectory("artifacts/fleet-comparison/deterministic-v2", { repositoryRoot });
 const stateDirectory = path.join(outputDirectory, "controller-state");
 fs.mkdirSync(stateDirectory, { recursive: true });
 
@@ -38,6 +38,7 @@ const preregistration = createComparisonPreregistration({
   staticMapping,
   armDeclarations: [
     { armId: "general", module: "src/fleet/comparison-arms.js", exportName: "runGeneralAgentArm" },
+    { armId: "sharded", module: "src/fleet/comparison-arms.js", exportName: "runShardedGeneralAgentsArm" },
     { armId: "static", module: "src/fleet/comparison-arms.js", exportName: "runStaticFleetArm" },
     { armId: "adaptive", module: "src/fleet/comparison-arms.js", exportName: "runAdaptiveFleetArm" },
   ],
@@ -45,6 +46,7 @@ const preregistration = createComparisonPreregistration({
     id: regime,
     caseIds: cases.filter((record) => record.regime === regime).map((record) => record.id),
     hypotheses: cases.filter((record) => record.regime === regime).map((record) => record.preregisteredExpectation.hypothesis),
+    clauseCount: cases.filter((record) => record.regime === regime).reduce((sum, record) => sum + record.preregisteredExpectation.clauses.length, 0),
   })),
 });
 
@@ -66,13 +68,14 @@ const summary = {
   preregistrationHash: result.preregistrationHash,
   resultHash: result.resultHash,
   cases: result.caseResults.length,
-  arms: 3,
+  arms: 4,
   checks: result.checks,
   hypothesisSummary: result.hypothesisSummary,
   headline: {
-    fleetWins: ["P1 and P2: the fleets beat the single agent on latency (P1: 3.4x)", "C1: the planner consolidates overlapping queues onto one specialist - zero duplicates where the static split writes three", "G2: compatibility routing avoids all four authority denials the static mapping walks into", "K1: only the adaptive fleet completes the 300-unit surge, by splitting across specialists", "A1: the planner's aggregate accounting refuses at $0 what the static fleet spends 28% over budget on"],
-    fleetLosses: ["S1 and S2: the general agent wins small cases on cost - coordination overhead is real", "G1: on a role gap, the general agent completes 14/14 and wins outright; the honest fleet returns the gap and finishes 10/14"],
-    knownGaps: ["C2: adaptive duplicates 10 across a forced capacity split - consolidation is not conflict detection", "A2: no arm sees company invariants; all three false-complete against the escalation cap"],
+    theHonestSummary: "Against a naive 5-way shard of general agents, the adaptive fleet's measured edge narrows to conflict behaviour under overlap and authority routing. Parallelism and capacity are headcount, not coordination. All figures are fictional model units.",
+    adaptiveWins: ["C1: consolidation-by-capacity yields 0 duplicates and a true completion where BOTH the static split and the naive shard double-write 3 records (and the shard claims success falsely)", "G2: a maintained authority table - 0 denials vs the static map's 4 (the general arms also score 0, by holding all authority)", "A1: refuses at $0 like every arm given aggregate accounting; only the static fleet, which has none, breaches and false-completes"],
+    adaptiveLosses: ["S1 and S2: the single general agent wins small cases on cost", "P1 and P2: the naive shard is FASTEST of all arms - fleet system-lanes are a worse partition than round-robin", "G1: both general arms complete 14/14 where the honest fleet returns the gap at 10/14", "K1: the shard completes the 300-unit surge too, faster and with no planner - capacity splitting is headcount"],
+    knownGaps: ["C2: adaptive duplicates 10 across a forced capacity split - consolidation is not conflict detection (detection is late, via scope ownership, and cannot prevent)", "A2: no arm sees company invariants; all FOUR false-complete against the escalation cap"],
   },
   modelCalls: 0,
   paidModelSpendUsd: 0,

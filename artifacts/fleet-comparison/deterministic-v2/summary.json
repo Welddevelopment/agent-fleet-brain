@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "fleetbrain.comparison-campaign-summary.v1",
+  "campaignId": "fleet-comparison-deterministic-v2",
+  "preregistrationHash": "f77c066d4ca2ebc2a2833848498c1059eb069f53320aaa8982ad6cc60a518944",
+  "resultHash": "42010ac25a205c6710b0f0ecbc04e19e7753d225cda2134d43371ea7b40b95c2",
+  "cases": 11,
+  "arms": 4,
+  "checks": {
+    "initialWorldDigestsEqualAcrossArms": true,
+    "everyCaseRanAllFourArms": true,
+    "attestationAllReached": true,
+    "allPreregisteredMetricsReported": true,
+    "everySealedClauseGraded": true
+  },
+  "hypothesisSummary": {
+    "totalClauses": 53,
+    "matched": 53,
+    "mismatched": 0
+  },
+  "headline": {
+    "theHonestSummary": "Against a naive 5-way shard of general agents, the adaptive fleet's measured edge narrows to conflict behaviour under overlap and authority routing. Parallelism and capacity are headcount, not coordination. All figures are fictional model units.",
+    "adaptiveWins": [
+      "C1: consolidation-by-capacity yields 0 duplicates and a true completion where BOTH the static split and the naive shard double-write 3 records (and the shard claims success falsely)",
+      "G2: a maintained authority table - 0 denials vs the static map's 4 (the general arms also score 0, by holding all authority)",
+      "A1: refuses at $0 like every arm given aggregate accounting; only the static fleet, which has none, breaches and false-completes"
+    ],
+    "adaptiveLosses": [
+      "S1 and S2: the single general agent wins small cases on cost",
+      "P1 and P2: the naive shard is FASTEST of all arms - fleet system-lanes are a worse partition than round-robin",
+      "G1: both general arms complete 14/14 where the honest fleet returns the gap at 10/14",
+      "K1: the shard completes the 300-unit surge too, faster and with no planner - capacity splitting is headcount"
+    ],
+    "knownGaps": [
+      "C2: adaptive duplicates 10 across a forced capacity split - consolidation is not conflict detection (detection is late, via scope ownership, and cannot prevent)",
+      "A2: no arm sees company invariants; all FOUR false-complete against the escalation cap"
+    ]
+  },
+  "modelCalls": 0,
+  "paidModelSpendUsd": 0,
+  "evidenceBoundary": "Deterministic scripted arms over fictional worlds under per-agent competence parity, with the headcount asymmetry declared and a sharded baseline included to separate headcount from coordination. This measures coordination-policy differences only. No model ran; it is not evidence about model-backed agents, external frameworks, or customer outcomes.",
+  "summaryHash": "eeb6c16ba402f844ab0cab99b52f659cae017405ac5628a4ecfd466c4137030f"
+}

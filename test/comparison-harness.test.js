@@ -18,6 +18,7 @@ import { createComparisonWorld, verifyComparisonAssignmentScope, verifyCompariso
 
 const ARM_DECLARATIONS = [
   { armId: "general", module: "src/fleet/comparison-arms.js", exportName: "runGeneralAgentArm" },
+  { armId: "sharded", module: "src/fleet/comparison-arms.js", exportName: "runShardedGeneralAgentsArm" },
   { armId: "static", module: "src/fleet/comparison-arms.js", exportName: "runStaticFleetArm" },
   { armId: "adaptive", module: "src/fleet/comparison-arms.js", exportName: "runAdaptiveFleetArm" },
 ];
@@ -107,7 +108,7 @@ test("the vault refuses release without a matching intact preregistration", () =
     constants: COMPARISON_CONSTANTS,
     staticMapping,
     armDeclarations: ARM_DECLARATIONS,
-    regimes: [...new Set(cases.map((record) => record.regime))].map((regime) => ({ id: regime, caseIds: cases.filter((record) => record.regime === regime).map((record) => record.id) })),
+    regimes: [...new Set(cases.map((record) => record.regime))].map((regime) => ({ id: regime, caseIds: cases.filter((record) => record.regime === regime).map((record) => record.id), clauseCount: cases.filter((record) => record.regime === regime).reduce((sum, record) => sum + record.preregisteredExpectation.clauses.length, 0) })),
   });
   assert.equal(vault.release({ preregistration }).length, 11);
   const tampered = structuredClone(preregistration);
@@ -135,24 +136,31 @@ async function runFullCampaign(stateDirectory) {
     constants: COMPARISON_CONSTANTS,
     staticMapping,
     armDeclarations: ARM_DECLARATIONS,
-    regimes: [...new Set(cases.map((record) => record.regime))].map((regime) => ({ id: regime, caseIds: cases.filter((record) => record.regime === regime).map((record) => record.id) })),
+    regimes: [...new Set(cases.map((record) => record.regime))].map((regime) => ({ id: regime, caseIds: cases.filter((record) => record.regime === regime).map((record) => record.id), clauseCount: cases.filter((record) => record.regime === regime).reduce((sum, record) => sum + record.preregisteredExpectation.clauses.length, 0) })),
   });
   return runComparisonCampaign({ vault, preregistration, roster, constants: COMPARISON_CONSTANTS, staticMapping, stateDirectory });
 }
 
-test("the full campaign: 11 cases x 3 arms, every preregistered metric reported, attestation intact, and every sealed hypothesis matches the mechanics", async () => {
+test("the full campaign: 11 cases x 4 arms, every sealed clause graded by the hash-bound grader, attestation intact", async () => {
   const stateDirectory = fs.mkdtempSync(path.join(os.tmpdir(), "fleet-comparison-"));
   const result = await runFullCampaign(stateDirectory);
   assert.equal(result.caseResults.length, 11);
   for (const [name, value] of Object.entries(result.checks)) assert.equal(value, true, `campaign check failed: ${name}`);
   assert.equal(result.modelCalls, 0);
   assert.equal(result.paidModelSpendUsd, 0);
-  const mismatched = result.hypothesisVerdicts.filter((verdict) => !verdict.matched);
-  assert.deepEqual(mismatched, [], `hypotheses that did not match the mechanics: ${JSON.stringify(mismatched, null, 2)}`);
-  // The two preregistered fleet losses are present as data, not suppressed.
-  assert.ok(result.hypothesisVerdicts.some((verdict) => verdict.caseId === "G1" && verdict.matched));
-  assert.ok(result.hypothesisVerdicts.some((verdict) => verdict.caseId === "C2" && verdict.claim.includes("KNOWN GAP") && verdict.matched));
-  assert.ok(result.hypothesisVerdicts.some((verdict) => verdict.caseId === "A2" && verdict.matched));
+  // Every sealed clause has a recorded verdict. The suite does NOT require the
+  // verdicts to match: a mismatched clause is a result, and forcing green here
+  // would recreate the incentive preregistration exists to remove (FB-C-013).
+  const sealedClauses = createComparisonCases().reduce((sum, record) => sum + record.preregisteredExpectation.clauses.length, 0);
+  assert.equal(result.clauseVerdicts.length, sealedClauses);
+  for (const verdict of result.clauseVerdicts) {
+    assert.equal(typeof verdict.matched, "boolean", `clause ${verdict.clauseId} has no recorded verdict`);
+  }
+  // The preregistered fleet losses and shared gaps are present as data, not suppressed.
+  assert.ok(result.clauseVerdicts.some((verdict) => verdict.clauseId === "G1-g-wins"));
+  assert.ok(result.clauseVerdicts.some((verdict) => verdict.clauseId === "C2-a-dup"));
+  assert.ok(result.clauseVerdicts.some((verdict) => verdict.clauseId === "A2-a-false"));
+  console.log(`clause verdicts: ${result.hypothesisSummary.matched}/${result.hypothesisSummary.totalClauses} matched, ${result.hypothesisSummary.mismatched} mismatched`);
 });
 
 test("the campaign is deterministic: two runs produce the same result hash", async () => {

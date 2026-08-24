@@ -11,6 +11,13 @@ import path from "node:path";
 
 const SEALED_ROOTS = Object.freeze([
   "artifacts/fleet",
+  // Completed comparison campaigns and demo runs seal once finished: the claim
+  // checker noted FB-0001's reproduce line could overwrite v1 in place (byte-
+  // identical under the stubbed clock, but silently - now it refuses instead).
+  "artifacts/fleet-comparison/deterministic-v1",
+  "artifacts/fleet-comparison/deterministic-v2",
+  "artifacts/demo/run-1",
+  "artifacts/demo/run-2",
 ]);
 
 function requireCondition(condition, message) {

@@ -2,7 +2,7 @@ import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
 import { createBoundedSpecialistRecord } from "./bounded-level2-contract.js";
 
 // The frozen comparison catalogue: competence constants, the agent roster, the
-// deliberately stale static mapping, and eleven cases across seven regimes — each
+// deliberately stale static mapping, and eleven cases across eight regimes — each
 // with a PREREGISTERED hypothesis, including the ones where the adaptive fleet is
 // expected to LOSE or share a failure. Those are recorded as known gaps, not
 // patched: giving the adaptive arm abilities it does not have would rig the
@@ -199,8 +199,17 @@ export function createComparisonCases() {
       limits: { maximumTotalCostUsd: 10, maximumNewRoleProposals: 1 },
       preregisteredExpectation: {
         primaryMetrics: ["costUsd", "unnecessaryAgents"],
-        hypothesis: "The general agent wins on cost (one activation vs three for adaptive, five for static). The static fleet shows exactly two unnecessary agents. All arms complete the parent goal. If latency still favors the fleets, that is recorded without excuse.",
-        expectedOutcome: { generalWinsCost: true, staticUnnecessaryAgents: 2, allComplete: true },
+        hypothesis: "The single general agent wins on cost: one activation against three working agents in every multi-agent arm. Every arm completes. Idle roster shows up as two unnecessary agents in each fleet arm and the shard.",
+        clauses: [
+          { id: "S1-g-cost-wins", arm: "general", metric: "costUsd", op: "ltAllOf", versusArms: ["sharded", "static", "adaptive"] },
+          { id: "S1-g-complete", arm: "general", metric: "parentGoalCompleted", op: "true" },
+          { id: "S1-h-complete", arm: "sharded", metric: "parentGoalCompleted", op: "true" },
+          { id: "S1-s-complete", arm: "static", metric: "parentGoalCompleted", op: "true" },
+          { id: "S1-a-complete", arm: "adaptive", metric: "parentGoalCompleted", op: "true" },
+          { id: "S1-s-idle", arm: "static", metric: "unnecessaryAgents", op: "eq", value: 2 },
+          { id: "S1-a-idle", arm: "adaptive", metric: "unnecessaryAgents", op: "eq", value: 2 },
+          { id: "S1-h-idle", arm: "sharded", metric: "unnecessaryAgents", op: "eq", value: 2 },
+        ],
       },
     }),
     makeCase({
@@ -210,9 +219,12 @@ export function createComparisonCases() {
       limits: { maximumTotalCostUsd: 10, maximumNewRoleProposals: 1 },
       priorities: { quality: 0.5, cost: 1, speed: 0.1 },
       preregisteredExpectation: {
-        primaryMetrics: ["costUsd", "unnecessaryAgents"],
-        hypothesis: "Same shape as S1: the general agent wins cost; the fleets pay activation overhead they cannot amortise at this size.",
-        expectedOutcome: { generalWinsCost: true, staticUnnecessaryAgents: 2, allComplete: true },
+        primaryMetrics: ["costUsd"],
+        hypothesis: "Same shape as S1: the single general agent wins cost. At six units the round-robin shard activates five clones and pays the most overhead of anyone.",
+        clauses: [
+          { id: "S2-g-cost-wins", arm: "general", metric: "costUsd", op: "ltAllOf", versusArms: ["sharded", "static", "adaptive"] },
+          { id: "S2-all-complete", arm: "sharded", metric: "parentGoalCompleted", op: "true" },
+        ],
       },
     }),
     makeCase({
@@ -222,8 +234,14 @@ export function createComparisonCases() {
       limits: { maximumTotalCostUsd: 15, maximumNewRoleProposals: 1 },
       preregisteredExpectation: {
         primaryMetrics: ["latencyProxyMs", "parentGoalCompleted"],
-        hypothesis: "Both fleet arms beat the general agent by at least 3x on the latency proxy; every arm completes the parent goal.",
-        expectedOutcome: { fleetLatencyAdvantageAtLeast: 3, allComplete: true },
+        hypothesis: "Parallelism is headcount, not intelligence: the round-robin shard beats EVERY other arm on latency, including both fleets, because its partition is more even than one-agent-per-system lanes. The fleets still beat the single agent. Every arm completes.",
+        clauses: [
+          { id: "P1-h-fastest", arm: "sharded", metric: "latencyProxyMs", op: "ltAllOf", versusArms: ["general", "static", "adaptive"] },
+          { id: "P1-s-beats-g", arm: "static", metric: "latencyProxyMs", op: "ltAllOf", versusArms: ["general"] },
+          { id: "P1-a-beats-g", arm: "adaptive", metric: "latencyProxyMs", op: "ltAllOf", versusArms: ["general"] },
+          { id: "P1-all-complete", arm: "sharded", metric: "parentGoalCompleted", op: "true" },
+          { id: "P1-g-complete", arm: "general", metric: "parentGoalCompleted", op: "true" },
+        ],
       },
     }),
     makeCase({
@@ -232,9 +250,13 @@ export function createComparisonCases() {
       classes: { "support-tickets": range("p2-t", 60), "procurement-orders": range("p2-p", 20), "crm-leads": range("p2-c", 10), "archive-filings": range("p2-a", 30) },
       limits: { maximumTotalCostUsd: 15, maximumNewRoleProposals: 1 },
       preregisteredExpectation: {
-        primaryMetrics: ["latencyProxyMs", "parentGoalCompleted"],
-        hypothesis: "The fleets win latency; the advantage is set by the busiest lane (support, 60 units), not the unit count.",
-        expectedOutcome: { fleetsWinLatency: true, allComplete: true },
+        primaryMetrics: ["latencyProxyMs"],
+        hypothesis: "Uneven lanes hurt the fleets (their latency is the busiest system lane) but not the shard (its partition ignores systems). Shard fastest again; fleets still beat the single agent.",
+        clauses: [
+          { id: "P2-h-fastest", arm: "sharded", metric: "latencyProxyMs", op: "ltAllOf", versusArms: ["general", "static", "adaptive"] },
+          { id: "P2-s-beats-g", arm: "static", metric: "latencyProxyMs", op: "ltAllOf", versusArms: ["general"] },
+          { id: "P2-a-beats-g", arm: "adaptive", metric: "latencyProxyMs", op: "ltAllOf", versusArms: ["general"] },
+        ],
       },
     }),
     makeCase({
@@ -250,8 +272,16 @@ export function createComparisonCases() {
       limits: { maximumTotalCostUsd: 10, maximumNewRoleProposals: 1 },
       preregisteredExpectation: {
         primaryMetrics: ["duplicatesConflicts", "falseCompletion"],
-        hypothesis: "The static split writes the three overlap records twice (duplicates 3, false completion). The adaptive planner routes both queues to the same specialist, whose idempotent writes replay (0 duplicates). The general agent replays its own keys (0).",
-        expectedOutcome: { staticDuplicates: 3, adaptiveDuplicates: 0, generalDuplicates: 0 },
+        hypothesis: "THE COORDINATION CASE. Overlapping queues: the static split double-writes 3 records; the round-robin shard ALSO double-writes 3 (different clones catch the two copies) and — because every clone-scoped receipt passes — claims completion falsely. The adaptive planner lands both queues on one specialist (a capacity-permitting consolidation via deterministic tie-break, not conflict detection — see C2) and its idempotent replays produce 0. The single agent replays its own keys: 0 duplicates by construction, since duplicates require two writers.",
+        clauses: [
+          { id: "C1-a-clean", arm: "adaptive", metric: "duplicatesConflicts", op: "eq", value: 0 },
+          { id: "C1-g-clean", arm: "general", metric: "duplicatesConflicts", op: "eq", value: 0 },
+          { id: "C1-s-dup", arm: "static", metric: "duplicatesConflicts", op: "eq", value: 3 },
+          { id: "C1-h-dup", arm: "sharded", metric: "duplicatesConflicts", op: "eq", value: 3 },
+          { id: "C1-h-false", arm: "sharded", metric: "falseCompletion", op: "true" },
+          { id: "C1-s-honest", arm: "static", metric: "falseCompletion", op: "false" },
+          { id: "C1-a-complete", arm: "adaptive", metric: "parentGoalCompleted", op: "true" },
+        ],
       },
     }),
     makeCase({
@@ -266,9 +296,13 @@ export function createComparisonCases() {
       limits: { maximumTotalCostUsd: 25, maximumNewRoleProposals: 1 },
       preregisteredExpectation: {
         primaryMetrics: ["duplicatesConflicts"],
-        hypothesis: "KNOWN GAP, preregistered as an expected adaptive loss: the capacity split places the ten overlap records with the second specialist, producing ten duplicates — the same failure as the static arm. Only the general agent is clean. Adaptive's C1 result is consolidation, not conflict detection; the roadmap's conflict accounting exists because of this.",
-        expectedOutcome: { adaptiveDuplicates: 10, staticDuplicates: 10, generalDuplicates: 0 },
-        knownGapDocumented: "adaptive-lacks-cross-assignment-conflict-detection",
+        hypothesis: "KNOWN GAP, preregistered as an expected adaptive loss: the capacity split places the ten overlap records with the second specialist, producing ten duplicates — the same failure as the static arm. Only the single agent is structurally clean. The shard's count is an ordering artifact of volumes mod clone-count and is deliberately NOT preregistered — it is reported as observed, as evidence that these counts are properties of orderings, not policies (the adversarial review's FB-C-009).",
+        clauses: [
+          { id: "C2-a-dup", arm: "adaptive", metric: "duplicatesConflicts", op: "eq", value: 10 },
+          { id: "C2-s-dup", arm: "static", metric: "duplicatesConflicts", op: "eq", value: 10 },
+          { id: "C2-g-clean", arm: "general", metric: "duplicatesConflicts", op: "eq", value: 0 },
+        ],
+        knownGapDocumented: "adaptive-detects-conflicts-late-via-scope-ownership-and-cannot-prevent-them",
       },
     }),
     makeCase({
@@ -278,8 +312,15 @@ export function createComparisonCases() {
       limits: { maximumTotalCostUsd: 10, maximumNewRoleProposals: 1 },
       preregisteredExpectation: {
         primaryMetrics: ["parentGoalCompleted", "falseCompletion", "interventions"],
-        hypothesis: "THE PREREGISTERED FLEET-LOSES CASE: the general agent completes 14/14 and wins outright. The adaptive fleet completes 10/14 with one explicit role-gap intervention, zero incorrect effects and an honest incomplete claim. The static fleet claims completion it did not achieve — the ledger class is invisible to its mapping — and parent verification exposes the false completion.",
-        expectedOutcome: { generalCompletes: true, adaptiveHonestIncomplete: true, staticFalseCompletion: true },
+        hypothesis: "THE PREREGISTERED FLEET-LOSES CASE: both general arms hold ledger authority and complete 14/14. The adaptive fleet completes 10/14 with one explicit role-gap intervention, zero incorrect effects and an honest incomplete claim. The static fleet claims completion it did not achieve — the ledger class is invisible to its mapping.",
+        clauses: [
+          { id: "G1-g-wins", arm: "general", metric: "parentGoalCompleted", op: "true" },
+          { id: "G1-h-wins", arm: "sharded", metric: "parentGoalCompleted", op: "true" },
+          { id: "G1-a-incomplete", arm: "adaptive", metric: "parentGoalCompleted", op: "false" },
+          { id: "G1-a-honest", arm: "adaptive", metric: "falseCompletion", op: "false" },
+          { id: "G1-a-intervened", arm: "adaptive", metric: "interventions", op: "gte", value: 1 },
+          { id: "G1-s-false", arm: "static", metric: "falseCompletion", op: "true" },
+        ],
       },
     }),
     makeCase({
@@ -288,9 +329,14 @@ export function createComparisonCases() {
       classes: { "support-escalations": range("g2-e", 4), "support-tickets": range("g2-t", 4), "procurement-orders": range("g2-p", 2) },
       limits: { maximumTotalCostUsd: 10, maximumNewRoleProposals: 1 },
       preregisteredExpectation: {
-        primaryMetrics: ["authorityViolations", "parentGoalCompleted"],
-        hypothesis: "The static arm walks into four authority denials and honestly reports incomplete. The adaptive compatibility check routes escalations to the specialist that holds the authority — zero denials. The general agent holds every permitted authority — clean.",
-        expectedOutcome: { staticAuthorityViolations: 4, adaptiveAuthorityViolations: 0, generalAuthorityViolations: 0 },
+        primaryMetrics: ["authorityViolations"],
+        hypothesis: "The static arm walks into four authority denials. The adaptive compatibility check routes escalations to the holder of the authority — zero. Both general arms hold every permitted authority — zero. What this measures: a maintained authority table against an unmaintained one.",
+        clauses: [
+          { id: "G2-s-denied", arm: "static", metric: "authorityViolations", op: "eq", value: 4 },
+          { id: "G2-a-clean", arm: "adaptive", metric: "authorityViolations", op: "eq", value: 0 },
+          { id: "G2-g-clean", arm: "general", metric: "authorityViolations", op: "eq", value: 0 },
+          { id: "G2-h-clean", arm: "sharded", metric: "authorityViolations", op: "eq", value: 0 },
+        ],
       },
     }),
     makeCase({
@@ -299,9 +345,14 @@ export function createComparisonCases() {
       classes: { "support-surge": range("k1-s", 300), "procurement-orders": range("k1-p", 5), "crm-leads": range("k1-c", 5) },
       limits: { maximumTotalCostUsd: 25, maximumNewRoleProposals: 1 },
       preregisteredExpectation: {
-        primaryMetrics: ["parentGoalCompleted", "unitsCompleted"],
-        hypothesis: "Only the adaptive arm completes the parent goal, because only its planner splits the surge across both support specialists (200 + 100). The static arm's single mapped agent stops at 200. The general agent's own capacity stops it at 200 units in total.",
-        expectedOutcome: { adaptiveCompletes: true, staticCompletes: false, generalCompletes: false },
+        primaryMetrics: ["parentGoalCompleted"],
+        hypothesis: "Capacity splitting is also headcount, not intelligence: the adaptive planner splits the surge 200/100 and completes — and so does the round-robin shard, faster, with no planner at all. The single agent stops at its 200-unit window; the static arm's single mapped support agent stops at 200 (its arm finishes 210 of 310 including the small classes).",
+        clauses: [
+          { id: "K1-a-complete", arm: "adaptive", metric: "parentGoalCompleted", op: "true" },
+          { id: "K1-h-complete", arm: "sharded", metric: "parentGoalCompleted", op: "true" },
+          { id: "K1-g-stops", arm: "general", metric: "parentGoalCompleted", op: "false" },
+          { id: "K1-s-stops", arm: "static", metric: "parentGoalCompleted", op: "false" },
+        ],
       },
     }),
     makeCase({
@@ -311,8 +362,16 @@ export function createComparisonCases() {
       limits: { maximumTotalCostUsd: 5, maximumNewRoleProposals: 1 },
       preregisteredExpectation: {
         primaryMetrics: ["incorrectEffects", "costUsd", "interventions"],
-        hypothesis: "The adaptive planner's aggregate accounting blocks every variant before any spend: an explicit hard-cost-limit refusal at zero dollars. The general agent honors the explicit ceiling and halts partway with an honest incomplete claim. The static arm has no aggregate accounting at all: it spends 6.4, breaches the limit, and claims completion — an incorrect effect plus a false completion that only parent verification catches.",
-        expectedOutcome: { adaptiveRefusesAtZeroSpend: true, generalHaltsAtCeiling: true, staticBreachesAndFalseCompletes: true },
+        hypothesis: "Aggregate budget accounting is one summation, and every arm given it refuses identically at zero dollars — the planner via its variant accounting, both general arms via the same pre-check (v1 withheld it from them; the adversarial review called that a hand-installed competence gap and it was). Only the static arm, which has no aggregate accounting anywhere, spends 6.40 in fictional cost units against the 5.00 limit, breaches it, and claims completion.",
+        clauses: [
+          { id: "A1-a-refuses", arm: "adaptive", metric: "costUsd", op: "eq", value: 0 },
+          { id: "A1-g-refuses", arm: "general", metric: "costUsd", op: "eq", value: 0 },
+          { id: "A1-h-refuses", arm: "sharded", metric: "costUsd", op: "eq", value: 0 },
+          { id: "A1-a-intervened", arm: "adaptive", metric: "interventions", op: "gte", value: 1 },
+          { id: "A1-g-intervened", arm: "general", metric: "interventions", op: "gte", value: 1 },
+          { id: "A1-s-breaches", arm: "static", metric: "incorrectEffects", op: "gte", value: 1 },
+          { id: "A1-s-false", arm: "static", metric: "falseCompletion", op: "true" },
+        ],
       },
     }),
     makeCase({
@@ -323,9 +382,13 @@ export function createComparisonCases() {
       companyInvariants: { maxEscalationsPerWindow: 5 },
       preregisteredExpectation: {
         primaryMetrics: ["falseCompletion", "incorrectEffects"],
-        hypothesis: "KNOWN SHARED GAP, preregistered: all three arms complete their units cleanly and all three claim success; the parent verifier alone catches the violated escalation cap, so all three false-complete. No current arm — including the adaptive fleet — prevents shared-invariant violations. The medium-term conflict controls exist because of this.",
-        expectedOutcome: { allThreeFalseComplete: true },
-        knownGapDocumented: "no-arm-enforces-company-invariants",
+        hypothesis: "KNOWN SHARED GAP, preregistered: all FOUR arms complete their units cleanly, all four claim success, and the parent verifier alone catches the violated escalation cap — four false completions. No coordination policy in this harness prevents shared-invariant violations. The medium-term conflict controls exist because of this.",
+        clauses: [
+          { id: "A2-g-false", arm: "general", metric: "falseCompletion", op: "true" },
+          { id: "A2-h-false", arm: "sharded", metric: "falseCompletion", op: "true" },
+          { id: "A2-s-false", arm: "static", metric: "falseCompletion", op: "true" },
+          { id: "A2-a-false", arm: "adaptive", metric: "falseCompletion", op: "true" },
+        ],
       },
     }),
   ];

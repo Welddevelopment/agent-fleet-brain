@@ -353,7 +353,7 @@ export async function runFleetBrainDemo({ outputDirectory, approvedBy = "demo-op
 
   // ---- ACT 4 — the comparison verdict and the paid evidence ----------------
   let comparison = { status: "absent" };
-  const summaryPath = path.resolve("artifacts/fleet-comparison/deterministic-v1/summary.json");
+  const summaryPath = path.resolve("artifacts/fleet-comparison/deterministic-v2/summary.json");
   if (fs.existsSync(summaryPath)) {
     const summary = JSON.parse(fs.readFileSync(summaryPath, "utf8"));
     const expected = summary.summaryHash;
@@ -366,14 +366,14 @@ export async function runFleetBrainDemo({ outputDirectory, approvedBy = "demo-op
   stages.push(stageReceipt("comparison-verdict", comparison.status, {
     comparison,
     summaryLine: comparison.status === "verified"
-      ? `The sealed three-arm comparison (11 cases, ${comparison.hypothesisSummary.matched}/${comparison.hypothesisSummary.total} preregistered hypotheses matched) — including the fleet's losses: the general agent wins small cases on cost and wins the role-gap case outright. The wins and the losses are the same artifact.`
+      ? `The sealed four-arm comparison, v2 — rebuilt the same night after two adversarial reviews broke v1's fairness claim (FB-0002): 11 cases, ${comparison.hypothesisSummary.matched}/${comparison.hypothesisSummary.totalClauses} sealed clauses matched, including the fleet's losses to a naive 5-way shard on latency and capacity. Its measured edge: conflict behaviour under overlap, authority routing, aggregate budget refusal. Wins and losses are the same artifact.`
       : "Comparison artifacts not present or failed integrity — nothing is claimed.",
   }));
 
   const paidEvidence = loadPaidEvidence();
-  stages.push(stageReceipt("paid-evidence", "separate-never-merged", {
+  stages.push(stageReceipt("paid-evidence", "das-evidence-shown-separately", {
     paidEvidence,
-    summaryLine: `Separately, and never merged with the deterministic chain: V2, a small model-backed campaign, completed 3/3 ($${paidEvidence.v2.status === "verified" ? paidEvidence.v2.spentUsd.toFixed(4) : "?"}, ${paidEvidence.v2.status === "verified" ? paidEvidence.v2.settledCalls : "?"} settled calls). V3 HALTED on a failed independent verification ($${paidEvidence.v3.status === "verified" ? paidEvidence.v3.spentUsd.toFixed(4) : "?"}, ${paidEvidence.v3.status === "verified" ? paidEvidence.v3.settledCalls : "?"} calls) — a preregistered valid loss, shown because hiding it would be the real failure.`,
+    summaryLine: `DAS's paid evidence, shown for context and never merged with the deterministic chain — the V2 and V3 campaigns are DAS Level 2 evidence, not Fleet Brain's (Joel's ruling, 2026-08-22; this code was hosted in the DAS repo when they ran). V2 completed 3/3 ($${paidEvidence.v2.status === "verified" ? paidEvidence.v2.spentUsd.toFixed(4) : "?"}, ${paidEvidence.v2.status === "verified" ? paidEvidence.v2.settledCalls : "?"} settled calls). V3 HALTED on a failed independent verification ($${paidEvidence.v3.status === "verified" ? paidEvidence.v3.spentUsd.toFixed(4) : "?"}, ${paidEvidence.v3.status === "verified" ? paidEvidence.v3.settledCalls : "?"} calls) — a preregistered valid loss, shown because hiding it would be the real failure.`,
   }));
 
   const story = {
@@ -382,7 +382,7 @@ export async function runFleetBrainDemo({ outputDirectory, approvedBy = "demo-op
     stages,
     honesty: {
       notProved: [
-        "Nothing here shows a model did anything — the chain is deterministic control plumbing over fictional work",
+        "Nothing in the deterministic chain above shows a model did anything — it is control plumbing over fictional work (the separately-shown paid runs are DAS's evidence, not this chain's)",
         "Decomposition is company-declared classification, not autonomous strategy",
         "Specialist construction is a separate, explicitly approved, zero-spend stage — not dynamic live creation",
         "No CF integration, no customers, no production, no demand evidence",
@@ -399,7 +399,7 @@ export async function runFleetBrainDemo({ outputDirectory, approvedBy = "demo-op
 }
 
 export function loadPaidEvidence() {
-  const result = { separateFromDeterministicChain: true, v2: { status: "absent" }, v3: { status: "absent" } };
+  const result = { separateFromDeterministicChain: true, owner: "das", ownershipNote: "V2 and V3 are DAS Level 2 evidence (Joel's ruling, 2026-08-22). Shown by Fleet Brain for context; never credited to it.", v2: { status: "absent" }, v3: { status: "absent" } };
   try {
     const receipt = JSON.parse(fs.readFileSync(path.resolve("artifacts/fleet/prospective-model-campaign-v2/model-run/completion-receipt.json"), "utf8"));
     const expected = receipt.receiptHash;

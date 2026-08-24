@@ -1,0 +1,198 @@
+{
+  "schemaVersion": "fleetbrain.comparison-preregistration.v2",
+  "campaignId": "fleet-comparison-deterministic-v2",
+  "graderModuleSha256": "e7d1b320227c75de22da39a5f9e554c905e398ba5dac123798081078d8b9cdf4",
+  "sealedClauseCount": 53,
+  "caseVault": {
+    "digest": "b4dbf77e341fdb4daa97ff038ebc16ce345137eeba77200cd52ef8967c012ea5",
+    "count": 11,
+    "payloadsIncluded": false
+  },
+  "rosterHash": "2114861b543bca230ecd2fc2bad8b8c86874597cb334f4f7bf6fff351a42ac9a",
+  "constantsHash": "e83e42fac11db297293071072d5241bef1e0d8e70e74b81c3240e96bbbf21fb0",
+  "staticMappingHash": "5def2a1889f68095bcebf65fc18b1b694247f02ea8e6689399cab4346e9ecdac",
+  "armDeclarations": [
+    {
+      "armId": "general",
+      "module": "src/fleet/comparison-arms.js",
+      "exportName": "runGeneralAgentArm"
+    },
+    {
+      "armId": "sharded",
+      "module": "src/fleet/comparison-arms.js",
+      "exportName": "runShardedGeneralAgentsArm"
+    },
+    {
+      "armId": "static",
+      "module": "src/fleet/comparison-arms.js",
+      "exportName": "runStaticFleetArm"
+    },
+    {
+      "armId": "adaptive",
+      "module": "src/fleet/comparison-arms.js",
+      "exportName": "runAdaptiveFleetArm"
+    }
+  ],
+  "metricsCatalog": [
+    {
+      "name": "parentGoalCompleted",
+      "direction": "true-is-good",
+      "definition": "The world-truth parent verifier's verdict: every record completed exactly once, no duplicates, conflicts, denials or invariant violations."
+    },
+    {
+      "name": "falseCompletion",
+      "direction": "false-is-good",
+      "definition": "The arm claimed completion while the parent verifier found the goal incomplete or violated."
+    },
+    {
+      "name": "incorrectEffects",
+      "direction": "lower-is-good",
+      "definition": "Duplicates + conflicting writes + violated invariants, counted from world truth."
+    },
+    {
+      "name": "authorityViolations",
+      "direction": "lower-is-good",
+      "definition": "Denied write attempts recorded by the world."
+    },
+    {
+      "name": "duplicatesConflicts",
+      "direction": "lower-is-good",
+      "definition": "Duplicate effective writes plus conflicting-action records."
+    },
+    {
+      "name": "costUsd",
+      "direction": "lower-is-good",
+      "definition": "Effective spend on work units plus activation overhead per activated agent."
+    },
+    {
+      "name": "latencyProxyMs",
+      "direction": "lower-is-good",
+      "definition": "Deterministic lane model: per agent lane, activation latency plus the sum of its unit latencies; an arm's latency is its slowest lane. Planning arithmetic, not measured runtime — and it EXCLUDES planning, verification and controller compute, which no arm is charged for (declared per the adversarial review's FB-C-007)."
+    },
+    {
+      "name": "interventions",
+      "direction": "context-dependent",
+      "definition": "Explicit refusals, halts, role gaps and blockers the arm surfaced to a human instead of proceeding. An honest intervention beats a silent failure; an unnecessary one is overhead."
+    },
+    {
+      "name": "unnecessaryAgents",
+      "direction": "lower-is-good",
+      "definition": "Roster agents AVAILABLE to the arm that completed zero units — counted against the roster the arm holds, not its self-reported activation list (v2 fix, FB-C-015)."
+    },
+    {
+      "name": "scopeReceiptsFailed",
+      "direction": "lower-is-good",
+      "definition": "Scope-verification receipts the arm holds that failed. Under the unified claim rule an arm holding a failing receipt cannot claim completion; this metric makes any such receipt visible (v2 fix, FB-C-003)."
+    }
+  ],
+  "regimes": [
+    {
+      "id": "small-simple",
+      "caseIds": [
+        "S1",
+        "S2"
+      ],
+      "hypotheses": [
+        "The single general agent wins on cost: one activation against three working agents in every multi-agent arm. Every arm completes. Idle roster shows up as two unnecessary agents in each fleet arm and the shard.",
+        "Same shape as S1: the single general agent wins cost. At six units the round-robin shard activates five clones and pays the most overhead of anyone."
+      ],
+      "clauseCount": 10
+    },
+    {
+      "id": "parallel-latency",
+      "caseIds": [
+        "P1",
+        "P2"
+      ],
+      "hypotheses": [
+        "Parallelism is headcount, not intelligence: the round-robin shard beats EVERY other arm on latency, including both fleets, because its partition is more even than one-agent-per-system lanes. The fleets still beat the single agent. Every arm completes.",
+        "Uneven lanes hurt the fleets (their latency is the busiest system lane) but not the shard (its partition ignores systems). Shard fastest again; fleets still beat the single agent."
+      ],
+      "clauseCount": 8
+    },
+    {
+      "id": "shared-record-conflict",
+      "caseIds": [
+        "C1",
+        "C2"
+      ],
+      "hypotheses": [
+        "THE COORDINATION CASE. Overlapping queues: the static split double-writes 3 records; the round-robin shard ALSO double-writes 3 (different clones catch the two copies) and — because every clone-scoped receipt passes — claims completion falsely. The adaptive planner lands both queues on one specialist (a capacity-permitting consolidation via deterministic tie-break, not conflict detection — see C2) and its idempotent replays produce 0. The single agent replays its own keys: 0 duplicates by construction, since duplicates require two writers.",
+        "KNOWN GAP, preregistered as an expected adaptive loss: the capacity split places the ten overlap records with the second specialist, producing ten duplicates — the same failure as the static arm. Only the single agent is structurally clean. The shard's count is an ordering artifact of volumes mod clone-count and is deliberately NOT preregistered — it is reported as observed, as evidence that these counts are properties of orderings, not policies (the adversarial review's FB-C-009)."
+      ],
+      "clauseCount": 10
+    },
+    {
+      "id": "role-gap",
+      "caseIds": [
+        "G1"
+      ],
+      "hypotheses": [
+        "THE PREREGISTERED FLEET-LOSES CASE: both general arms hold ledger authority and complete 14/14. The adaptive fleet completes 10/14 with one explicit role-gap intervention, zero incorrect effects and an honest incomplete claim. The static fleet claims completion it did not achieve — the ledger class is invisible to its mapping."
+      ],
+      "clauseCount": 6
+    },
+    {
+      "id": "stale-authority",
+      "caseIds": [
+        "G2"
+      ],
+      "hypotheses": [
+        "The static arm walks into four authority denials. The adaptive compatibility check routes escalations to the holder of the authority — zero. Both general arms hold every permitted authority — zero. What this measures: a maintained authority table against an unmaintained one."
+      ],
+      "clauseCount": 4
+    },
+    {
+      "id": "capacity-limit",
+      "caseIds": [
+        "K1"
+      ],
+      "hypotheses": [
+        "Capacity splitting is also headcount, not intelligence: the adaptive planner splits the surge 200/100 and completes — and so does the round-robin shard, faster, with no planner at all. The single agent stops at its 200-unit window; the static arm's single mapped support agent stops at 200 (its arm finishes 210 of 310 including the small classes)."
+      ],
+      "clauseCount": 4
+    },
+    {
+      "id": "aggregate-budget",
+      "caseIds": [
+        "A1"
+      ],
+      "hypotheses": [
+        "Aggregate budget accounting is one summation, and every arm given it refuses identically at zero dollars — the planner via its variant accounting, both general arms via the same pre-check (v1 withheld it from them; the adversarial review called that a hand-installed competence gap and it was). Only the static arm, which has no aggregate accounting anywhere, spends 6.40 in fictional cost units against the 5.00 limit, breaches it, and claims completion."
+      ],
+      "clauseCount": 7
+    },
+    {
+      "id": "aggregate-invariant",
+      "caseIds": [
+        "A2"
+      ],
+      "hypotheses": [
+        "KNOWN SHARED GAP, preregistered: all FOUR arms complete their units cleanly, all four claim success, and the parent verifier alone catches the violated escalation cap — four false completions. No coordination policy in this harness prevents shared-invariant violations. The medium-term conflict controls exist because of this."
+      ],
+      "clauseCount": 4
+    }
+  ],
+  "fairnessInvariants": {
+    "sharedWorkEngine": true,
+    "unitConstantsPerSystemNotPerAgent": true,
+    "equalPerAgentCapacity": true,
+    "perArmAggregateCapacityDiffers": "1 agent vs 5 — multi-agent arms hold 5x aggregate capacity; latency and capacity results are therefore partly HEADCOUNT, and the sharded baseline exists to separate headcount from coordination (v2 fix, FB-C-001/002)",
+    "equalVerifierAccess": true,
+    "unifiedClaimRuleAllArms": true,
+    "activationChargedPerWorkingAgentAllArms": true,
+    "aggregateBudgetPreCheckAllSingleAndShardedAgents": true,
+    "overheadsOutsideContractAccounting": true,
+    "coordinationComputeUncharged": "planning, verification and controller compute are charged to NO arm; declared, not hidden (FB-C-007)",
+    "companyInvariantsInvisibleToAllArms": true,
+    "costsAndLatenciesAreFictionalModelUnits": true
+  },
+  "authority": {
+    "executionAuthorized": false,
+    "modelSpendAuthorized": false,
+    "roleCreationAuthorized": false,
+    "activationAuthorized": false
+  },
+  "evidenceBoundary": "Preregistered deterministic comparison of coordination policies under competence parity. Hypotheses are sealed before any arm runs and graded as data afterward — a mismatched hypothesis is a result, never an error. No model, no customer, no production claim.",
+  "preregistrationHash": "f77c066d4ca2ebc2a2833848498c1059eb069f53320aaa8982ad6cc60a518944"
+}

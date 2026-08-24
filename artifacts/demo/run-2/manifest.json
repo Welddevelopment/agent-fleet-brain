@@ -1,0 +1,197 @@
+{
+  "schemaVersion": "fleetbrain.demo-story.v1",
+  "generatedFor": "demo-operator",
+  "stages": [
+    {
+      "schemaVersion": "fleetbrain.demo-stage.v1",
+      "stage": "constitution",
+      "status": "sealed",
+      "constitutionHash": "2e213b8c247f1dba05c19fa0992816832680a728eae58e26e61c077d0d417d06",
+      "version": 1,
+      "prohibitedActions": [
+        "delete-customer-data",
+        "transfer-funds"
+      ],
+      "summaryLine": "Company constitution v1 sealed: risk tolerance high, $5 ceiling, 2 prohibited actions. Trusted code re-verifies its hash at every later step.",
+      "stageHash": "1ce057fe75062e53a1465754b74066e677b8ebced829fa7822398369810ea896"
+    },
+    {
+      "schemaVersion": "fleetbrain.demo-stage.v1",
+      "stage": "goal-compilation",
+      "status": "objective-decomposed-and-bound",
+      "objectiveHash": "d4eab1137c75e30625f611e9aac5339c87283cfcab4105d9a76184cdfbb44cfc",
+      "graphHash": "134dee89ad5a3e3061a69c5437bb840004b0235c82413f6a88f0da1aae16a217",
+      "contractHash": "1e1e4e43ae68c99795a4269a3cb3d07f2d2c8a2ab313f5ba4873c0c55b12304c",
+      "bindingReceiptHash": "329e20d42bd53bc47a1588b5ce685806a7681f7813ff9f6df458f32eca488644",
+      "nodes": 3,
+      "executionOrder": [
+        "provisioned",
+        "invoiced",
+        "welcomed"
+      ],
+      "coverage": {
+        "snapshotItems": 3,
+        "mappedItems": 3,
+        "orphanItems": 0,
+        "droppedOptionalClasses": []
+      },
+      "summaryLine": "One declared broad objective decomposed into 3 outcome classes over 3 workload items — coverage exact, dependencies acyclic, every operation adapter-declared, authority checked against the constitution. Declared decomposition, not open-ended strategy.",
+      "stageHash": "c0be2cce393388cd0009f3f2dde4d2ebde7c0d35df6aa7fe73a311557d9881fb"
+    },
+    {
+      "schemaVersion": "fleetbrain.demo-stage.v1",
+      "stage": "plan",
+      "status": "fully-routable-awaiting-execution-approval",
+      "planHash": "acd14f330c1e2a3d21c972bcf643f2686239b1a6fa121f2f2c776c22b7b153fa",
+      "strategy": "cost-first",
+      "assignments": 3,
+      "estimatedCostUsd": 0.48000000000000004,
+      "independentlyVerified": true,
+      "summaryLine": "Four strategy variants scored; cost-first selected: 3 assignments, $0.48 estimated, independently re-verified by a separate checker.",
+      "stageHash": "e91769734728e38dafd4e6b45ceb174c6ff139309447b63eb223eb53dac2def7"
+    },
+    {
+      "schemaVersion": "fleetbrain.demo-stage.v1",
+      "stage": "schedule",
+      "status": "sealed",
+      "scheduleHash": "2ad2e39571b105f4d5728fb33b47d0dfe117b23d103d5feb528d0a5178c3d735",
+      "waves": 2,
+      "parallelPeak": 2,
+      "scheduledLatencyMs": 2000,
+      "serialLatencyMs": 2900,
+      "parallelSpeedup": 1.45,
+      "serializations": 0,
+      "summaryLine": "Deterministic schedule: 2 dependency waves, one writer per system, one assignment per specialist at a time. Estimated 2000ms scheduled vs 2900ms serial (1.45x, planning arithmetic).",
+      "stageHash": "e4ca945f65900c8941c55066f0b543a53ab1766e087863c888da022b382c6553"
+    },
+    {
+      "schemaVersion": "fleetbrain.demo-stage.v1",
+      "stage": "execute-and-verify",
+      "status": "broad-goal-completed",
+      "controllerState": "broad-goal-completed",
+      "parentGoalCompleted": true,
+      "parentVerificationHash": "0e151fa9d91377ca4d9ebc9b291af22a12e84deef8311be63c55967ebf05de62",
+      "aggregateStatus": "aggregate-invariants-hold",
+      "aggregateHash": "0df7032cff6a60b9d4d726d0af73a18294ae645ac5fb88c5b9c81eb75a1a5714",
+      "unitsCompleted": 12,
+      "unitsRequired": 12,
+      "duplicates": 0,
+      "authorityViolations": 0,
+      "actualCostUsd": 0.48000000000000004,
+      "constitutionHeldThroughout": true,
+      "summaryLine": "Exact-hash authorization, then 12/12 fictional units executed and independently verified — per assignment AND in aggregate (aggregate-invariants-hold); zero duplicates, zero authority violations, $0.48 actual. Controller state: broad-goal-completed.",
+      "stageHash": "930b3789ecdcd935fd870379d4ce9f72d400815c2e5c13a0ef9b348027ee313d"
+    },
+    {
+      "schemaVersion": "fleetbrain.demo-stage.v1",
+      "stage": "role-gap-construction",
+      "status": "constructed-and-replanned-awaiting-execution-approval",
+      "stageReceiptHash": "b130d58fbf87122a12272133743007b0ec0cc1769ff88056d794d24dcb8c6c43",
+      "gapRequestHash": "e88035c3fde9c8103423f969fc460a72971b84588e986e453b84d0969f8f6a7c",
+      "preparationHash": "9646be43f20470dfcda044d441c9575f37a5eed2a53aab1221ff0a03b85e2f51",
+      "constructedSpecialistHash": "4a1ef8a0b915423b53e528cb7cb563851f3e1a9401d20b80eb2ecc17a7c906a5",
+      "expandedPlanHash": "28e6b275f8cb9190c61156746584641f643d4b46b054959d251406bb1d138e83",
+      "residualAssignments": 1,
+      "modelCalls": 0,
+      "summaryLine": "A second fictional company's plan stopped honestly at a finance role gap. With explicit approval, DAS's deterministic compiler built a specialist (candidate portfolio, frozen evaluation, tournament), the SAME admission gate re-checked it, and only the blocked work was replanned — prior assignments carried by hash, zero model calls. Planning and construction only; no execution claimed.",
+      "stageHash": "c455d62edb1a1182121b7deb6844e8faded07800591aab93f4805f4567712009"
+    },
+    {
+      "schemaVersion": "fleetbrain.demo-stage.v1",
+      "stage": "refusals",
+      "status": "both-refusals-fired",
+      "prohibitedActionRefusal": "Outcome class invoiced requires prohibited actions: draft-invoice",
+      "blockedPlanStatus": "blocked-by-bounded-limits",
+      "blockedPlanBlockers": [
+        {
+          "code": "hard-cost-limit",
+          "limit": 0.01,
+          "minimumPlannedCostUsd": 0.48000000000000004
+        }
+      ],
+      "summaryLine": "Refusal-first, shown live: a constitution prohibiting draft-invoice stops the objective at compile time naming the class and action; a $0.01 ceiling blocks every plan variant with the exact limit in the blocker. Nothing guessed past either refusal.",
+      "stageHash": "49cef2f36a1c9ca42fad5636d786b1bcc79169146ae17f1201b2a636b76eeb8d"
+    },
+    {
+      "schemaVersion": "fleetbrain.demo-stage.v1",
+      "stage": "comparison-verdict",
+      "status": "verified",
+      "comparison": {
+        "status": "verified",
+        "campaignId": "fleet-comparison-deterministic-v2",
+        "resultHash": "42010ac25a205c6710b0f0ecbc04e19e7753d225cda2134d43371ea7b40b95c2",
+        "hypothesisSummary": {
+          "totalClauses": 53,
+          "matched": 53,
+          "mismatched": 0
+        },
+        "headline": {
+          "theHonestSummary": "Against a naive 5-way shard of general agents, the adaptive fleet's measured edge narrows to conflict behaviour under overlap and authority routing. Parallelism and capacity are headcount, not coordination. All figures are fictional model units.",
+          "adaptiveWins": [
+            "C1: consolidation-by-capacity yields 0 duplicates and a true completion where BOTH the static split and the naive shard double-write 3 records (and the shard claims success falsely)",
+            "G2: a maintained authority table - 0 denials vs the static map's 4 (the general arms also score 0, by holding all authority)",
+            "A1: refuses at $0 like every arm given aggregate accounting; only the static fleet, which has none, breaches and false-completes"
+          ],
+          "adaptiveLosses": [
+            "S1 and S2: the single general agent wins small cases on cost",
+            "P1 and P2: the naive shard is FASTEST of all arms - fleet system-lanes are a worse partition than round-robin",
+            "G1: both general arms complete 14/14 where the honest fleet returns the gap at 10/14",
+            "K1: the shard completes the 300-unit surge too, faster and with no planner - capacity splitting is headcount"
+          ],
+          "knownGaps": [
+            "C2: adaptive duplicates 10 across a forced capacity split - consolidation is not conflict detection (detection is late, via scope ownership, and cannot prevent)",
+            "A2: no arm sees company invariants; all FOUR false-complete against the escalation cap"
+          ]
+        },
+        "evidenceBoundary": "Deterministic scripted arms over fictional worlds under per-agent competence parity, with the headcount asymmetry declared and a sharded baseline included to separate headcount from coordination. This measures coordination-policy differences only. No model ran; it is not evidence about model-backed agents, external frameworks, or customer outcomes."
+      },
+      "summaryLine": "The sealed four-arm comparison, v2 — rebuilt the same night after two adversarial reviews broke v1's fairness claim (FB-0002): 11 cases, 53/53 sealed clauses matched, including the fleet's losses to a naive 5-way shard on latency and capacity. Its measured edge: conflict behaviour under overlap, authority routing, aggregate budget refusal. Wins and losses are the same artifact.",
+      "stageHash": "d0c784d3524f2d07338d46516f112417988ffa4b5d1ab39fb6f22da71b9f41b0"
+    },
+    {
+      "schemaVersion": "fleetbrain.demo-stage.v1",
+      "stage": "paid-evidence",
+      "status": "das-evidence-shown-separately",
+      "paidEvidence": {
+        "separateFromDeterministicChain": true,
+        "owner": "das",
+        "ownershipNote": "V2 and V3 are DAS Level 2 evidence (Joel's ruling, 2026-08-22). Shown by Fleet Brain for context; never credited to it.",
+        "v2": {
+          "status": "verified",
+          "campaignStatus": "completed-and-independently-verified",
+          "parentGoalCompleted": true,
+          "spentUsd": 0.2526419999999999,
+          "settledCalls": 56,
+          "framing": "completed and independently verified"
+        },
+        "v3": {
+          "status": "verified",
+          "campaignStatus": "failed",
+          "state": "halted",
+          "haltReason": "verification-failed",
+          "spentUsd": 0.07557426999999999,
+          "settledCalls": 49,
+          "framing": "a preregistered valid loss: the controller halted on a failed independent verification and refused to report success"
+        }
+      },
+      "summaryLine": "DAS's paid evidence, shown for context and never merged with the deterministic chain — the V2 and V3 campaigns are DAS Level 2 evidence, not Fleet Brain's (Joel's ruling, 2026-08-22; this code was hosted in the DAS repo when they ran). V2 completed 3/3 ($0.2526, 56 settled calls). V3 HALTED on a failed independent verification ($0.0756, 49 calls) — a preregistered valid loss, shown because hiding it would be the real failure.",
+      "stageHash": "006db7092b62557ee9c0f6d1cd0db29156af0fa2e380c70524fa95291058d00a"
+    }
+  ],
+  "honesty": {
+    "notProved": [
+      "Nothing in the deterministic chain above shows a model did anything — it is control plumbing over fictional work (the separately-shown paid runs are DAS's evidence, not this chain's)",
+      "Decomposition is company-declared classification, not autonomous strategy",
+      "Specialist construction is a separate, explicitly approved, zero-spend stage — not dynamic live creation",
+      "No CF integration, no customers, no production, no demand evidence",
+      "No claim of superiority over OpenAI Agents / LangGraph / CrewAI / Magentic-One — untested",
+      "Fixture specialists are fixture records; admitted bounds are owner-set, not throughput proof"
+    ],
+    "boundary": "A deterministic, fictional, zero-spend demonstration of Fleet Brain's control mechanism: bounded decomposition, constitutional constraint, allocation, scheduling, exact-hash authorization, independent per-assignment and aggregate verification, honest refusal, and gap-driven specialist construction through DAS."
+  },
+  "deterministic": {
+    "modelCalls": 0,
+    "paidModelSpendUsd": 0
+  },
+  "storyHash": "ceb82e6eadaff332cd2278e18eb843b15cb56d7a575590cf1a1d45de36c0743b"
+}

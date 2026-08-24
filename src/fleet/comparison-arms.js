@@ -1,29 +1,40 @@
 import path from "node:path";
 import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
-import { createBoundedFleetContract } from "./bounded-level2-contract.js";
 import { BoundedFleetController, createFleetAssignmentObservation } from "./bounded-level2-controller.js";
 import { createBoundedFleetPlan } from "./bounded-level2-planner.js";
 import { verifyBoundedFleetPlan } from "./bounded-level2-verifier.js";
 import { executeAssignedUnits, unitsForWorkload } from "./comparison-work-engine.js";
 import { verifyComparisonAssignmentScope } from "./comparison-world.js";
 
-// The three arms. One signature shape, one work engine, one world API — each arm
-// is nothing but a coordination policy:
+// The four arms. One signature shape, one work engine, one world API, ONE CLAIM
+// RULE — each arm is nothing but a coordination policy:
 //
-//   general  — one strong agent, everything serial, honors the explicit cost limit.
+//   general  — one strong agent, serial, with the same aggregate budget pre-check
+//              the planner has (v1 denied it that one-line competence; fixed).
+//   sharded  — N clones of the general agent, work dealt round-robin, zero
+//              coordination machinery. The strong simpler baseline v1 lacked.
 //   static   — a frozen roster and a frozen mapping; no gap detection, no replanning.
-//   adaptive — the existing bounded fleet pipeline VERBATIM: contract -> plan ->
-//              independent verification -> exact-hash authorization -> durable
-//              controller -> observations. Nothing is added that the shipped
-//              modules do not already do; where the adaptive arm genuinely lacks a
-//              control (cross-assignment conflict detection, company invariants),
-//              it loses, and the loss is the result.
+//   adaptive — the shipped planner, verifier and controller unmodified, driven by
+//              harness-constructed observations (the record-to-specialist partition
+//              is a harness bridge — the shipped planner allocates quantities, not
+//              records; stated here because calling this arm "verbatim" overstated it).
+//
+// v1 -> v2 changes, all from the adversarial fairness review (FB-0002):
+//   unified claim rule: an arm claims completion iff nothing halted or refused AND
+//     every scope receipt it holds passed (v1's static arm ignored its own failing
+//     receipt, manufacturing a false completion in C1);
+//   activation is charged per agent that actually received work, in every arm
+//     (v1 charged 1x/3x/5x against the same roster);
+//   the general agents run the planner's aggregate budget pre-check;
+//   arm run records carry rosterAvailable so idle capacity is scored against the
+//     roster an arm HOLDS, not the list it chose to report.
+
+function requireCondition(condition, message) {
+  if (!condition) throw new Error(message);
+}
 
 function armRunRecord(fields) {
-  const record = {
-    schemaVersion: "fleetbrain.comparison-arm-run.v1",
-    ...fields,
-  };
+  const record = { schemaVersion: "fleetbrain.comparison-arm-run.v2", ...fields };
   record.armRunHash = digest(record);
   return Object.freeze(record);
 }
@@ -35,8 +46,44 @@ function lanesFrom(agentLanes, activationLatencyMs) {
   return { lanes, latencyProxyMs: lanes.length ? Math.max(...lanes.map((lane) => lane.laneLatencyMs)) : 0 };
 }
 
+// The one claim rule, applied to every arm: claim completion only when nothing
+// halted or refused and every held scope receipt passed. Which scopes an arm
+// verifies remains its coordination policy; believing its own verifier does not.
+function unifiedClaim({ halted, refusal, scopeVerifications }) {
+  if (halted || refusal) return false;
+  return scopeVerifications.length > 0 && scopeVerifications.every((receipt) => receipt.passed);
+}
+
+function plannedUnitSpend(caseRecord, contract, constants) {
+  return contract.workload.reduce((sum, item) => sum + unitsForWorkload(caseRecord, item.id, constants).reduce((inner, unit) => inner + unit.unitCostUsd, 0), 0);
+}
+
+function budgetRefusalRecord({ armId, policyDescription, plannedUsd, limitUsd, rosterAvailable }) {
+  return armRunRecord({
+    armId,
+    policyDescription,
+    rosterAvailable,
+    activatedAgents: [],
+    lanes: [],
+    latencyProxyMs: 0,
+    coordinationOverheadUsd: 0,
+    effectSpendUsd: 0,
+    totalCostUsd: 0,
+    claimedCompleted: false,
+    claimReason: "aggregate-budget-refusal",
+    interventions: [{ kind: "aggregate-budget-refusal", detail: `Planned unit spend $${plannedUsd.toFixed(2)} exceeds the explicit hard cost limit of $${limitUsd}` }],
+    refusal: { blockers: [{ code: "aggregate-budget-precheck", plannedUsd: Number(plannedUsd.toFixed(10)), limitUsd }] },
+    scopeVerifications: [],
+  });
+}
+
 export function runGeneralAgentArm({ caseRecord, contract, roster, world, constants }) {
   const agent = roster.generalAgent;
+  const policyDescription = "One strong general agent with every permitted tool: everything serial, one activation, per-scope verification before claiming, and the same aggregate budget pre-check the planner has.";
+  const plannedUsd = plannedUnitSpend(caseRecord, contract, constants);
+  if (plannedUsd > contract.limits.maximumTotalCostUsd) {
+    return budgetRefusalRecord({ armId: "general", policyDescription, plannedUsd, limitUsd: contract.limits.maximumTotalCostUsd, rosterAvailable: 1 });
+  }
   const scopeVerifications = [];
   const interventions = [];
   let spendUsd = 0;
@@ -51,11 +98,6 @@ export function runGeneralAgentArm({ caseRecord, contract, roster, world, consta
     for (const unit of units) {
       if (capacityRemaining <= 0) {
         interventions.push({ kind: "capacity-halt", detail: `Capacity ${agent.capacityPerWindow} exhausted before ${unit.recordId}` });
-        halted = true;
-        break;
-      }
-      if (spendUsd + unit.unitCostUsd > contract.limits.maximumTotalCostUsd) {
-        interventions.push({ kind: "budget-halt", detail: `Next unit ${unit.recordId} would exceed the explicit hard cost limit of $${contract.limits.maximumTotalCostUsd}` });
         halted = true;
         break;
       }
@@ -77,13 +119,13 @@ export function runGeneralAgentArm({ caseRecord, contract, roster, world, consta
     }
   }
 
-  const scopesPassed = scopeVerifications.length === contract.workload.length && scopeVerifications.every((receipt) => receipt.passed);
-  const claimedCompleted = !halted && scopesPassed;
+  const claimedCompleted = unifiedClaim({ halted, refusal: null, scopeVerifications });
   const { lanes, latencyProxyMs } = lanesFrom(new Map([[agent.id, { unitCount: unitsCompleted, workLatencyMs }]]), constants.activationOverhead.latencyMs);
   const coordinationOverheadUsd = constants.activationOverhead.costUsd;
   return armRunRecord({
     armId: "general",
-    policyDescription: "One strong general agent with every permitted tool: everything serial, one activation, per-scope verification before claiming, honors the explicit hard cost limit.",
+    policyDescription,
+    rosterAvailable: 1,
     activatedAgents: [{ agentId: agent.id, unitsCompleted }],
     lanes,
     latencyProxyMs,
@@ -91,8 +133,62 @@ export function runGeneralAgentArm({ caseRecord, contract, roster, world, consta
     effectSpendUsd: Number(spendUsd.toFixed(10)),
     totalCostUsd: Number((spendUsd + coordinationOverheadUsd).toFixed(10)),
     claimedCompleted,
-    claimReason: claimedCompleted ? "every-unit-executed-and-scope-verified" : halted ? interventions[interventions.length - 1].kind : "scope-verification-failed",
+    claimReason: claimedCompleted ? "all-scope-receipts-passed" : halted ? interventions[interventions.length - 1].kind : "scope-verification-failed",
     interventions,
+    refusal: null,
+    scopeVerifications,
+  });
+}
+
+export function runShardedGeneralAgentsArm({ caseRecord, contract, roster, world, constants }) {
+  const cloneCount = roster.specialists.length;
+  const policyDescription = `${cloneCount} clones of the general agent with work dealt round-robin by record: zero planning, zero routing intelligence, zero conflict awareness. The strong simpler baseline — what a team gets by hiring generalists and splitting the pile.`;
+  const plannedUsd = plannedUnitSpend(caseRecord, contract, constants);
+  if (plannedUsd > contract.limits.maximumTotalCostUsd) {
+    return budgetRefusalRecord({ armId: "sharded", policyDescription, plannedUsd, limitUsd: contract.limits.maximumTotalCostUsd, rosterAvailable: cloneCount });
+  }
+  const cloneIds = Array.from({ length: cloneCount }, (_, index) => `${roster.generalAgent.id}-clone-${index + 1}`);
+  const unitsByClone = new Map(cloneIds.map((id) => [id, []]));
+  let streamIndex = 0;
+  for (const item of contract.workload) {
+    for (const unit of unitsForWorkload(caseRecord, item.id, constants)) {
+      unitsByClone.get(cloneIds[streamIndex % cloneCount]).push(unit);
+      streamIndex += 1;
+    }
+  }
+  const agentLanes = new Map();
+  let spendUsd = 0;
+  for (const cloneId of cloneIds) {
+    const units = unitsByClone.get(cloneId);
+    if (units.length === 0) continue;
+    const outcome = executeAssignedUnits({ world, agentId: cloneId, agentAuthorityActions: roster.generalAgent.capability.authorityActions, units, capacityRemaining: roster.generalAgent.capacityPerWindow });
+    spendUsd += outcome.spendUsd;
+    agentLanes.set(cloneId, { unitCount: outcome.executedCount + outcome.replayedCount, workLatencyMs: outcome.workLatencyMs });
+  }
+  const scopeVerifications = contract.workload.map((item) => verifyComparisonAssignmentScope({
+    world,
+    workloadId: item.id,
+    recordIds: caseRecord.workloadUnits[item.id],
+    agentIds: cloneIds,
+    claimedAction: item.requirement.authorityActions[0],
+    verifierId: item.requirement.verifierId,
+  }));
+  const claimedCompleted = unifiedClaim({ halted: false, refusal: null, scopeVerifications });
+  const { lanes, latencyProxyMs } = lanesFrom(agentLanes, constants.activationOverhead.latencyMs);
+  const coordinationOverheadUsd = Number((agentLanes.size * constants.activationOverhead.costUsd).toFixed(10));
+  return armRunRecord({
+    armId: "sharded",
+    policyDescription,
+    rosterAvailable: cloneCount,
+    activatedAgents: [...agentLanes.entries()].map(([agentId, lane]) => ({ agentId, unitsCompleted: lane.unitCount })).sort((left, right) => left.agentId.localeCompare(right.agentId)),
+    lanes,
+    latencyProxyMs,
+    coordinationOverheadUsd,
+    effectSpendUsd: Number(spendUsd.toFixed(10)),
+    totalCostUsd: Number((spendUsd + coordinationOverheadUsd).toFixed(10)),
+    claimedCompleted,
+    claimReason: claimedCompleted ? "all-scope-receipts-passed" : "scope-verification-failed",
+    interventions: [],
     refusal: null,
     scopeVerifications,
   });
@@ -100,11 +196,11 @@ export function runGeneralAgentArm({ caseRecord, contract, roster, world, consta
 
 export function runStaticFleetArm({ caseRecord, contract, roster, staticMapping, world, constants }) {
   const scopeVerifications = [];
-  const agentLanes = new Map(roster.specialists.map((specialist) => [specialist.id, { unitCount: 0, workLatencyMs: 0 }]));
+  const agentLanes = new Map();
   const capacity = new Map(roster.specialists.map((specialist) => [specialist.id, specialist.performance.capacityPerWindow]));
   const byId = new Map(roster.specialists.map((specialist) => [specialist.id, specialist]));
   let spendUsd = 0;
-  let mappedClassesClean = true;
+  let halted = false;
 
   for (const item of contract.workload) {
     const agentId = staticMapping.classAgent[item.id];
@@ -120,10 +216,10 @@ export function runStaticFleetArm({ caseRecord, contract, roster, staticMapping,
     });
     capacity.set(agentId, outcome.capacityRemaining);
     spendUsd += outcome.spendUsd;
+    if (!agentLanes.has(agentId)) agentLanes.set(agentId, { unitCount: 0, workLatencyMs: 0 });
     const lane = agentLanes.get(agentId);
     lane.unitCount += outcome.executedCount + outcome.replayedCount;
     lane.workLatencyMs += outcome.workLatencyMs;
-    if (outcome.deniedCount > 0 || outcome.notAttemptedCount > 0) mappedClassesClean = false;
     scopeVerifications.push(verifyComparisonAssignmentScope({
       world,
       workloadId: item.id,
@@ -134,23 +230,21 @@ export function runStaticFleetArm({ caseRecord, contract, roster, staticMapping,
     }));
   }
 
-  // A standing team is the definition of a static fleet: the whole roster is
-  // activated every window, whether or not its class showed up.
-  const activatedAgents = roster.specialists.map((specialist) => ({ agentId: specialist.id, unitsCompleted: agentLanes.get(specialist.id).unitCount }));
+  const claimedCompleted = unifiedClaim({ halted, refusal: null, scopeVerifications });
   const { lanes, latencyProxyMs } = lanesFrom(agentLanes, constants.activationOverhead.latencyMs);
-  const coordinationOverheadUsd = Number((roster.specialists.length * constants.activationOverhead.costUsd).toFixed(10));
-  const claimedCompleted = mappedClassesClean;
+  const coordinationOverheadUsd = Number((agentLanes.size * constants.activationOverhead.costUsd).toFixed(10));
   return armRunRecord({
     armId: "static",
-    policyDescription: "A frozen predefined fleet: the full roster activates every window, each mapped class goes to its mapped agent, unmapped work is invisible, and nothing replans. Its pathology is silence.",
-    activatedAgents,
+    policyDescription: "A frozen predefined fleet: each mapped class goes to its mapped agent, unmapped work is invisible, nothing replans. It believes its own verifier like every other arm; its pathology is the map, not the claim rule.",
+    rosterAvailable: roster.specialists.length,
+    activatedAgents: [...agentLanes.entries()].map(([agentId, lane]) => ({ agentId, unitsCompleted: lane.unitCount })).sort((left, right) => left.agentId.localeCompare(right.agentId)),
     lanes,
     latencyProxyMs,
     coordinationOverheadUsd,
     effectSpendUsd: Number(spendUsd.toFixed(10)),
     totalCostUsd: Number((spendUsd + coordinationOverheadUsd).toFixed(10)),
     claimedCompleted,
-    claimReason: claimedCompleted ? "every-mapped-unit-succeeded" : "denials-or-capacity-in-mapped-classes",
+    claimReason: claimedCompleted ? "all-scope-receipts-passed" : "scope-verification-failed-or-work-unattempted",
     interventions: [],
     refusal: null,
     scopeVerifications,
@@ -161,13 +255,13 @@ export function runAdaptiveFleetArm({ caseRecord, contract, roster, world, const
   const specialists = roster.specialists;
   const plan = createBoundedFleetPlan({ contract, specialists });
   const planVerification = verifyBoundedFleetPlan({ contract, specialists, plan });
+  const policyDescription = "The shipped planner, independent verifier and durable controller, unmodified, driven by harness-constructed observations. The record-to-specialist partition is a harness bridge; the shipped planner allocates quantities, not records.";
 
   if (!plan.selected) {
-    // The refusal path: the planner blocked on the bounded limits. No controller is
-    // constructed, no agent activates, nothing touches the world.
     return armRunRecord({
       armId: "adaptive",
-      policyDescription: "The existing bounded fleet pipeline verbatim: plan, independent verification, exact-hash authorization, durable controller, independent observations.",
+      policyDescription,
+      rosterAvailable: specialists.length,
       activatedAgents: [],
       lanes: [],
       latencyProxyMs: 0,
@@ -205,6 +299,7 @@ export function runAdaptiveFleetArm({ caseRecord, contract, roster, world, const
   const byId = new Map(specialists.map((specialist) => [specialist.id, specialist]));
   const consumedPerWorkload = new Map();
   let spendUsd = 0;
+  let halted = false;
 
   for (const assignment of plan.selected.assignments) {
     const specialist = byId.get(assignment.specialistId);
@@ -249,15 +344,19 @@ export function runAdaptiveFleetArm({ caseRecord, contract, roster, world, const
         completedQuantity: outcome.executedCount + outcome.replayedCount,
         actualCostUsd: outcome.spendUsd,
         unsafeAttempts: outcome.deniedCount,
+        // Not a measurement: no per-assignment side-effect channel exists in this
+        // harness, so the controller's halt-on-incorrect-effect control is never
+        // exercised here. Declared in the preregistration; world-truth incorrect
+        // effects are counted by the independent parent verifier instead.
         incorrectSideEffects: 0,
         verificationReceiptHash: scope.receiptHash,
         evidenceBoundary: "Deterministic comparison-world execution independently checked by a scope verifier.",
       },
     });
     controller.record(observation);
-    const state = controller.status().state;
-    if (state === "halted") {
+    if (controller.status().state === "halted") {
       interventions.push({ kind: "controller-halt", detail: `Controller halted after ${assignment.assignmentId}` });
+      halted = true;
       break;
     }
   }
@@ -266,16 +365,21 @@ export function runAdaptiveFleetArm({ caseRecord, contract, roster, world, const
   const activatedAgents = [...agentLanes.entries()].map(([agentId, lane]) => ({ agentId, unitsCompleted: lane.unitCount })).sort((left, right) => left.agentId.localeCompare(right.agentId));
   const { lanes, latencyProxyMs } = lanesFrom(agentLanes, constants.activationOverhead.latencyMs);
   const coordinationOverheadUsd = Number((agentLanes.size * constants.activationOverhead.costUsd).toFixed(10));
+  // The controller's own completion state and the unified claim rule must agree
+  // for a completion claim: the controller adds role-gap awareness the receipts
+  // cannot see, and the receipts add scope failures the controller cannot see.
+  const claimedCompleted = status.parentGoalCompleted === true && unifiedClaim({ halted, refusal: null, scopeVerifications });
   return armRunRecord({
     armId: "adaptive",
-    policyDescription: "The existing bounded fleet pipeline verbatim: plan, independent verification, exact-hash authorization, durable controller, independent observations. The completion claim is the controller's status, nothing else.",
+    policyDescription,
+    rosterAvailable: specialists.length,
     activatedAgents,
     lanes,
     latencyProxyMs,
     coordinationOverheadUsd,
     effectSpendUsd: Number(spendUsd.toFixed(10)),
     totalCostUsd: Number((spendUsd + coordinationOverheadUsd).toFixed(10)),
-    claimedCompleted: status.parentGoalCompleted === true,
+    claimedCompleted,
     claimReason: `controller:${status.state}`,
     interventions,
     refusal: null,
