@@ -135,3 +135,10 @@ The evidence here is real but bounded, and the boundary matters more than the nu
 The canonical description of what Fleet Brain is — and is not — lives at
 `~/Founder-OS/current/startups/AGENT_FLEET_BRAIN.md`. **Read it before describing this
 product to anyone.**
+
+## Schemas born after the split
+
+Work created in this repository from 2026-08-24 onward uses a **`fleetbrain.*`**
+schemaVersion prefix. The `das.*` strings above are historical facts and stay; new
+mechanisms are Fleet Brain's own and are labelled as such. The boundary date is the
+overnight build under APR-0007 (hub, `coordination/approvals/`).
