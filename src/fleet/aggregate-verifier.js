@@ -25,7 +25,7 @@ function withoutHash(value, key) {
 
 export function createSharedInvariant(input) {
   const kind = String(input?.kind ?? "").trim();
-  requireCondition(["at-most-once-per-target", "aggregate-budget-envelope"].includes(kind), `Unsupported shared invariant kind: ${kind || "missing"}`);
+  requireCondition(["at-most-once-per-target", "aggregate-budget-envelope", "max-action-count"].includes(kind), `Unsupported shared invariant kind: ${kind || "missing"}`);
   const record = {
     schemaVersion: "fleetbrain.shared-invariant.v1",
     id: String(input.id ?? "").trim(),
@@ -33,10 +33,12 @@ export function createSharedInvariant(input) {
     description: String(input.description ?? "").trim(),
     ...(kind === "at-most-once-per-target" ? { effectKind: String(input.effectKind ?? "").trim() } : {}),
     ...(kind === "aggregate-budget-envelope" ? { maximumTotalUsd: Number(input.maximumTotalUsd) } : {}),
+    ...(kind === "max-action-count" ? { action: String(input.action ?? "").trim(), limit: Math.floor(Number(input.limit)) } : {}),
   };
   requireCondition(record.id, "A shared invariant needs an id");
   if (kind === "at-most-once-per-target") requireCondition(record.effectKind, "at-most-once-per-target needs the effect kind it constrains");
   if (kind === "aggregate-budget-envelope") requireCondition(Number.isFinite(record.maximumTotalUsd) && record.maximumTotalUsd >= 0, "aggregate-budget-envelope needs a finite ceiling");
+  if (kind === "max-action-count") requireCondition(record.action && Number.isInteger(record.limit) && record.limit >= 0, "max-action-count needs the capped action and an integer limit");
   record.invariantHash = digest(record);
   return Object.freeze(record);
 }
@@ -88,6 +90,11 @@ export function verifyAggregateOutcome({ invariants, observations, effectDeclara
       }
       const violations = [...counts.entries()].filter(([, assignments]) => assignments.length > 1).map(([target, assignments]) => ({ target, assignments: assignments.sort() }));
       return { invariantId: invariant.id, kind: invariant.kind, passed: violations.length === 0, violations };
+    }
+    if (invariant.kind === "max-action-count") {
+      const actionEffects = allEffects.filter((item) => item.kind === invariant.action);
+      const passed = actionEffects.length <= invariant.limit;
+      return { invariantId: invariant.id, kind: invariant.kind, passed, actionCount: actionEffects.length, limit: invariant.limit, violations: passed ? [] : [{ action: invariant.action, count: actionEffects.length, limit: invariant.limit, assignments: [...new Set(actionEffects.map((item) => item.assignmentId))].sort() }] };
     }
     // aggregate-budget-envelope
     const totalUsd = allEffects.reduce((sum, effect) => sum + effect.amountUsd, 0);

@@ -51,6 +51,16 @@ export function createCompanyConstitution(input) {
       maximumUnitCostUsd: finite(input.budgets?.maximumUnitCostUsd, "Constitution unit budget", { minimum: 0, exclusiveMinimum: true }),
     },
     latencyCeilingMs: finite(input.latencyCeilingMs ?? Number.MAX_SAFE_INTEGER, "Constitution latency ceiling", { minimum: 0, exclusiveMinimum: true }),
+    // Company-wide caps that no single assignment can see: "at most N of this
+    // action across the whole window". Declared policy, like the budget — the
+    // planner refuses plans that would breach one, and the aggregate verifier
+    // re-checks the combined effects afterward. This is the mechanism the A2
+    // comparison case proved was missing from every arm.
+    sharedInvariants: (input.sharedInvariants ?? []).map((raw, index) => {
+      const action = String(raw?.action ?? "").trim();
+      requireCondition(action, `Shared invariant ${index + 1} needs the action it caps`);
+      return { kind: "max-action-count", action, limit: Math.floor(finite(raw.limit, `Shared invariant ${index + 1} limit`, { minimum: 0 })) };
+    }).sort((left, right) => left.action.localeCompare(right.action)),
     approvalRules: {
       executionApprovalRequired: true,
       automaticSpendProhibited: true,
@@ -88,6 +98,7 @@ export function amendCompanyConstitution(previous, changes) {
     qualityFloor: changes.qualityFloor ?? previous.qualityFloor,
     budgets: { ...previous.budgets, ...(changes.budgets ?? {}) },
     latencyCeilingMs: changes.latencyCeilingMs ?? previous.latencyCeilingMs,
+    sharedInvariants: changes.sharedInvariants ?? previous.sharedInvariants,
     approvalRules: { riskRequiringExplicitApproval: changes.approvalRules?.riskRequiringExplicitApproval ?? previous.approvalRules.riskRequiringExplicitApproval },
   });
 }
@@ -102,6 +113,14 @@ export function contractConstitutionCompatibility(contract, constitution) {
   const overRisk = contract.workload.filter((item) => RISK_ORDER[item.risk] > RISK_ORDER[constitution.riskTolerance]).map((item) => item.id);
   const underQuality = contract.workload.filter((item) => item.minimumOutcomeScore < constitution.qualityFloor).map((item) => item.id);
   const overUnitCost = contract.workload.filter((item) => item.maximumUnitCostUsd > constitution.budgets.maximumUnitCostUsd).map((item) => item.id);
+  const invariantBreaches = constitution.sharedInvariants
+    .map((invariant) => {
+      const plannedCount = contract.workload
+        .filter((item) => item.requirement.authorityActions.includes(invariant.action))
+        .reduce((sum, item) => sum + item.volume, 0);
+      return { action: invariant.action, limit: invariant.limit, plannedCount };
+    })
+    .filter((entry) => entry.plannedCount > entry.limit);
   const checks = {
     sameCompany: contract.companyId === constitution.companyId,
     noProhibitedActions: offendingActions.length === 0,
@@ -110,11 +129,12 @@ export function contractConstitutionCompatibility(contract, constitution) {
     unitCostsWithinBudget: overUnitCost.length === 0,
     totalBudgetWithinConstitution: contract.limits.maximumTotalCostUsd <= constitution.budgets.maximumTotalCostUsd,
     authorityNotWidened: contract.limits.allowAutomaticRoleCreation === false && contract.limits.allowAutomaticSpend === false && contract.limits.allowAutomaticActivation === false,
+    sharedInvariantsRespectedInPlan: invariantBreaches.length === 0,
   };
   return {
     compatible: Object.values(checks).every(Boolean),
     checks,
-    details: { offendingActions, overRisk, underQuality, overUnitCost },
+    details: { offendingActions, overRisk, underQuality, overUnitCost, invariantBreaches },
   };
 }
 
