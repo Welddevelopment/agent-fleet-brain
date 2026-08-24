@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "fleetbrain.heldout-exam.v1",
+  "authorship": "Authored by a blind subagent shown only the interface specification — no repository access, zero tool calls. Instruction-level blindness, not organizational independence.",
+  "specsVerbatim": [
+    {
+      "id": "H1",
+      "title": "Quiet Monday",
+      "narrative": "The office reopens after a holiday weekend and almost nothing came in overnight. A handful of customer tickets, a few new sales leads, and a small stack of paperwork are the whole day. Management still insists every item is handled exactly once.",
+      "classes": {
+        "support-tickets": 7,
+        "crm-leads": 4,
+        "archive-filings": 9
+      },
+      "hardCostLimitUsd": 0.8,
+      "designIntent": "A trivially small day (20 units, $0.73 against a $0.80 ceiling) where coordination overhead and duplicate work would be proportionally catastrophic, testing restraint against over-parallelizing."
+    },
+    {
+      "id": "H2",
+      "title": "Product Launch Flood",
+      "narrative": "A product launch triples inbound volume across every channel at once. Two separate support intakes fill simultaneously while marketing dumps a batch of fresh leads into the CRM and compliance demands the launch paperwork filed the same day. Nothing overlaps, but everything is urgent.",
+      "classes": {
+        "support-tickets": 138,
+        "support-queue-b": 97,
+        "crm-leads": 82,
+        "archive-filings": 76
+      },
+      "hardCostLimitUsd": 18,
+      "designIntent": "A near-capacity high-volume day (393 units, $17.37 against an $18.00 ceiling) stressing throughput and load-splitting across four disjoint queues with only a slim budget margin."
+    },
+    {
+      "id": "H3",
+      "title": "The Double-Routed Inbox",
+      "narrative": "A misconfigured mail rule copied a chunk of incoming tickets into a second queue, and a weekend surge folder partially mirrors that queue too. Workers pulling from different queues may be looking at the same underlying customer without knowing it. The records team also has a backlog of filings due.",
+      "classes": {
+        "support-tickets": 64,
+        "support-queue-b": 53,
+        "support-surge": 47,
+        "archive-filings": 36
+      },
+      "overlaps": [
+        {
+          "between": [
+            "support-tickets",
+            "support-queue-b"
+          ],
+          "count": 21
+        },
+        {
+          "between": [
+            "support-queue-b",
+            "support-surge"
+          ],
+          "count": 13
+        }
+      ],
+      "hardCostLimitUsd": 8,
+      "designIntent": "Overlapping queues where the budget only closes if duplicates are recognized: unique work costs $7.22 but blindly working all raw volumes costs $8.92, so dedup is the difference between fitting and busting the $8.00 ceiling."
+    },
+    {
+      "id": "H4",
+      "title": "Escalation Window Crunch",
+      "narrative": "An outage generated a wave of escalation requests, and a pre-approved fast-track list was circulated that partially duplicates the main escalation queue. Company policy caps how many escalations may be created in one window, and today's demand does not fit under it. Ordinary ticket responses continue in the background.",
+      "classes": {
+        "support-escalations": 46,
+        "support-escalations-approved": 31,
+        "support-tickets": 58
+      },
+      "overlaps": [
+        {
+          "between": [
+            "support-escalations",
+            "support-escalations-approved"
+          ],
+          "count": 12
+        }
+      ],
+      "companyInvariant": {
+        "maxEscalationsPerWindow": 60
+      },
+      "hardCostLimitUsd": 7.5,
+      "designIntent": "An escalation cap the volumes genuinely violate even after perfect dedup (77 raw, 65 unique, cap 60), forcing workers to notice that duplicate-merging narrows the breach but only deliberate rationing cures it."
+    },
+    {
+      "id": "H5",
+      "title": "Quarter-End Squeeze",
+      "narrative": "It is the last day of the fiscal quarter and finance wants every ledger entry reconciled, procurement wants every open order drafted, and records wants the archive cleared. The finance controller has fixed the day's spend at a number the full workload does not fit under. Someone has to decide what gets done and what waits.",
+      "classes": {
+        "ledger-reconciliation": 91,
+        "procurement-orders": 74,
+        "archive-filings": 118
+      },
+      "hardCostLimitUsd": 13.5,
+      "designIntent": "Total demand ($14.08) collectively exceeds the $13.50 ceiling by a sliver with no duplicates to reclaim, forcing explicit triage across systems with very different unit costs rather than blind completion."
+    },
+    {
+      "id": "H6",
+      "title": "Everything At Once, Barely",
+      "narrative": "A normal-looking Thursday touches all five systems: tickets and a batch of escalations in support, a procurement backlog, fresh CRM leads to assign, and month-mid ledger reconciliation. Both the budget and the escalation policy technically accommodate the day, but with almost no room for a single wasted or duplicated write.",
+      "classes": {
+        "support-tickets": 44,
+        "support-escalations": 18,
+        "procurement-orders": 33,
+        "crm-leads": 39,
+        "ledger-reconciliation": 27
+      },
+      "companyInvariant": {
+        "maxEscalationsPerWindow": 18
+      },
+      "hardCostLimitUsd": 9.25,
+      "designIntent": "A five-class day sitting exactly at the escalation cap (18 of 18) and $0.06 under the cost ceiling ($9.19 of $9.25), where any duplicate write breaks at least one constraint."
+    }
+  ],
+  "specDigest": "d423bc9fb8b5d21dc3817482eb2dc6addd1568114d5fe1bdabbd152ccccd27e6",
+  "caseHashes": [
+    "dea98347f6f20bf42d0745b3bb60d8bae0d073ae9d3f17979bcb8f446082acdf",
+    "df4c01ad994e1f3c9883fbe7c2f316520a8eab7441ccc64ee0a816abfe5e519a",
+    "e18832ce5be6d3b2756713eb1df953996adbae776c17ac166d25d28d04ec47a1",
+    "e34b9aaf9de6542c84cc82805fb97032abb9d3d95bc8dde68df29d7203d6b909",
+    "55e03e4c3e7886550c66ca543861121599df84900c63da3f46f7bad66d6a9ea9",
+    "54bd39b768d8f90f8baca75ffe6bed31e6e6a9e92b7ec2e664921ea32f1ac8cc"
+  ],
+  "evidenceBoundary": "The blind author's specs, sealed verbatim, with the hashes of their mechanical compilation. Any edit to a spec after sealing is detectable.",
+  "examHash": "8acc91f5b3e863c989f4aae49e58f53c971477b1e227b23ce1f7e21de72a4fd3"
+}

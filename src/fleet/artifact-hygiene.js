@@ -18,6 +18,7 @@ const SEALED_ROOTS = Object.freeze([
   "artifacts/fleet-comparison/deterministic-v2",
   "artifacts/demo/run-1",
   "artifacts/demo/run-2",
+  "artifacts/heldout/exam-v1",
 ]);
 
 function requireCondition(condition, message) {

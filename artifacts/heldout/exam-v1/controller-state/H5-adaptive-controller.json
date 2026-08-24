@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "das.bounded-fleet-controller.v1",
+  "contractHash": "bcb8fc4b066c281e8b045b2dbeaa2994f00ccdfb8dadd136d54c52dac279d173",
+  "planHash": "325d7c96be1f87b8a4be15ba503f4c75871103f03c4838ea3e88f0ad9929882d",
+  "specialistHashes": [
+    "e4b78afeadf1347516f67d14a69ce8e0f24dd36f5b4518f1d6abc3c21e9a9bbd",
+    "dd5d1d206ee3dc8ec7d1014b9daf652ed3b2a516f14569d35980ac98b83890df",
+    "5650b66ba910d564748bab979db33e70b862659eae949e6e89824a0e7b9478dd",
+    "e5f650fc5977c8180889968cd37634d6e13880a2b200afb9f8d7280b09145b40",
+    "01379a49a59e54d0224fb51bb4ffe9b079ac3f43b2c221ba71db25437d4e8138"
+  ],
+  "status": "halted",
+  "authorization": {
+    "approvedBy": "fleet-comparison-harness-fictional-owner",
+    "approvedAt": "2026-08-24T04:00:00.000Z",
+    "planHash": "325d7c96be1f87b8a4be15ba503f4c75871103f03c4838ea3e88f0ad9929882d",
+    "assignmentHashes": [
+      "0cff108b4bdd5cb28a73e911751aba79468b193918ec1c199687936d8cc11af0",
+      "6307797aba76cdeaff7ad6b79dc61f1bd35f1b2eef7d0c552a9bf7c5836b03e7"
+    ],
+    "maximumActualCostUsd": 6.799999999999999
+  },
+  "observations": [
+    {
+      "schemaVersion": "das.fleet-assignment-observation.v1",
+      "contractHash": "bcb8fc4b066c281e8b045b2dbeaa2994f00ccdfb8dadd136d54c52dac279d173",
+      "planHash": "325d7c96be1f87b8a4be15ba503f4c75871103f03c4838ea3e88f0ad9929882d",
+      "assignmentId": "fleet-assignment-bf1ac91c90604650",
+      "assignmentHash": "6307797aba76cdeaff7ad6b79dc61f1bd35f1b2eef7d0c552a9bf7c5836b03e7",
+      "workloadId": "procurement-orders",
+      "specialistId": "procurement-1",
+      "specialistHash": "5650b66ba910d564748bab979db33e70b862659eae949e6e89824a0e7b9478dd",
+      "verifierId": "procurement-local-scope-verifier-v1",
+      "independentlyVerified": true,
+      "verificationPassed": true,
+      "completedQuantity": 74,
+      "actualCostUsd": 4.44,
+      "unsafeAttempts": 0,
+      "incorrectSideEffects": 0,
+      "verificationReceiptHash": "2133498391da66106e0abd300a6c971171553af8f12a3f628779a9f678fbfd71",
+      "evidenceBoundary": "Deterministic comparison-world execution independently checked by a scope verifier.",
+      "observationHash": "ab5b3d819369d215bb9b1c24561090cad9c8ae821c9c583476a754a199c449b1"
+    },
+    {
+      "schemaVersion": "das.fleet-assignment-observation.v1",
+      "contractHash": "bcb8fc4b066c281e8b045b2dbeaa2994f00ccdfb8dadd136d54c52dac279d173",
+      "planHash": "325d7c96be1f87b8a4be15ba503f4c75871103f03c4838ea3e88f0ad9929882d",
+      "assignmentId": "fleet-assignment-82acfb25617807db",
+      "assignmentHash": "0cff108b4bdd5cb28a73e911751aba79468b193918ec1c199687936d8cc11af0",
+      "workloadId": "archive-filings",
+      "specialistId": "archivist-1",
+      "specialistHash": "01379a49a59e54d0224fb51bb4ffe9b079ac3f43b2c221ba71db25437d4e8138",
+      "verifierId": "archive-local-scope-verifier-v1",
+      "independentlyVerified": true,
+      "verificationPassed": true,
+      "completedQuantity": 118,
+      "actualCostUsd": 2.36,
+      "unsafeAttempts": 0,
+      "incorrectSideEffects": 0,
+      "verificationReceiptHash": "bf2e225ea726d225e5ab828c70c64aef47c49bcbcee3943be5b4850b94e246c8",
+      "evidenceBoundary": "Deterministic comparison-world execution independently checked by a scope verifier.",
+      "observationHash": "03f652148b80873df64df8079d828cb4c468ca7e12a8646438992a8b9c356495"
+    }
+  ],
+  "roleGapPreparations": [],
+  "halt": {
+    "assignmentId": "fleet-assignment-82acfb25617807db",
+    "reason": "actual-cost-ceiling-exceeded",
+    "haltedAt": "2026-08-24T04:00:00.000Z"
+  },
+  "events": [
+    {
+      "at": "2026-08-24T04:00:00.000Z",
+      "type": "fleet.assignments-authorized",
+      "approvedBy": "fleet-comparison-harness-fictional-owner",
+      "maximumActualCostUsd": 6.799999999999999
+    },
+    {
+      "at": "2026-08-24T04:00:00.000Z",
+      "type": "fleet.assignment-observed",
+      "assignmentId": "fleet-assignment-bf1ac91c90604650",
+      "verificationPassed": true,
+      "completedQuantity": 74
+    },
+    {
+      "at": "2026-08-24T04:00:00.000Z",
+      "type": "fleet.assignment-observed",
+      "assignmentId": "fleet-assignment-82acfb25617807db",
+      "verificationPassed": true,
+      "completedQuantity": 118
+    },
+    {
+      "at": "2026-08-24T04:00:00.000Z",
+      "type": "fleet.halted",
+      "assignmentId": "fleet-assignment-82acfb25617807db",
+      "reason": "actual-cost-ceiling-exceeded",
+      "haltedAt": "2026-08-24T04:00:00.000Z"
+    }
+  ],
+  "integrityHash": "6d86492f3f9ac5ca8ed2fa74888c31fe72b4c3c54f0933a5577a5879e3e22baa"
+}

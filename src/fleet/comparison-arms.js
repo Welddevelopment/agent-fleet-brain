@@ -3,6 +3,8 @@ import { digest } from "dynamic-agent-specialisation/src/core/canonical.js";
 import { BoundedFleetController, createFleetAssignmentObservation } from "./bounded-level2-controller.js";
 import { createBoundedFleetPlan } from "./bounded-level2-planner.js";
 import { verifyBoundedFleetPlan } from "./bounded-level2-verifier.js";
+import { contractConstitutionCompatibility, createCompanyConstitution } from "./constitution.js";
+import { auditPlanForOverlapSplits, declareOverlapGroups } from "./overlap-guard.js";
 import { executeAssignedUnits, unitsForWorkload } from "./comparison-work-engine.js";
 import { verifyComparisonAssignmentScope } from "./comparison-world.js";
 
@@ -253,9 +255,42 @@ export function runStaticFleetArm({ caseRecord, contract, roster, staticMapping,
 
 export function runAdaptiveFleetArm({ caseRecord, contract, roster, world, constants, stateDirectory }) {
   const specialists = roster.specialists;
+  const policyDescription = "The shipped planner, independent verifier and durable controller, unmodified, driven by harness-constructed observations, now consulting DECLARED company knowledge through the shipped prevention modules (constitution invariants, overlap guard). The record-to-specialist partition is a harness bridge; the shipped planner allocates quantities, not records.";
+
+  // Declared company policy (visible to every arm; consulting it is this arm's
+  // coordination policy): a written escalation cap becomes a constitution
+  // invariant, checked BEFORE anything executes.
+  if (caseRecord.declaredPolicies?.maxEscalationsPerWindow !== undefined) {
+    const constitution = createCompanyConstitution({
+      companyId: contract.companyId,
+      riskTolerance: "high",
+      budgets: { maximumTotalCostUsd: contract.limits.maximumTotalCostUsd, maximumUnitCostUsd: 1 },
+      sharedInvariants: [{ action: "create-escalation", limit: caseRecord.declaredPolicies.maxEscalationsPerWindow }],
+    });
+    const compatibility = contractConstitutionCompatibility(contract, constitution);
+    if (!compatibility.checks.sharedInvariantsRespectedInPlan) {
+      return armRunRecord({
+        armId: "adaptive",
+        policyDescription,
+        rosterAvailable: specialists.length,
+        activatedAgents: [],
+        lanes: [],
+        latencyProxyMs: 0,
+        coordinationOverheadUsd: 0,
+        effectSpendUsd: 0,
+        totalCostUsd: 0,
+        claimedCompleted: false,
+        claimReason: "declared-policy-refusal",
+        interventions: compatibility.details.invariantBreaches.map((breach) => ({ kind: "declared-invariant-breach", detail: `Planned ${breach.plannedCount} ${breach.action} against a declared company cap of ${breach.limit} — the day must be re-scoped by a human` })),
+        refusal: { blockers: [{ code: "declared-company-invariant", breaches: structuredClone(compatibility.details.invariantBreaches) }] },
+        scopeVerifications: [],
+        adaptiveEvidence: { planHash: "", planStatus: "refused-before-planning", planVerificationHash: "", controllerStatusState: "never-constructed" },
+      });
+    }
+  }
+
   const plan = createBoundedFleetPlan({ contract, specialists });
   const planVerification = verifyBoundedFleetPlan({ contract, specialists, plan });
-  const policyDescription = "The shipped planner, independent verifier and durable controller, unmodified, driven by harness-constructed observations. The record-to-specialist partition is a harness bridge; the shipped planner allocates quantities, not records.";
 
   if (!plan.selected) {
     return armRunRecord({
@@ -277,6 +312,33 @@ export function runAdaptiveFleetArm({ caseRecord, contract, roster, world, const
     });
   }
 
+  // Declared overlap structure: a plan splitting a declared overlap group across
+  // specialists is refused BEFORE execution by the shipped guard — prevention,
+  // not late detection.
+  if (caseRecord.declaredOverlapGroups?.length) {
+    const declaration = declareOverlapGroups({ contract, groups: caseRecord.declaredOverlapGroups });
+    const audit = auditPlanForOverlapSplits({ plan, declaration });
+    if (!audit.consolidated) {
+      return armRunRecord({
+        armId: "adaptive",
+        policyDescription,
+        rosterAvailable: specialists.length,
+        activatedAgents: [],
+        lanes: [],
+        latencyProxyMs: 0,
+        coordinationOverheadUsd: 0,
+        effectSpendUsd: 0,
+        totalCostUsd: 0,
+        claimedCompleted: false,
+        claimReason: "overlap-consolidation-refusal",
+        interventions: audit.violations.map((violation) => ({ kind: "overlap-split-refused", detail: `Overlap group ${violation.groupId} (${violation.workloadIds.join(", ")}) would be split across ${violation.specialists.join(", ")} — duplicates prevented by refusing execution; a human re-scopes the day` })),
+        refusal: { blockers: [{ code: "overlap-group-split", violations: structuredClone(audit.violations) }] },
+        scopeVerifications: [],
+        adaptiveEvidence: { planHash: plan.planHash, planStatus: plan.status, planVerificationHash: planVerification.verificationHash ?? "", controllerStatusState: "never-constructed", overlapAuditHash: audit.auditHash },
+      });
+    }
+  }
+
   const controller = new BoundedFleetController({
     contract,
     specialists,
@@ -289,7 +351,11 @@ export function runAdaptiveFleetArm({ caseRecord, contract, roster, world, const
     approvedBy: "fleet-comparison-harness-fictional-owner",
     planHash: plan.planHash,
     assignmentHashes: plan.selected.assignments.map((item) => item.assignmentHash),
-    maximumActualCostUsd: plan.selected.metrics.totalCostUsd,
+    // The CONTRACT limit is the real authorized budget. The held-out exam's H5
+    // caught the earlier choice (the exact float estimate) making the controller
+    // halt on a 1e-15 rounding artifact after completing every routable unit —
+    // fail-closed and honest, but needlessly conservative. exam-v1 stands as run.
+    maximumActualCostUsd: contract.limits.maximumTotalCostUsd,
   });
 
   const interventions = plan.selected.roleGaps.map((gap) => ({ kind: "role-gap", detail: `${gap.workloads.map((item) => item.id).join(",")} has no proved specialist; returned for explicit human approval` }));

@@ -1,0 +1,152 @@
+{
+  "schemaVersion": "das.bounded-fleet-controller.v1",
+  "contractHash": "8bac6b4452539b4646c8e1442a815266f41dac4a8fbf449470d592826f773de3",
+  "planHash": "d09f0a53361f2fbc9f9295fd03de2b69c1e96a6ceffd7c68f6b57657a3a0d9b8",
+  "specialistHashes": [
+    "e4b78afeadf1347516f67d14a69ce8e0f24dd36f5b4518f1d6abc3c21e9a9bbd",
+    "dd5d1d206ee3dc8ec7d1014b9daf652ed3b2a516f14569d35980ac98b83890df",
+    "5650b66ba910d564748bab979db33e70b862659eae949e6e89824a0e7b9478dd",
+    "e5f650fc5977c8180889968cd37634d6e13880a2b200afb9f8d7280b09145b40",
+    "01379a49a59e54d0224fb51bb4ffe9b079ac3f43b2c221ba71db25437d4e8138"
+  ],
+  "status": "routable-work-completed-role-gap-blocked",
+  "authorization": {
+    "approvedBy": "fleet-comparison-harness-fictional-owner",
+    "approvedAt": "2026-08-24T04:00:00.000Z",
+    "planHash": "d09f0a53361f2fbc9f9295fd03de2b69c1e96a6ceffd7c68f6b57657a3a0d9b8",
+    "assignmentHashes": [
+      "84a8ef52532c1166df14e6ed70f2fad3cc9da14b00852351f462a9e76b5d940e",
+      "c77be5cd8dc5eaae9b02d77716dec7feab18458d30d1a911f434ab86e8629a93",
+      "e6314855f49bed96eed50d43fd614ac556bf13d3443132eb681ae628cbd80e18",
+      "ff4a8f24b629b815512dcbfc49b709acb5e42a1a9b22aba192d1f975a1dceb16"
+    ],
+    "maximumActualCostUsd": 7.03
+  },
+  "observations": [
+    {
+      "schemaVersion": "das.fleet-assignment-observation.v1",
+      "contractHash": "8bac6b4452539b4646c8e1442a815266f41dac4a8fbf449470d592826f773de3",
+      "planHash": "d09f0a53361f2fbc9f9295fd03de2b69c1e96a6ceffd7c68f6b57657a3a0d9b8",
+      "assignmentId": "fleet-assignment-e2c22a15a2abaabe",
+      "assignmentHash": "84a8ef52532c1166df14e6ed70f2fad3cc9da14b00852351f462a9e76b5d940e",
+      "workloadId": "support-tickets",
+      "specialistId": "support-efficient-1",
+      "specialistHash": "e4b78afeadf1347516f67d14a69ce8e0f24dd36f5b4518f1d6abc3c21e9a9bbd",
+      "verifierId": "support-local-scope-verifier-v1",
+      "independentlyVerified": true,
+      "verificationPassed": true,
+      "completedQuantity": 44,
+      "actualCostUsd": 2.2,
+      "unsafeAttempts": 0,
+      "incorrectSideEffects": 0,
+      "verificationReceiptHash": "6795da4eb0ced2665c86fcb2a9bca01c3193ab0f83be8d9c45e22634942c9821",
+      "evidenceBoundary": "Deterministic comparison-world execution independently checked by a scope verifier.",
+      "observationHash": "7be0ff59b62e7f0b0ca5ef591d4962038b5468f31ff2ff7404fa2ff68c1cb666"
+    },
+    {
+      "schemaVersion": "das.fleet-assignment-observation.v1",
+      "contractHash": "8bac6b4452539b4646c8e1442a815266f41dac4a8fbf449470d592826f773de3",
+      "planHash": "d09f0a53361f2fbc9f9295fd03de2b69c1e96a6ceffd7c68f6b57657a3a0d9b8",
+      "assignmentId": "fleet-assignment-34fef3520c93e01a",
+      "assignmentHash": "e6314855f49bed96eed50d43fd614ac556bf13d3443132eb681ae628cbd80e18",
+      "workloadId": "support-escalations",
+      "specialistId": "support-quality-1",
+      "specialistHash": "dd5d1d206ee3dc8ec7d1014b9daf652ed3b2a516f14569d35980ac98b83890df",
+      "verifierId": "support-local-scope-verifier-v1",
+      "independentlyVerified": true,
+      "verificationPassed": true,
+      "completedQuantity": 18,
+      "actualCostUsd": 0.9,
+      "unsafeAttempts": 0,
+      "incorrectSideEffects": 0,
+      "verificationReceiptHash": "54f2eb1edabda8c16175149076725b1a025ec502572bdb450b309888e6dd17ac",
+      "evidenceBoundary": "Deterministic comparison-world execution independently checked by a scope verifier.",
+      "observationHash": "2055271616c94955633e491e4ac2e9deee0ba812f84ec8e1d2bc583b5797f5a8"
+    },
+    {
+      "schemaVersion": "das.fleet-assignment-observation.v1",
+      "contractHash": "8bac6b4452539b4646c8e1442a815266f41dac4a8fbf449470d592826f773de3",
+      "planHash": "d09f0a53361f2fbc9f9295fd03de2b69c1e96a6ceffd7c68f6b57657a3a0d9b8",
+      "assignmentId": "fleet-assignment-bf1ac91c90604650",
+      "assignmentHash": "c77be5cd8dc5eaae9b02d77716dec7feab18458d30d1a911f434ab86e8629a93",
+      "workloadId": "procurement-orders",
+      "specialistId": "procurement-1",
+      "specialistHash": "5650b66ba910d564748bab979db33e70b862659eae949e6e89824a0e7b9478dd",
+      "verifierId": "procurement-local-scope-verifier-v1",
+      "independentlyVerified": true,
+      "verificationPassed": true,
+      "completedQuantity": 33,
+      "actualCostUsd": 1.98,
+      "unsafeAttempts": 0,
+      "incorrectSideEffects": 0,
+      "verificationReceiptHash": "d22e5bd0a00d50f9d456f357baff9456de11ac5fa7b31944ddfc87aae372e9f5",
+      "evidenceBoundary": "Deterministic comparison-world execution independently checked by a scope verifier.",
+      "observationHash": "685060ee7daec558699fe742037b78f25db559f8ac54e25a067bd3f7e26e5dad"
+    },
+    {
+      "schemaVersion": "das.fleet-assignment-observation.v1",
+      "contractHash": "8bac6b4452539b4646c8e1442a815266f41dac4a8fbf449470d592826f773de3",
+      "planHash": "d09f0a53361f2fbc9f9295fd03de2b69c1e96a6ceffd7c68f6b57657a3a0d9b8",
+      "assignmentId": "fleet-assignment-0e1ba6303ff5397b",
+      "assignmentHash": "ff4a8f24b629b815512dcbfc49b709acb5e42a1a9b22aba192d1f975a1dceb16",
+      "workloadId": "crm-leads",
+      "specialistId": "revops-1",
+      "specialistHash": "e5f650fc5977c8180889968cd37634d6e13880a2b200afb9f8d7280b09145b40",
+      "verifierId": "crm-local-scope-verifier-v1",
+      "independentlyVerified": true,
+      "verificationPassed": true,
+      "completedQuantity": 39,
+      "actualCostUsd": 1.95,
+      "unsafeAttempts": 0,
+      "incorrectSideEffects": 0,
+      "verificationReceiptHash": "5394375b326ef45673f64053643fc5ad871ec45e73699cd9c7731874ab9a8e4d",
+      "evidenceBoundary": "Deterministic comparison-world execution independently checked by a scope verifier.",
+      "observationHash": "530012851720a6405cdca641920a95b625dadae32892c8dfe8356e7f268217dd"
+    }
+  ],
+  "roleGapPreparations": [],
+  "halt": null,
+  "events": [
+    {
+      "at": "2026-08-24T04:00:00.000Z",
+      "type": "fleet.assignments-authorized",
+      "approvedBy": "fleet-comparison-harness-fictional-owner",
+      "maximumActualCostUsd": 7.03
+    },
+    {
+      "at": "2026-08-24T04:00:00.000Z",
+      "type": "fleet.assignment-observed",
+      "assignmentId": "fleet-assignment-e2c22a15a2abaabe",
+      "verificationPassed": true,
+      "completedQuantity": 44
+    },
+    {
+      "at": "2026-08-24T04:00:00.000Z",
+      "type": "fleet.assignment-observed",
+      "assignmentId": "fleet-assignment-34fef3520c93e01a",
+      "verificationPassed": true,
+      "completedQuantity": 18
+    },
+    {
+      "at": "2026-08-24T04:00:00.000Z",
+      "type": "fleet.assignment-observed",
+      "assignmentId": "fleet-assignment-bf1ac91c90604650",
+      "verificationPassed": true,
+      "completedQuantity": 33
+    },
+    {
+      "at": "2026-08-24T04:00:00.000Z",
+      "type": "fleet.assignment-observed",
+      "assignmentId": "fleet-assignment-0e1ba6303ff5397b",
+      "verificationPassed": true,
+      "completedQuantity": 39
+    },
+    {
+      "at": "2026-08-24T04:00:00.000Z",
+      "type": "fleet.routable-work-completed",
+      "parentCompleted": false,
+      "roleGapCount": 1
+    }
+  ],
+  "integrityHash": "e021ef1d1f5bfd399a6e9e8ab50dff2ef4f11ebe03be880ecff4bd305738a7b2"
+}

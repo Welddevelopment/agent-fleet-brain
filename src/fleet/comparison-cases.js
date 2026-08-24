@@ -138,7 +138,7 @@ const CLASS_SHAPES = {
   "ledger-reconciliation": ["ledger-local", ["read-ledger", "reconcile-entry"], ["reconcile-entry"]],
 };
 
-function makeCase({ id, regime, title, narrative, classes, limits, priorities = { quality: 1, cost: 0.25, speed: 0.25 }, overlaps = {}, companyInvariants = null, preregisteredExpectation }) {
+export function buildComparisonCase({ id, regime, title, narrative, classes, limits, priorities = { quality: 1, cost: 0.25, speed: 0.25 }, overlaps = {}, companyInvariants = null, declaredPolicies = null, declaredOverlapGroups = null, preregisteredExpectation }) {
   // classes: { className: [recordIds] } — record ids listed per class; overlapping
   // records appear in several classes' unit lists but once in sharedRecords.
   const workload = [];
@@ -175,6 +175,12 @@ function makeCase({ id, regime, title, narrative, classes, limits, priorities = 
     workloadUnits,
     sharedRecords,
     ...(companyInvariants ? { companyInvariants } : {}),
+    // Declared knowledge visible to EVERY arm equally; consulting it is a
+    // coordination policy. declaredPolicies mirrors companyInvariants when the
+    // company has written the cap down; declaredOverlapGroups mirrors overlap
+    // structure the company knows about (its own mail rules).
+    ...(declaredPolicies ? { declaredPolicies } : {}),
+    ...(declaredOverlapGroups ? { declaredOverlapGroups } : {}),
     preregisteredExpectation,
     evidenceBoundary: "A sealed fictional comparison case. Volumes, overlaps and invariants are constructed; nothing here involves a model, a customer or a real system.",
   };
@@ -192,7 +198,7 @@ function range(prefix, count, start = 1) {
 
 export function createComparisonCases() {
   const cases = [
-    makeCase({
+    buildComparisonCase({
       id: "S1", regime: "small-simple", title: "Three items, three systems",
       narrative: "The smallest honest case: one support ticket, one purchase order, one lead. Coordination machinery is pure overhead here.",
       classes: { "support-tickets": ["s1-t-001"], "procurement-orders": ["s1-p-001"], "crm-leads": ["s1-c-001"] },
@@ -212,7 +218,7 @@ export function createComparisonCases() {
         ],
       },
     }),
-    makeCase({
+    buildComparisonCase({
       id: "S2", regime: "small-simple", title: "Six items, cost-weighted priorities",
       narrative: "Same shape at volume two with cost-weighted priorities — the regime where complexity must justify itself and cannot.",
       classes: { "support-tickets": range("s2-t", 2), "procurement-orders": range("s2-p", 2), "crm-leads": range("s2-c", 2) },
@@ -227,7 +233,7 @@ export function createComparisonCases() {
         ],
       },
     }),
-    makeCase({
+    buildComparisonCase({
       id: "P1", regime: "parallel-latency", title: "Four even 30-unit lanes",
       narrative: "One hundred and twenty units across four systems. A single agent does them one after another; a fleet works the systems at once.",
       classes: { "support-tickets": range("p1-t", 30), "procurement-orders": range("p1-p", 30), "crm-leads": range("p1-c", 30), "archive-filings": range("p1-a", 30) },
@@ -244,7 +250,7 @@ export function createComparisonCases() {
         ],
       },
     }),
-    makeCase({
+    buildComparisonCase({
       id: "P2", regime: "parallel-latency", title: "Uneven lanes 60/20/10/30",
       narrative: "Uneven lanes exercise the max-lane arithmetic: the fleet's latency is its busiest lane, not its average.",
       classes: { "support-tickets": range("p2-t", 60), "procurement-orders": range("p2-p", 20), "crm-leads": range("p2-c", 10), "archive-filings": range("p2-a", 30) },
@@ -259,7 +265,7 @@ export function createComparisonCases() {
         ],
       },
     }),
-    makeCase({
+    buildComparisonCase({
       id: "C1", regime: "shared-record-conflict", title: "Overlapping support queues, capacity to consolidate",
       narrative: "Queue B overlaps three ticket records. The static mapping splits the queues across two agents; the planner can consolidate both onto one.",
       classes: {
@@ -284,7 +290,7 @@ export function createComparisonCases() {
         ],
       },
     }),
-    makeCase({
+    buildComparisonCase({
       id: "C2", regime: "shared-record-conflict", title: "Overlap across a forced capacity split — a known adaptive gap",
       narrative: "At volume 220 the planner MUST split queue B across both support specialists, and the overlap lands in the second partition. Consolidation was C1's win; conflict DETECTION does not exist in the adaptive arm, and this case proves it.",
       classes: {
@@ -305,7 +311,7 @@ export function createComparisonCases() {
         knownGapDocumented: "adaptive-detects-conflicts-late-via-scope-ownership-and-cannot-prevent-them",
       },
     }),
-    makeCase({
+    buildComparisonCase({
       id: "G1", regime: "role-gap", title: "Ledger work no specialist covers",
       narrative: "Four ledger reconciliations arrive and no proved specialist works that system. The honest fleet refuses; the general agent has the tools and simply wins; the static fleet cannot even see the work.",
       classes: { "support-tickets": range("g1-t", 5), "crm-leads": range("g1-c", 5), "ledger-reconciliation": range("g1-l", 4) },
@@ -323,7 +329,7 @@ export function createComparisonCases() {
         ],
       },
     }),
-    makeCase({
+    buildComparisonCase({
       id: "G2", regime: "stale-authority", title: "Escalations routed to an agent without the authority",
       narrative: "The static mapping still sends escalations to the efficient specialist, which lost that authority. Denials are counted where they happen.",
       classes: { "support-escalations": range("g2-e", 4), "support-tickets": range("g2-t", 4), "procurement-orders": range("g2-p", 2) },
@@ -339,7 +345,7 @@ export function createComparisonCases() {
         ],
       },
     }),
-    makeCase({
+    buildComparisonCase({
       id: "K1", regime: "capacity-limit", title: "A 300-unit surge against 200-unit agents",
       narrative: "More work than any single agent's window. Completing it requires noticing the capacity wall and splitting across agents.",
       classes: { "support-surge": range("k1-s", 300), "procurement-orders": range("k1-p", 5), "crm-leads": range("k1-c", 5) },
@@ -355,7 +361,7 @@ export function createComparisonCases() {
         ],
       },
     }),
-    makeCase({
+    buildComparisonCase({
       id: "A1", regime: "aggregate-budget", title: "Individually cheap, collectively over budget",
       narrative: "Every unit is well under its own cost cap; together they cost 6.4 against a hard 5-dollar limit. Only aggregate accounting can see it coming.",
       classes: { "support-tickets": range("a1-t", 40), "procurement-orders": range("a1-p", 40), "crm-leads": range("a1-c", 40) },
@@ -374,7 +380,7 @@ export function createComparisonCases() {
         ],
       },
     }),
-    makeCase({
+    buildComparisonCase({
       id: "A2", regime: "aggregate-invariant", title: "A company cap no arm was shown",
       narrative: "Eight approved escalations against a company-wide cap of five that lives outside every arm's view. Everyone does their assigned work correctly; the company still ends up somewhere it forbade.",
       classes: { "support-escalations-approved": range("a2-e", 8), "support-tickets": range("a2-t", 5), "crm-leads": range("a2-c", 3) },
