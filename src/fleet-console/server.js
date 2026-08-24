@@ -6,15 +6,19 @@
 // the two surfaces can never disagree about what the fleet actually did.
 //
 // Nothing here calls a model or spends money. It renders preserved, integrity-
-// checked artifacts from artifacts/fleet/.
+// checked artifacts from artifacts/, plus the latest deterministic demo run.
 
 import fs from "node:fs";
 import http from "node:http";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadFleetConsoleState } from "../console/fleet-state.js";
+import { loadDemoState } from "./demo-state.js";
+import { loadPaidEvidence } from "../fleet/demo-story.js";
 
 const directory = path.dirname(fileURLToPath(import.meta.url));
+const repositoryRoot = path.resolve(directory, "..", "..");
+process.chdir(repositoryRoot);
 const consoleDirectory = path.resolve(directory, "../console");
 const port = Number(process.env.FLEET_PORT ?? 4392);
 
@@ -29,8 +33,8 @@ const files = {
   "/fleet-console.js": [path.join(directory, "fleet-console.js"), "text/javascript; charset=utf-8"],
   // shared with the DAS console on purpose — one source of visual truth for the fleet view
   "/fleet.css": [path.join(consoleDirectory, "fleet.css"), "text/css; charset=utf-8"],
-  "/vendor/gsap.js": [path.resolve("node_modules/gsap/dist/gsap.min.js"), "text/javascript; charset=utf-8"],
-  "/vendor/ScrollTrigger.js": [path.resolve("node_modules/gsap/dist/ScrollTrigger.min.js"), "text/javascript; charset=utf-8"],
+  "/vendor/gsap.js": [path.join(repositoryRoot, "node_modules/gsap/dist/gsap.min.js"), "text/javascript; charset=utf-8"],
+  "/vendor/ScrollTrigger.js": [path.join(repositoryRoot, "node_modules/gsap/dist/ScrollTrigger.min.js"), "text/javascript; charset=utf-8"],
 };
 
 const server = http.createServer((request, response) => {
@@ -38,6 +42,12 @@ const server = http.createServer((request, response) => {
     if (request.method === "GET" && request.url === "/api/fleet") {
       const fleet = loadFleetConsoleState();
       return json(response, 200, { fleet, generatedAt: new Date().toISOString(), paidModelCallsInThisConsole: 0 });
+    }
+    if (request.method === "GET" && request.url === "/api/demo") {
+      return json(response, 200, { demo: loadDemoState(), paidModelCallsInThisConsole: 0 });
+    }
+    if (request.method === "GET" && request.url === "/api/paid-evidence") {
+      return json(response, 200, { paidEvidence: loadPaidEvidence(), paidModelCallsInThisConsole: 0 });
     }
     const entry = files[request.url ?? "/"];
     if (!entry) return json(response, 404, { error: "Not found" });
@@ -50,4 +60,11 @@ const server = http.createServer((request, response) => {
   }
 });
 
+server.on("error", (error) => {
+  if (error.code === "EADDRINUSE") {
+    console.error(`Port ${port} is already in use — is another Fleet Brain console running? Stop it or set FLEET_PORT.`);
+    process.exit(1);
+  }
+  throw error;
+});
 server.listen(port, "127.0.0.1", () => console.log(`Agent Fleet Brain console: http://127.0.0.1:${port}`));

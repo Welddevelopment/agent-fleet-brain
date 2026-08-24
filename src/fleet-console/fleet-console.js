@@ -86,7 +86,7 @@ function render({ fleet }) {
       <div><span>What exists</span><strong>A joined deterministic control mechanism in one fictional four-stream company.</strong></div>
       <div><span>What remains unproved</span><strong>${esc(fleet.nextGate)}</strong></div>
       <p>${esc(fleet.boundary)}</p>
-      <p class="fb-separate"><strong>Separately,</strong> a small model-backed fleet campaign (V2) did run and complete: three fictional roles, 56 settled calls, $0.25, every task independently verified, zero unsafe attempts. It is a different, smaller run. It is never merged with the 115/115 above.</p>
+      <div id="paid-evidence-panel"><p class="fb-separate">Loading paid-run evidence…</p></div>
     </footer>
   </section>`;
 }
@@ -108,10 +108,58 @@ function animate() {
   }
 }
 
+async function loadJson(url) {
+  const response = await fetch(url, { headers: { accept: "application/json" } });
+  const body = await response.json();
+  if (!response.ok) throw new Error(body.error ?? `Request failed: ${response.status}`);
+  return body;
+}
+
+// The demo panel renders the latest `npm run demo` story — sealed stage receipts,
+// refusals included — and fails closed on a missing or mutated manifest.
+function renderDemo(demo) {
+  if (!demo || demo.integrity !== "valid") {
+    return `<section class="fleet-workspace" id="demo"><section class="fleet-intake"><div class="fleet-intake-copy"><p class="kicker">Demo run</p><h2>No demo run to show.</h2><p>${esc(demo?.error ?? "Run: npm run demo")}</p></div></section></section>`;
+  }
+  const stageRows = demo.stages.map((stage, index) => `
+    <article><span>${index + 1} · ${esc(humanise(stage.stage))}</span><strong>${esc(humanise(stage.status))}</strong><p>${esc(stage.summaryLine)}</p><small>receipt ${esc(stage.receipt)}…</small></article>`).join("");
+  const notProved = demo.notProved.map((item) => `<li>${esc(item)}</li>`).join("");
+  return `
+  <section class="fleet-workspace" id="demo">
+    <section class="fleet-intake">
+      <div class="fleet-intake-copy"><p class="kicker">Demo run · ${esc(demo.run)} · story ${esc(demo.storyHash)}…</p><h2>The whole mechanism,<br>one deterministic run.</h2><p>${esc(demo.boundary)}</p><div><strong>${demo.modelCalls} model calls</strong><span>$${demo.paidModelSpendUsd} paid spend · every stage hash-sealed · refusals shown live</span></div></div>
+      <div class="fleet-intake-stack">${stageRows}<footer>Not proved by any of the above:<ul>${notProved}</ul></footer></div>
+    </section>
+  </section>`;
+}
+
+// Paid evidence: V2 AND V3, side by side, loaded read-only from sealed artifacts.
+// Showing the V3 loss is load-bearing — a surface that only shows wins is a
+// marketing page, not evidence.
+function renderPaidEvidence(paid) {
+  if (!paid) return `<p class="fb-separate">Paid-run evidence unavailable.</p>`;
+  const v2 = paid.v2?.status === "verified"
+    ? `V2 completed 3/3: $${paid.v2.spentUsd.toFixed(4)}, ${paid.v2.settledCalls} settled calls, independently verified.`
+    : `V2: ${esc(paid.v2?.status ?? "absent")}.`;
+  const v3 = paid.v3?.status === "verified"
+    ? `V3 HALTED on a failed independent verification: $${paid.v3.spentUsd.toFixed(4)}, ${paid.v3.settledCalls} settled calls — ${esc(paid.v3.framing)}.`
+    : `V3: ${esc(paid.v3?.status ?? "absent")}.`;
+  return `<p class="fb-separate"><strong>Separately, and never merged with the deterministic chain:</strong> two small model-backed campaigns ran. ${esc(v2)} ${esc(v3)}</p>`;
+}
+
 try {
   const body = await load();
   main.innerHTML = render(body);
   boundaryLabel.textContent = "Preserved evidence · deterministic · 0 model calls in this console";
+  try {
+    const [{ demo }, { paidEvidence }] = await Promise.all([loadJson("/api/demo"), loadJson("/api/paid-evidence")]);
+    main.insertAdjacentHTML("beforeend", renderDemo(demo));
+    const panel = document.querySelector("#paid-evidence-panel");
+    if (panel) panel.innerHTML = renderPaidEvidence(paidEvidence);
+  } catch (error) {
+    const panel = document.querySelector("#paid-evidence-panel");
+    if (panel) panel.innerHTML = `<p class="fb-separate">Paid-run evidence unavailable: ${esc(error.message)}</p>`;
+  }
   animate();
 } catch (error) {
   main.innerHTML = unavailable(error instanceof Error ? error.message : String(error));
