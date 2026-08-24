@@ -72,7 +72,7 @@ done | shasum -a 256
 Fleet Brain depends on `dynamic-agent-specialisation` as a package (`file:` dependency,
 so both repositories must be checked out side by side on disk).
 
-This was Joel's decision on 2026-08-23, recorded as APR-0006 in the hub. It is not a
+This was Joel's decision on 2026-08-23, recorded in the hub as APR-0010 (renumbered from APR-0006 on 2026-08-24 after a numbering collision with concurrent main-hub approvals). It is not a
 leftover of shared hosting. **Fleet Brain genuinely needs DAS to build specialists** —
 `finance-role-gap.js` calls DAS's `compileSpecialist` — and that is layer five of Fleet
 Brain's own architecture. Admitting the dependency is more honest than vendoring a copy
@@ -141,4 +141,4 @@ product to anyone.**
 Work created in this repository from 2026-08-24 onward uses a **`fleetbrain.*`**
 schemaVersion prefix. The `das.*` strings above are historical facts and stay; new
 mechanisms are Fleet Brain's own and are labelled as such. The boundary date is the
-overnight build under APR-0007 (hub, `coordination/approvals/`).
+overnight build under APR-0011 (hub, `coordination/approvals/`; renumbered from APR-0007).

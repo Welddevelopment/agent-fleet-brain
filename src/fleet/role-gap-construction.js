@@ -37,7 +37,8 @@ function withoutHash(value, key) {
   return copy;
 }
 
-export function constructSpecialistForRoleGap({ roleGap, role, registryId, clock = () => new Date().toISOString() }) {
+export function constructSpecialistForRoleGap({ roleGap, role, registryId, clock }) {
+  requireCondition(typeof clock === "function", "Role-gap construction requires an explicit deterministic clock — its output feeds hashed registry records, so a wall-clock default would make them irreproducible");
   requireCondition(roleGap?.status === "awaiting-explicit-human-approval" && roleGap?.requirement, "Role-gap construction requires an approved-plan role request");
   requireCondition(role?.id && role?.brief, "Role-gap construction requires a complete DAS role definition");
   requireCondition(roleGap.requirement.verifierId === role.brief.successCriteria.verifierId, `Role gap verifier does not match role ${role.id}`);
@@ -95,7 +96,8 @@ export function constructSpecialistForRoleGap({ roleGap, role, registryId, clock
   });
 }
 
-export function runRoleGapConstructionStage({ contract, specialists, priorPlan, preparation, role, approvedBy, registryId, clock = () => new Date().toISOString() }) {
+export function runRoleGapConstructionStage({ contract, specialists, priorPlan, preparation, role, approvedBy, registryId, clock }) {
+  requireCondition(typeof clock === "function", "Role-gap construction requires an explicit deterministic clock — its output feeds hashed registry records, so a wall-clock default would make them irreproducible");
   assertBoundedFleetContract(contract);
   assertBoundedFleetPlan(priorPlan);
   requireCondition(String(approvedBy ?? "").trim(), "Role-gap construction stage requires an accountable owner");

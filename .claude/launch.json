@@ -1,1 +1,11 @@
-echo written; cat .claude/launch.json
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "fleet-console",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["src/fleet-console/server.js"],
+      "port": 4392
+    }
+  ]
+}
