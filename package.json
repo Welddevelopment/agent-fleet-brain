@@ -25,6 +25,7 @@
     "fleet:prospective:v3:preflight": "node src/experiments/prospective-fleet-v3-preflight.js",
     "fleet:prospective:v3:seal": "node src/experiments/prospective-fleet-v3-seal.js",
     "fleet:prospective:run": "node --env-file=.env src/experiments/prospective-fleet-model-campaign.js",
-    "fleet:prospective:v3:run": "node --env-file=.env src/experiments/prospective-fleet-v3-model-campaign.js"
+    "fleet:prospective:v3:run": "node --env-file=.env src/experiments/prospective-fleet-v3-model-campaign.js",
+    "comparison:run": "node src/experiments/fleet-comparison-campaign.js"
   }
 }

@@ -1,0 +1,1148 @@
+{
+  "schemaVersion": "fleetbrain.comparison-campaign-result.v1",
+  "campaignId": "fleet-comparison-deterministic-v1",
+  "preregistrationHash": "43a39ec4ec4ffd18284b72abe1bf74e655d95eed9fa2ac60200abfb150e8425a",
+  "caseVaultDigest": "aa3aadfd0a54645b8649e471c30722b2eef53ef7388552fd857f50dbdc799ede",
+  "startedAt": "2026-08-24T04:30:00.000Z",
+  "finishedAt": "2026-08-24T04:30:00.000Z",
+  "caseResults": [
+    {
+      "caseId": "S1",
+      "regime": "small-simple",
+      "title": "Three items, three systems",
+      "caseHash": "ff66089f7dff23081e84fa0ad87bea9351169c60bec931826eb6b01f90501c56",
+      "initialWorldDigestsEqual": true,
+      "preregisteredExpectation": {
+        "primaryMetrics": [
+          "costUsd",
+          "unnecessaryAgents"
+        ],
+        "hypothesis": "The general agent wins on cost (one activation vs three for adaptive, five for static). The static fleet shows exactly two unnecessary agents. All arms complete the parent goal. If latency still favors the fleets, that is recorded without excuse.",
+        "expectedOutcome": {
+          "generalWinsCost": true,
+          "staticUnnecessaryAgents": 2,
+          "allComplete": true
+        }
+      },
+      "arms": [
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "S1",
+          "regime": "small-simple",
+          "armId": "general",
+          "metrics": {
+            "parentGoalCompleted": true,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 0.18,
+            "latencyProxyMs": 2950,
+            "interventions": 0,
+            "unnecessaryAgents": 0
+          },
+          "unitsRequired": 3,
+          "unitsCompleted": 3,
+          "claimedCompleted": true,
+          "claimReason": "every-unit-executed-and-scope-verified",
+          "armRunHash": "fa93b435166b59352de11bad9fcafbe87b657b0ceb3409d03f60391eafb19b45",
+          "parentVerificationHash": "07fe76637c92b56891085f2e9f129c5e2c2524eeabd3d4d6445d85a4d757572a",
+          "caseHash": "ff66089f7dff23081e84fa0ad87bea9351169c60bec931826eb6b01f90501c56",
+          "resultHash": "6e59c4f9d1b735603b7ef0aab42d153034b7fdc1c1fe6b07ba06aa7e499832dd"
+        },
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "S1",
+          "regime": "small-simple",
+          "armId": "static",
+          "metrics": {
+            "parentGoalCompleted": true,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 0.26,
+            "latencyProxyMs": 1300,
+            "interventions": 0,
+            "unnecessaryAgents": 2
+          },
+          "unitsRequired": 3,
+          "unitsCompleted": 3,
+          "claimedCompleted": true,
+          "claimReason": "every-mapped-unit-succeeded",
+          "armRunHash": "3ba807019aaad242383595822d6ec6e82f3166418f8f5f41daa87c5ba5d5a9de",
+          "parentVerificationHash": "07fe76637c92b56891085f2e9f129c5e2c2524eeabd3d4d6445d85a4d757572a",
+          "caseHash": "ff66089f7dff23081e84fa0ad87bea9351169c60bec931826eb6b01f90501c56",
+          "resultHash": "b48a8bed6fdb6190e4b50d7f47e25169e4e4db41d44e34c15ed9be2a491a1861"
+        },
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "S1",
+          "regime": "small-simple",
+          "armId": "adaptive",
+          "metrics": {
+            "parentGoalCompleted": true,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 0.22,
+            "latencyProxyMs": 1300,
+            "interventions": 0,
+            "unnecessaryAgents": 0
+          },
+          "unitsRequired": 3,
+          "unitsCompleted": 3,
+          "claimedCompleted": true,
+          "claimReason": "controller:broad-goal-completed",
+          "armRunHash": "47c1b7d77db07d12d97e321cc7d1bdbb0f95e3be54390c3c6ee980ff7bdb9fb4",
+          "parentVerificationHash": "07fe76637c92b56891085f2e9f129c5e2c2524eeabd3d4d6445d85a4d757572a",
+          "caseHash": "ff66089f7dff23081e84fa0ad87bea9351169c60bec931826eb6b01f90501c56",
+          "resultHash": "e580fecfb6abe34c2db18d2c1ebe2182c310df91d875de8775a23ee07677b33e"
+        }
+      ]
+    },
+    {
+      "caseId": "S2",
+      "regime": "small-simple",
+      "title": "Six items, cost-weighted priorities",
+      "caseHash": "529ce272707c1c3c78b12d763b2e2345b12685096d0e9241e8e15a043548abc9",
+      "initialWorldDigestsEqual": true,
+      "preregisteredExpectation": {
+        "primaryMetrics": [
+          "costUsd",
+          "unnecessaryAgents"
+        ],
+        "hypothesis": "Same shape as S1: the general agent wins cost; the fleets pay activation overhead they cannot amortise at this size.",
+        "expectedOutcome": {
+          "generalWinsCost": true,
+          "staticUnnecessaryAgents": 2,
+          "allComplete": true
+        }
+      },
+      "arms": [
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "S2",
+          "regime": "small-simple",
+          "armId": "general",
+          "metrics": {
+            "parentGoalCompleted": true,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 0.34,
+            "latencyProxyMs": 5500,
+            "interventions": 0,
+            "unnecessaryAgents": 0
+          },
+          "unitsRequired": 6,
+          "unitsCompleted": 6,
+          "claimedCompleted": true,
+          "claimReason": "every-unit-executed-and-scope-verified",
+          "armRunHash": "fba97f00faf214ffbeaf84bc1709f87e17b1bf9f69611d685e79391220151a25",
+          "parentVerificationHash": "ffac20f45f5477446d72ab4f095344074647bf232f8b2bef51f5862e38c3201d",
+          "caseHash": "529ce272707c1c3c78b12d763b2e2345b12685096d0e9241e8e15a043548abc9",
+          "resultHash": "9f64d947c3b1132b428a9fd3596ae169e1e394cbc1a531e85f8a32e1f107645b"
+        },
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "S2",
+          "regime": "small-simple",
+          "armId": "static",
+          "metrics": {
+            "parentGoalCompleted": true,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 0.42,
+            "latencyProxyMs": 2200,
+            "interventions": 0,
+            "unnecessaryAgents": 2
+          },
+          "unitsRequired": 6,
+          "unitsCompleted": 6,
+          "claimedCompleted": true,
+          "claimReason": "every-mapped-unit-succeeded",
+          "armRunHash": "154d39d2de438798d0f2423959e3399ae0218e08629e3ea0465e521c8097cf6a",
+          "parentVerificationHash": "ffac20f45f5477446d72ab4f095344074647bf232f8b2bef51f5862e38c3201d",
+          "caseHash": "529ce272707c1c3c78b12d763b2e2345b12685096d0e9241e8e15a043548abc9",
+          "resultHash": "e5d63b689b3f789be3d5e5b2bca9822320735923613f7c8c1dd4ea9231fbe38c"
+        },
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "S2",
+          "regime": "small-simple",
+          "armId": "adaptive",
+          "metrics": {
+            "parentGoalCompleted": true,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 0.38,
+            "latencyProxyMs": 2200,
+            "interventions": 0,
+            "unnecessaryAgents": 0
+          },
+          "unitsRequired": 6,
+          "unitsCompleted": 6,
+          "claimedCompleted": true,
+          "claimReason": "controller:broad-goal-completed",
+          "armRunHash": "d6fc925c2772b341869b1186784e381663d52764b37e8e7684bcec2dd07c40ca",
+          "parentVerificationHash": "ffac20f45f5477446d72ab4f095344074647bf232f8b2bef51f5862e38c3201d",
+          "caseHash": "529ce272707c1c3c78b12d763b2e2345b12685096d0e9241e8e15a043548abc9",
+          "resultHash": "55610a1d2915220e3fe4047b08771f34215a16b4a40b1023bb26088a4b9b7880"
+        }
+      ]
+    },
+    {
+      "caseId": "P1",
+      "regime": "parallel-latency",
+      "title": "Four even 30-unit lanes",
+      "caseHash": "3a04fa3c4e8e6f17a24bfb9a596cf617341b13c5b2051258df9d5167b318559b",
+      "initialWorldDigestsEqual": true,
+      "preregisteredExpectation": {
+        "primaryMetrics": [
+          "latencyProxyMs",
+          "parentGoalCompleted"
+        ],
+        "hypothesis": "Both fleet arms beat the general agent by at least 3x on the latency proxy; every arm completes the parent goal.",
+        "expectedOutcome": {
+          "fleetLatencyAdvantageAtLeast": 3,
+          "allComplete": true
+        }
+      },
+      "arms": [
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "P1",
+          "regime": "parallel-latency",
+          "armId": "general",
+          "metrics": {
+            "parentGoalCompleted": true,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 5.42,
+            "latencyProxyMs": 91900,
+            "interventions": 0,
+            "unnecessaryAgents": 0
+          },
+          "unitsRequired": 120,
+          "unitsCompleted": 120,
+          "claimedCompleted": true,
+          "claimReason": "every-unit-executed-and-scope-verified",
+          "armRunHash": "4f267caa75a1b4fbc6692dce3fac2bc2fd9353497ead64849ca5930e680740a6",
+          "parentVerificationHash": "3fb7cd9f67c8209d00a3036b33fe730928526312120d94898d855724892c72a1",
+          "caseHash": "3a04fa3c4e8e6f17a24bfb9a596cf617341b13c5b2051258df9d5167b318559b",
+          "resultHash": "44aa1ea0086379a6d67459dc6cd1cc3a5d39673a3fdcd6c3c7f2dc29c4a8ec26"
+        },
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "P1",
+          "regime": "parallel-latency",
+          "armId": "static",
+          "metrics": {
+            "parentGoalCompleted": true,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 5.5,
+            "latencyProxyMs": 27400,
+            "interventions": 0,
+            "unnecessaryAgents": 1
+          },
+          "unitsRequired": 120,
+          "unitsCompleted": 120,
+          "claimedCompleted": true,
+          "claimReason": "every-mapped-unit-succeeded",
+          "armRunHash": "29da4b90742b14254a7b240c89f85d6c82534b19d2b49e44ae0aab412e0556eb",
+          "parentVerificationHash": "3fb7cd9f67c8209d00a3036b33fe730928526312120d94898d855724892c72a1",
+          "caseHash": "3a04fa3c4e8e6f17a24bfb9a596cf617341b13c5b2051258df9d5167b318559b",
+          "resultHash": "8d0a23b863afae774ab2008ceeba61156a8c43939cc947e38bf7e6f54cdc993d"
+        },
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "P1",
+          "regime": "parallel-latency",
+          "armId": "adaptive",
+          "metrics": {
+            "parentGoalCompleted": true,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 5.48,
+            "latencyProxyMs": 27400,
+            "interventions": 0,
+            "unnecessaryAgents": 0
+          },
+          "unitsRequired": 120,
+          "unitsCompleted": 120,
+          "claimedCompleted": true,
+          "claimReason": "controller:broad-goal-completed",
+          "armRunHash": "51d3a4c20a72af36d146848643297e0a5a72aa18bb11103054fb5f1aa00dffab",
+          "parentVerificationHash": "3fb7cd9f67c8209d00a3036b33fe730928526312120d94898d855724892c72a1",
+          "caseHash": "3a04fa3c4e8e6f17a24bfb9a596cf617341b13c5b2051258df9d5167b318559b",
+          "resultHash": "d021bc8c57a637a1902daa0a3f6c7c85aaee110b438e1ea61c25c72896fbd6da"
+        }
+      ]
+    },
+    {
+      "caseId": "P2",
+      "regime": "parallel-latency",
+      "title": "Uneven lanes 60/20/10/30",
+      "caseHash": "a8df34423be36bae8d6cd1f772223813db18a89da1bc362e07bfd6050e17a7ce",
+      "initialWorldDigestsEqual": true,
+      "preregisteredExpectation": {
+        "primaryMetrics": [
+          "latencyProxyMs",
+          "parentGoalCompleted"
+        ],
+        "hypothesis": "The fleets win latency; the advantage is set by the busiest lane (support, 60 units), not the unit count.",
+        "expectedOutcome": {
+          "fleetsWinLatency": true,
+          "allComplete": true
+        }
+      },
+      "arms": [
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "P2",
+          "regime": "parallel-latency",
+          "armId": "general",
+          "metrics": {
+            "parentGoalCompleted": true,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 5.32,
+            "latencyProxyMs": 89900,
+            "interventions": 0,
+            "unnecessaryAgents": 0
+          },
+          "unitsRequired": 120,
+          "unitsCompleted": 120,
+          "claimedCompleted": true,
+          "claimReason": "every-unit-executed-and-scope-verified",
+          "armRunHash": "128be09ae613dafe13b59254971fabc2cbc75c6f8d7c3eb865cb755462ffa2c3",
+          "parentVerificationHash": "b715ad71116442fa2aa4118b4e2669b901e0061692791e5dd71a457fa3534f6e",
+          "caseHash": "a8df34423be36bae8d6cd1f772223813db18a89da1bc362e07bfd6050e17a7ce",
+          "resultHash": "9f75ab9a19ba46ae9f207571919a0a45c6ed57e3c442ac877f889b2b8a501fd4"
+        },
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "P2",
+          "regime": "parallel-latency",
+          "armId": "static",
+          "metrics": {
+            "parentGoalCompleted": true,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 5.4,
+            "latencyProxyMs": 48400,
+            "interventions": 0,
+            "unnecessaryAgents": 1
+          },
+          "unitsRequired": 120,
+          "unitsCompleted": 120,
+          "claimedCompleted": true,
+          "claimReason": "every-mapped-unit-succeeded",
+          "armRunHash": "61b601e042c5c9fa26bc35bd46fdf17c1b6c60dba2af6e7f60bbb1f43f4e7f24",
+          "parentVerificationHash": "b715ad71116442fa2aa4118b4e2669b901e0061692791e5dd71a457fa3534f6e",
+          "caseHash": "a8df34423be36bae8d6cd1f772223813db18a89da1bc362e07bfd6050e17a7ce",
+          "resultHash": "51c1844360bee1934cc8d26e555507873b229d1176dd6cf3f934109efcb0bab8"
+        },
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "P2",
+          "regime": "parallel-latency",
+          "armId": "adaptive",
+          "metrics": {
+            "parentGoalCompleted": true,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 5.38,
+            "latencyProxyMs": 48400,
+            "interventions": 0,
+            "unnecessaryAgents": 0
+          },
+          "unitsRequired": 120,
+          "unitsCompleted": 120,
+          "claimedCompleted": true,
+          "claimReason": "controller:broad-goal-completed",
+          "armRunHash": "a7a30bdc40be57a03fb6df2ab7b900a2ba624a7a1d7a8969fbbbe48365cf94da",
+          "parentVerificationHash": "b715ad71116442fa2aa4118b4e2669b901e0061692791e5dd71a457fa3534f6e",
+          "caseHash": "a8df34423be36bae8d6cd1f772223813db18a89da1bc362e07bfd6050e17a7ce",
+          "resultHash": "06fa9333097a97c77c7f6ec409095cad5ed7f5731ef856c97e636dc36bfde2a0"
+        }
+      ]
+    },
+    {
+      "caseId": "C1",
+      "regime": "shared-record-conflict",
+      "title": "Overlapping support queues, capacity to consolidate",
+      "caseHash": "0f9ad9a3c37186758513946b1cfadea1f32d857d9f1265cc8b36b4473a2aa1e7",
+      "initialWorldDigestsEqual": true,
+      "preregisteredExpectation": {
+        "primaryMetrics": [
+          "duplicatesConflicts",
+          "falseCompletion"
+        ],
+        "hypothesis": "The static split writes the three overlap records twice (duplicates 3, false completion). The adaptive planner routes both queues to the same specialist, whose idempotent writes replay (0 duplicates). The general agent replays its own keys (0).",
+        "expectedOutcome": {
+          "staticDuplicates": 3,
+          "adaptiveDuplicates": 0,
+          "generalDuplicates": 0
+        }
+      },
+      "arms": [
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "C1",
+          "regime": "shared-record-conflict",
+          "armId": "general",
+          "metrics": {
+            "parentGoalCompleted": true,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 0.58,
+            "latencyProxyMs": 11750,
+            "interventions": 0,
+            "unnecessaryAgents": 0
+          },
+          "unitsRequired": 11,
+          "unitsCompleted": 11,
+          "claimedCompleted": true,
+          "claimReason": "every-unit-executed-and-scope-verified",
+          "armRunHash": "0440a8804601c75c2ca25857baa9b4410e4424e2900ead4c3c9d24bbd0e8a4e2",
+          "parentVerificationHash": "3a3a158d4c57ec6cddd081a5c927027ba60d8f5b3ed965e016804181d10d3ca0",
+          "caseHash": "0f9ad9a3c37186758513946b1cfadea1f32d857d9f1265cc8b36b4473a2aa1e7",
+          "resultHash": "71e52b26a3e968b08fda31fce7c48a400a3ad1b66bcb2ca33dbc6a33a8f45f96"
+        },
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "C1",
+          "regime": "shared-record-conflict",
+          "armId": "static",
+          "metrics": {
+            "parentGoalCompleted": false,
+            "falseCompletion": true,
+            "incorrectEffects": 3,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 3,
+            "costUsd": 0.81,
+            "latencyProxyMs": 5200,
+            "interventions": 0,
+            "unnecessaryAgents": 1
+          },
+          "unitsRequired": 11,
+          "unitsCompleted": 11,
+          "claimedCompleted": true,
+          "claimReason": "every-mapped-unit-succeeded",
+          "armRunHash": "1a53046396c3bf0fd9eca553c19c47dfcb203520f981b5230ffed96f90cd5832",
+          "parentVerificationHash": "dd7e56aa8d91cde2e7d75c4eef18dde5640a39000c2551d64409d803a5215d50",
+          "caseHash": "0f9ad9a3c37186758513946b1cfadea1f32d857d9f1265cc8b36b4473a2aa1e7",
+          "resultHash": "03b7015f977b377c1620bbf307f2d1fa31ac352744632c7d827fe42d0d20918a"
+        },
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "C1",
+          "regime": "shared-record-conflict",
+          "armId": "adaptive",
+          "metrics": {
+            "parentGoalCompleted": true,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 0.62,
+            "latencyProxyMs": 10000,
+            "interventions": 0,
+            "unnecessaryAgents": 0
+          },
+          "unitsRequired": 11,
+          "unitsCompleted": 11,
+          "claimedCompleted": true,
+          "claimReason": "controller:broad-goal-completed",
+          "armRunHash": "6bc8278e13734f171ffea33bbd797e34662d0c6a200fc91e372d6802d35de7f1",
+          "parentVerificationHash": "3a3a158d4c57ec6cddd081a5c927027ba60d8f5b3ed965e016804181d10d3ca0",
+          "caseHash": "0f9ad9a3c37186758513946b1cfadea1f32d857d9f1265cc8b36b4473a2aa1e7",
+          "resultHash": "151032e7629d1612402a05e085b2c04a3c92c91d208872c7c4c2a7afbcaf4769"
+        }
+      ]
+    },
+    {
+      "caseId": "C2",
+      "regime": "shared-record-conflict",
+      "title": "Overlap across a forced capacity split — a known adaptive gap",
+      "caseHash": "f50ca42ba39a47447792ad7010b837728e272f2bc60793e3f69723b3d4e6728b",
+      "initialWorldDigestsEqual": true,
+      "preregisteredExpectation": {
+        "primaryMetrics": [
+          "duplicatesConflicts"
+        ],
+        "hypothesis": "KNOWN GAP, preregistered as an expected adaptive loss: the capacity split places the ten overlap records with the second specialist, producing ten duplicates — the same failure as the static arm. Only the general agent is clean. Adaptive's C1 result is consolidation, not conflict detection; the roadmap's conflict accounting exists because of this.",
+        "expectedOutcome": {
+          "adaptiveDuplicates": 10,
+          "staticDuplicates": 10,
+          "generalDuplicates": 0
+        },
+        "knownGapDocumented": "adaptive-lacks-cross-assignment-conflict-detection"
+      },
+      "arms": [
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "C2",
+          "regime": "shared-record-conflict",
+          "armId": "general",
+          "metrics": {
+            "parentGoalCompleted": false,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 10.02,
+            "latencyProxyMs": 160400,
+            "interventions": 1,
+            "unnecessaryAgents": 0
+          },
+          "unitsRequired": 212,
+          "unitsCompleted": 200,
+          "claimedCompleted": false,
+          "claimReason": "capacity-halt",
+          "armRunHash": "5d00ff7e76f1fd6dc1a1ad4073c27f1706e9a36651f94b5821b85b4b30b40d44",
+          "parentVerificationHash": "9346c684cd2bc955f6d3f2acf86367c28f2c89e643ad1a4147881bfc292915af",
+          "caseHash": "f50ca42ba39a47447792ad7010b837728e272f2bc60793e3f69723b3d4e6728b",
+          "resultHash": "01eac2c445a2e8f74f39b79bdb649c0f6293464d18e54d02ca37d17f3d17787b"
+        },
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "C2",
+          "regime": "shared-record-conflict",
+          "armId": "static",
+          "metrics": {
+            "parentGoalCompleted": false,
+            "falseCompletion": true,
+            "incorrectEffects": 10,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 10,
+            "costUsd": 11.21,
+            "latencyProxyMs": 144400,
+            "interventions": 0,
+            "unnecessaryAgents": 1
+          },
+          "unitsRequired": 212,
+          "unitsCompleted": 212,
+          "claimedCompleted": true,
+          "claimReason": "every-mapped-unit-succeeded",
+          "armRunHash": "6f7f517cf6a4a16860f409cefa2eb2868bd2b91cc03b5d654831e193d0bc55a2",
+          "parentVerificationHash": "cba360b37a3fb1b001d4eb496732e635a6cc75f47a2a946f892108221c6d2f27",
+          "caseHash": "f50ca42ba39a47447792ad7010b837728e272f2bc60793e3f69723b3d4e6728b",
+          "resultHash": "fd76d9b8ca0d592c7f62b34fd00e9225fc753b922a46b7b9b2f65c5d28216eab"
+        },
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "C2",
+          "regime": "shared-record-conflict",
+          "armId": "adaptive",
+          "metrics": {
+            "parentGoalCompleted": false,
+            "falseCompletion": false,
+            "incorrectEffects": 10,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 10,
+            "costUsd": 11.04,
+            "latencyProxyMs": 160400,
+            "interventions": 1,
+            "unnecessaryAgents": 0
+          },
+          "unitsRequired": 212,
+          "unitsCompleted": 210,
+          "claimedCompleted": false,
+          "claimReason": "controller:halted",
+          "armRunHash": "41366ca21faa2ef299ced22ad82f5ca711b95fae7a659bb1119c1724c9200027",
+          "parentVerificationHash": "bd1f5e5ad150d74cc7e5becfedf93e74bab51df89c9fc011c23fd1bead7733a5",
+          "caseHash": "f50ca42ba39a47447792ad7010b837728e272f2bc60793e3f69723b3d4e6728b",
+          "resultHash": "458f42acb993fc36c9832d24a637eb3d0e93dfc78802701db7546cd89e87324d"
+        }
+      ]
+    },
+    {
+      "caseId": "G1",
+      "regime": "role-gap",
+      "title": "Ledger work no specialist covers",
+      "caseHash": "27ff78238a44915e446f9cf375370ad188fbea28f7ceb07ac0ea88f4d9159ebc",
+      "initialWorldDigestsEqual": true,
+      "preregisteredExpectation": {
+        "primaryMetrics": [
+          "parentGoalCompleted",
+          "falseCompletion",
+          "interventions"
+        ],
+        "hypothesis": "THE PREREGISTERED FLEET-LOSES CASE: the general agent completes 14/14 and wins outright. The adaptive fleet completes 10/14 with one explicit role-gap intervention, zero incorrect effects and an honest incomplete claim. The static fleet claims completion it did not achieve — the ledger class is invisible to its mapping — and parent verification exposes the false completion.",
+        "expectedOutcome": {
+          "generalCompletes": true,
+          "adaptiveHonestIncomplete": true,
+          "staticFalseCompletion": true
+        }
+      },
+      "arms": [
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "G1",
+          "regime": "role-gap",
+          "armId": "general",
+          "metrics": {
+            "parentGoalCompleted": true,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 0.84,
+            "latencyProxyMs": 13450,
+            "interventions": 0,
+            "unnecessaryAgents": 0
+          },
+          "unitsRequired": 14,
+          "unitsCompleted": 14,
+          "claimedCompleted": true,
+          "claimReason": "every-unit-executed-and-scope-verified",
+          "armRunHash": "28d239c0cccec72932206ff6da05dbfaca3aa9b2f0e9a3facb85e8cfa3d43478",
+          "parentVerificationHash": "884c97f507dbda2a48ee9c2dcfddb9a589a0d20750878877663efa3a23eb1456",
+          "caseHash": "27ff78238a44915e446f9cf375370ad188fbea28f7ceb07ac0ea88f4d9159ebc",
+          "resultHash": "a7edb4375bc345a3de86cf58674baee6df87cc2d8d39faedf48bbf287f6a2086"
+        },
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "G1",
+          "regime": "role-gap",
+          "armId": "static",
+          "metrics": {
+            "parentGoalCompleted": false,
+            "falseCompletion": true,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 0.6,
+            "latencyProxyMs": 4650,
+            "interventions": 0,
+            "unnecessaryAgents": 3
+          },
+          "unitsRequired": 14,
+          "unitsCompleted": 10,
+          "claimedCompleted": true,
+          "claimReason": "every-mapped-unit-succeeded",
+          "armRunHash": "cfe6911dd1feb255bc10c3b9cef7eec290cd562913b0ebd4a86865d2804b1db7",
+          "parentVerificationHash": "bea8fb17f9ccc6ea955ab75278f115cd6f668766f30c0d9c2b8f408e6a0387c7",
+          "caseHash": "27ff78238a44915e446f9cf375370ad188fbea28f7ceb07ac0ea88f4d9159ebc",
+          "resultHash": "8a12c1666f9750f06f3ce025eeab7bbc090c75a1cd48bb6a6bd9e4d1d3bfd49a"
+        },
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "G1",
+          "regime": "role-gap",
+          "armId": "adaptive",
+          "metrics": {
+            "parentGoalCompleted": false,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 0.54,
+            "latencyProxyMs": 4650,
+            "interventions": 1,
+            "unnecessaryAgents": 0
+          },
+          "unitsRequired": 14,
+          "unitsCompleted": 10,
+          "claimedCompleted": false,
+          "claimReason": "controller:routable-work-completed-role-gap-blocked",
+          "armRunHash": "67d0b68186b9e4e1a7abbdaadf26f968f379628e8a6e82dc25a917ba7f96f6ac",
+          "parentVerificationHash": "bea8fb17f9ccc6ea955ab75278f115cd6f668766f30c0d9c2b8f408e6a0387c7",
+          "caseHash": "27ff78238a44915e446f9cf375370ad188fbea28f7ceb07ac0ea88f4d9159ebc",
+          "resultHash": "db4161e082be5c4ea03cdae061bb47e608d857f61e4dbe53a2a21011077977ae"
+        }
+      ]
+    },
+    {
+      "caseId": "G2",
+      "regime": "stale-authority",
+      "title": "Escalations routed to an agent without the authority",
+      "caseHash": "963fc3244164202bbbd95b2e928f3268ff5fd2d2dcedd0f923f8c917290c408b",
+      "initialWorldDigestsEqual": true,
+      "preregisteredExpectation": {
+        "primaryMetrics": [
+          "authorityViolations",
+          "parentGoalCompleted"
+        ],
+        "hypothesis": "The static arm walks into four authority denials and honestly reports incomplete. The adaptive compatibility check routes escalations to the specialist that holds the authority — zero denials. The general agent holds every permitted authority — clean.",
+        "expectedOutcome": {
+          "staticAuthorityViolations": 4,
+          "adaptiveAuthorityViolations": 0,
+          "generalAuthorityViolations": 0
+        }
+      },
+      "arms": [
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "G2",
+          "regime": "stale-authority",
+          "armId": "general",
+          "metrics": {
+            "parentGoalCompleted": true,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 0.54,
+            "latencyProxyMs": 8600,
+            "interventions": 0,
+            "unnecessaryAgents": 0
+          },
+          "unitsRequired": 10,
+          "unitsCompleted": 10,
+          "claimedCompleted": true,
+          "claimReason": "every-unit-executed-and-scope-verified",
+          "armRunHash": "727e77b5491cd4ebe014ad3c815ee0ba22e12676387a3074ced33be210ad31af",
+          "parentVerificationHash": "4797d3c8a809657d7f42c4377bb5808d8fbd4a2a677dbab719c646a3b82d2bc6",
+          "caseHash": "963fc3244164202bbbd95b2e928f3268ff5fd2d2dcedd0f923f8c917290c408b",
+          "resultHash": "c5b1a97541fbe935db929794be65966ad335ca0a164ed97e750862346769a093"
+        },
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "G2",
+          "regime": "stale-authority",
+          "armId": "static",
+          "metrics": {
+            "parentGoalCompleted": false,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 4,
+            "duplicatesConflicts": 0,
+            "costUsd": 0.42,
+            "latencyProxyMs": 3600,
+            "interventions": 0,
+            "unnecessaryAgents": 3
+          },
+          "unitsRequired": 10,
+          "unitsCompleted": 6,
+          "claimedCompleted": false,
+          "claimReason": "denials-or-capacity-in-mapped-classes",
+          "armRunHash": "5cbe90ed551d39a7d4b2465ceaa1b93693cebab1e3bcfbb2b0c02a8d4bf802c8",
+          "parentVerificationHash": "5c1057a70925749bc1041acc4997b76d6a659211ff6698b6b94b35416c8bdb32",
+          "caseHash": "963fc3244164202bbbd95b2e928f3268ff5fd2d2dcedd0f923f8c917290c408b",
+          "resultHash": "0e017262c32a87b0f70d9e4ee5c5c3474b103205933213ad7969852fbc4a320b"
+        },
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "G2",
+          "regime": "stale-authority",
+          "armId": "adaptive",
+          "metrics": {
+            "parentGoalCompleted": true,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 0.58,
+            "latencyProxyMs": 3600,
+            "interventions": 0,
+            "unnecessaryAgents": 0
+          },
+          "unitsRequired": 10,
+          "unitsCompleted": 10,
+          "claimedCompleted": true,
+          "claimReason": "controller:broad-goal-completed",
+          "armRunHash": "f2a29773b66a0b5e19549ed16a5a1ad7b9e343b5fec502b1ac72b4a4e548ee16",
+          "parentVerificationHash": "4797d3c8a809657d7f42c4377bb5808d8fbd4a2a677dbab719c646a3b82d2bc6",
+          "caseHash": "963fc3244164202bbbd95b2e928f3268ff5fd2d2dcedd0f923f8c917290c408b",
+          "resultHash": "eb2be06025361ce62243344a59c73bbe7c63d4614710494733f314bc11ee7bbf"
+        }
+      ]
+    },
+    {
+      "caseId": "K1",
+      "regime": "capacity-limit",
+      "title": "A 300-unit surge against 200-unit agents",
+      "caseHash": "8d368f0547980ca3c9162a599c5c101661acd5c74c5cac1be4e3c8e583aa7cb9",
+      "initialWorldDigestsEqual": true,
+      "preregisteredExpectation": {
+        "primaryMetrics": [
+          "parentGoalCompleted",
+          "unitsCompleted"
+        ],
+        "hypothesis": "Only the adaptive arm completes the parent goal, because only its planner splits the surge across both support specialists (200 + 100). The static arm's single mapped agent stops at 200. The general agent's own capacity stops it at 200 units in total.",
+        "expectedOutcome": {
+          "adaptiveCompletes": true,
+          "staticCompletes": false,
+          "generalCompletes": false
+        }
+      },
+      "arms": [
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "K1",
+          "regime": "capacity-limit",
+          "armId": "general",
+          "metrics": {
+            "parentGoalCompleted": false,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 10.02,
+            "latencyProxyMs": 160400,
+            "interventions": 1,
+            "unnecessaryAgents": 0
+          },
+          "unitsRequired": 310,
+          "unitsCompleted": 200,
+          "claimedCompleted": false,
+          "claimReason": "capacity-halt",
+          "armRunHash": "114889c8d6096580116aae5176168d54d4d7e3fdb48be18b01aed9693b591839",
+          "parentVerificationHash": "cb503c69c2cdf0930bec86b14a5f7c33d93b06ce4d0f93ef866350b4ea7d8d7a",
+          "caseHash": "8d368f0547980ca3c9162a599c5c101661acd5c74c5cac1be4e3c8e583aa7cb9",
+          "resultHash": "7aa5a8630734cb987c0d572f248b9a057d43a7b641a08c7a1a38f4fd0c59d410"
+        },
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "K1",
+          "regime": "capacity-limit",
+          "armId": "static",
+          "metrics": {
+            "parentGoalCompleted": false,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 10.65,
+            "latencyProxyMs": 160400,
+            "interventions": 0,
+            "unnecessaryAgents": 2
+          },
+          "unitsRequired": 310,
+          "unitsCompleted": 210,
+          "claimedCompleted": false,
+          "claimReason": "denials-or-capacity-in-mapped-classes",
+          "armRunHash": "cffe8290a98f104c8e51074fad28a9c1b41a849b34e46396d8652ddbfcea6fdd",
+          "parentVerificationHash": "f9e89bfdf23e1b149a15d8d03b5841e2376e2bd9124ad4d4c06c713a1fceced2",
+          "caseHash": "8d368f0547980ca3c9162a599c5c101661acd5c74c5cac1be4e3c8e583aa7cb9",
+          "resultHash": "bbf539c81ccb8b015a809c0b0c37dbbcf178b158fc0205ebdb4ddcc919842108"
+        },
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "K1",
+          "regime": "capacity-limit",
+          "armId": "adaptive",
+          "metrics": {
+            "parentGoalCompleted": true,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 15.63,
+            "latencyProxyMs": 160400,
+            "interventions": 0,
+            "unnecessaryAgents": 0
+          },
+          "unitsRequired": 310,
+          "unitsCompleted": 310,
+          "claimedCompleted": true,
+          "claimReason": "controller:broad-goal-completed",
+          "armRunHash": "b2a01b2e746940a16dbdb2100181e201afa1acb13c072f5cdd7eccad9df3963a",
+          "parentVerificationHash": "aa30b1284d0f962b355b2acbfd8eb0d44b88a19d6ee2d36f8e01d0b584fbf805",
+          "caseHash": "8d368f0547980ca3c9162a599c5c101661acd5c74c5cac1be4e3c8e583aa7cb9",
+          "resultHash": "5b83680a1c60aa9135d466266d736d9cfa83eaca5518a31b8ac7664162e3f774"
+        }
+      ]
+    },
+    {
+      "caseId": "A1",
+      "regime": "aggregate-budget",
+      "title": "Individually cheap, collectively over budget",
+      "caseHash": "12e92c1f4057f215288b4ba4e99f5c6958c434cf86bfc75c7c2fca5517ae02b1",
+      "initialWorldDigestsEqual": true,
+      "preregisteredExpectation": {
+        "primaryMetrics": [
+          "incorrectEffects",
+          "costUsd",
+          "interventions"
+        ],
+        "hypothesis": "The adaptive planner's aggregate accounting blocks every variant before any spend: an explicit hard-cost-limit refusal at zero dollars. The general agent honors the explicit ceiling and halts partway with an honest incomplete claim. The static arm has no aggregate accounting at all: it spends 6.4, breaches the limit, and claims completion — an incorrect effect plus a false completion that only parent verification catches.",
+        "expectedOutcome": {
+          "adaptiveRefusesAtZeroSpend": true,
+          "generalHaltsAtCeiling": true,
+          "staticBreachesAndFalseCompletes": true
+        }
+      },
+      "arms": [
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "A1",
+          "regime": "aggregate-budget",
+          "armId": "general",
+          "metrics": {
+            "parentGoalCompleted": false,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 5.02,
+            "latencyProxyMs": 78600,
+            "interventions": 1,
+            "unnecessaryAgents": 0
+          },
+          "unitsRequired": 120,
+          "unitsCompleted": 92,
+          "claimedCompleted": false,
+          "claimReason": "budget-halt",
+          "armRunHash": "a2d833d186b5dea5a166fea41eeeaaafb51acdfd190f8d05614656169e4b4361",
+          "parentVerificationHash": "4fdb879b05d37299d9d704a9cfa2c9bafa382ece57db4702265c44e953ec2e0e",
+          "caseHash": "12e92c1f4057f215288b4ba4e99f5c6958c434cf86bfc75c7c2fca5517ae02b1",
+          "resultHash": "28e217c499bbef86aae3aa835d4e5752d0a89a686935345544c4cb1ec07e7613"
+        },
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "A1",
+          "regime": "aggregate-budget",
+          "armId": "static",
+          "metrics": {
+            "parentGoalCompleted": false,
+            "falseCompletion": true,
+            "incorrectEffects": 1,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 6.5,
+            "latencyProxyMs": 36400,
+            "interventions": 0,
+            "unnecessaryAgents": 2
+          },
+          "unitsRequired": 120,
+          "unitsCompleted": 120,
+          "claimedCompleted": true,
+          "claimReason": "every-mapped-unit-succeeded",
+          "armRunHash": "e8e0bc0ae6197ddfc7567524da84b17ee6b42f6927707d427d7401a3a0a57efd",
+          "parentVerificationHash": "2ae451f26927578116c1efdec66f4115b7630d85780f5cc45b6dc9b61c94ea13",
+          "caseHash": "12e92c1f4057f215288b4ba4e99f5c6958c434cf86bfc75c7c2fca5517ae02b1",
+          "resultHash": "93cf7a72e0b04d9ee5440f18c3e9f1c3ae5429222f763e9c696a686999bada1a"
+        },
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "A1",
+          "regime": "aggregate-budget",
+          "armId": "adaptive",
+          "metrics": {
+            "parentGoalCompleted": false,
+            "falseCompletion": false,
+            "incorrectEffects": 0,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 0,
+            "latencyProxyMs": 0,
+            "interventions": 1,
+            "unnecessaryAgents": 0
+          },
+          "unitsRequired": 120,
+          "unitsCompleted": 0,
+          "claimedCompleted": false,
+          "claimReason": "plan-blocked-by-bounded-limits",
+          "armRunHash": "d38300292cc37b37f5a2551d4747ef9387719d212431d60ae31c06bd68790d49",
+          "parentVerificationHash": "74ed36d032d773c427bd8059948ac9276542d23cc688bfcc9299778d1cd5708d",
+          "caseHash": "12e92c1f4057f215288b4ba4e99f5c6958c434cf86bfc75c7c2fca5517ae02b1",
+          "resultHash": "9e23eb0ad2eaf47ec568ebee10331389d516c8b21726d7e79085de03bbd5f31c"
+        }
+      ]
+    },
+    {
+      "caseId": "A2",
+      "regime": "aggregate-invariant",
+      "title": "A company cap no arm was shown",
+      "caseHash": "95a410438e76882a362e2213307f0641b0cc2ea166b9835d7f17c8a3978b493c",
+      "initialWorldDigestsEqual": true,
+      "preregisteredExpectation": {
+        "primaryMetrics": [
+          "falseCompletion",
+          "incorrectEffects"
+        ],
+        "hypothesis": "KNOWN SHARED GAP, preregistered: all three arms complete their units cleanly and all three claim success; the parent verifier alone catches the violated escalation cap, so all three false-complete. No current arm — including the adaptive fleet — prevents shared-invariant violations. The medium-term conflict controls exist because of this.",
+        "expectedOutcome": {
+          "allThreeFalseComplete": true
+        },
+        "knownGapDocumented": "no-arm-enforces-company-invariants"
+      },
+      "arms": [
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "A2",
+          "regime": "aggregate-invariant",
+          "armId": "general",
+          "metrics": {
+            "parentGoalCompleted": false,
+            "falseCompletion": true,
+            "incorrectEffects": 1,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 0.82,
+            "latencyProxyMs": 13350,
+            "interventions": 0,
+            "unnecessaryAgents": 0
+          },
+          "unitsRequired": 16,
+          "unitsCompleted": 16,
+          "claimedCompleted": true,
+          "claimReason": "every-unit-executed-and-scope-verified",
+          "armRunHash": "e6b90c74675673a7987e198839bf49a4c154c9b491c961952b8767850e7c36d7",
+          "parentVerificationHash": "6176dbbadacbc6a113f194396e271739a6035b088a94b54006af61cbdaaf7026",
+          "caseHash": "95a410438e76882a362e2213307f0641b0cc2ea166b9835d7f17c8a3978b493c",
+          "resultHash": "a09c94e1d01c24295ec032019f9d071d01341999cb1aec50d0637c56dbb98f55"
+        },
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "A2",
+          "regime": "aggregate-invariant",
+          "armId": "static",
+          "metrics": {
+            "parentGoalCompleted": false,
+            "falseCompletion": true,
+            "incorrectEffects": 1,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 0.9,
+            "latencyProxyMs": 6800,
+            "interventions": 0,
+            "unnecessaryAgents": 2
+          },
+          "unitsRequired": 16,
+          "unitsCompleted": 16,
+          "claimedCompleted": true,
+          "claimReason": "every-mapped-unit-succeeded",
+          "armRunHash": "2923cb15a0cac328cdc13aece2c2c8d4935c9242c16c78dd5c0d1a3c4fe7944b",
+          "parentVerificationHash": "6176dbbadacbc6a113f194396e271739a6035b088a94b54006af61cbdaaf7026",
+          "caseHash": "95a410438e76882a362e2213307f0641b0cc2ea166b9835d7f17c8a3978b493c",
+          "resultHash": "881e33e19c0a27e35ace63d3d309571c704c2e2d81b03747a66cda6da383f04e"
+        },
+        {
+          "schemaVersion": "fleetbrain.comparison-case-result.v1",
+          "caseId": "A2",
+          "regime": "aggregate-invariant",
+          "armId": "adaptive",
+          "metrics": {
+            "parentGoalCompleted": false,
+            "falseCompletion": true,
+            "incorrectEffects": 1,
+            "authorityViolations": 0,
+            "duplicatesConflicts": 0,
+            "costUsd": 0.86,
+            "latencyProxyMs": 6800,
+            "interventions": 0,
+            "unnecessaryAgents": 0
+          },
+          "unitsRequired": 16,
+          "unitsCompleted": 16,
+          "claimedCompleted": true,
+          "claimReason": "controller:broad-goal-completed",
+          "armRunHash": "bfbcc80ce4f1de6258b3efebd423730f5629376cb2ba5721ff8debbe3ca8b31c",
+          "parentVerificationHash": "6176dbbadacbc6a113f194396e271739a6035b088a94b54006af61cbdaaf7026",
+          "caseHash": "95a410438e76882a362e2213307f0641b0cc2ea166b9835d7f17c8a3978b493c",
+          "resultHash": "0e3064cbbb329847e5416c7a882d22d7daa678c3fafaae04fe9c5d1702d4cfc7"
+        }
+      ]
+    }
+  ],
+  "hypothesisVerdicts": [
+    {
+      "caseId": "S1",
+      "claim": "general wins costUsd",
+      "matched": true
+    },
+    {
+      "caseId": "S1",
+      "claim": "static shows exactly 2 unnecessary agents",
+      "matched": true
+    },
+    {
+      "caseId": "S1",
+      "claim": "all arms complete",
+      "matched": true
+    },
+    {
+      "caseId": "S2",
+      "claim": "general wins costUsd",
+      "matched": true
+    },
+    {
+      "caseId": "P1",
+      "claim": "fleet arms beat general >=3x on latency",
+      "matched": true
+    },
+    {
+      "caseId": "P2",
+      "claim": "fleets win latency",
+      "matched": true
+    },
+    {
+      "caseId": "C1",
+      "claim": "static duplicates 3, adaptive 0, general 0",
+      "matched": true
+    },
+    {
+      "caseId": "C2",
+      "claim": "KNOWN GAP: adaptive duplicates 10, static 10, general 0",
+      "matched": true
+    },
+    {
+      "caseId": "G1",
+      "claim": "general completes and wins; adaptive honest incomplete; static false-completes",
+      "matched": true
+    },
+    {
+      "caseId": "G2",
+      "claim": "static 4 authority violations; adaptive and general 0",
+      "matched": true
+    },
+    {
+      "caseId": "K1",
+      "claim": "only adaptive completes the surge",
+      "matched": true
+    },
+    {
+      "caseId": "A1",
+      "claim": "adaptive refuses at $0; general halts at ceiling; static breaches and false-completes",
+      "matched": true
+    },
+    {
+      "caseId": "A2",
+      "claim": "KNOWN SHARED GAP: all three arms false-complete",
+      "matched": true
+    }
+  ],
+  "hypothesisSummary": {
+    "total": 13,
+    "matched": 13,
+    "mismatched": 0
+  },
+  "checks": {
+    "initialWorldDigestsEqualAcrossArms": true,
+    "everyCaseRanAllThreeArms": true,
+    "attestationAllReached": true,
+    "allPreregisteredMetricsReported": true,
+    "noHypothesisSuppressed": true
+  },
+  "modelCalls": 0,
+  "paidModelSpendUsd": 0,
+  "evidenceBoundary": "Deterministic scripted arms over fictional worlds under competence parity. This measures coordination-policy differences only. No model ran; it is not evidence about model-backed agents, external frameworks, or customer outcomes.",
+  "resultHash": "d471657ce626a1a4b0e53dfc8bbc7263038d6643088655f429d0c5b7b9b103b6"
+}

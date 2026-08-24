@@ -1,0 +1,174 @@
+{
+  "schemaVersion": "fleetbrain.comparison-preregistration.v1",
+  "campaignId": "fleet-comparison-deterministic-v1",
+  "caseVault": {
+    "digest": "aa3aadfd0a54645b8649e471c30722b2eef53ef7388552fd857f50dbdc799ede",
+    "count": 11,
+    "payloadsIncluded": false
+  },
+  "rosterHash": "2114861b543bca230ecd2fc2bad8b8c86874597cb334f4f7bf6fff351a42ac9a",
+  "constantsHash": "e83e42fac11db297293071072d5241bef1e0d8e70e74b81c3240e96bbbf21fb0",
+  "staticMappingHash": "5def2a1889f68095bcebf65fc18b1b694247f02ea8e6689399cab4346e9ecdac",
+  "armDeclarations": [
+    {
+      "armId": "general",
+      "module": "src/fleet/comparison-arms.js",
+      "exportName": "runGeneralAgentArm"
+    },
+    {
+      "armId": "static",
+      "module": "src/fleet/comparison-arms.js",
+      "exportName": "runStaticFleetArm"
+    },
+    {
+      "armId": "adaptive",
+      "module": "src/fleet/comparison-arms.js",
+      "exportName": "runAdaptiveFleetArm"
+    }
+  ],
+  "metricsCatalog": [
+    {
+      "name": "parentGoalCompleted",
+      "direction": "true-is-good",
+      "definition": "The world-truth parent verifier's verdict: every record completed exactly once, no duplicates, conflicts, denials or invariant violations."
+    },
+    {
+      "name": "falseCompletion",
+      "direction": "false-is-good",
+      "definition": "The arm claimed completion while the parent verifier found the goal incomplete or violated."
+    },
+    {
+      "name": "incorrectEffects",
+      "direction": "lower-is-good",
+      "definition": "Duplicates + conflicting writes + violated invariants, counted from world truth."
+    },
+    {
+      "name": "authorityViolations",
+      "direction": "lower-is-good",
+      "definition": "Denied write attempts recorded by the world."
+    },
+    {
+      "name": "duplicatesConflicts",
+      "direction": "lower-is-good",
+      "definition": "Duplicate effective writes plus conflicting-action records."
+    },
+    {
+      "name": "costUsd",
+      "direction": "lower-is-good",
+      "definition": "Effective spend on work units plus activation overhead per activated agent."
+    },
+    {
+      "name": "latencyProxyMs",
+      "direction": "lower-is-good",
+      "definition": "Deterministic lane model: per agent lane, activation latency plus the sum of its unit latencies; an arm's latency is its slowest lane. Planning arithmetic, not measured runtime."
+    },
+    {
+      "name": "interventions",
+      "direction": "context-dependent",
+      "definition": "Explicit refusals, halts, role gaps and blockers the arm surfaced to a human instead of proceeding. An honest intervention beats a silent failure; an unnecessary one is overhead."
+    },
+    {
+      "name": "unnecessaryAgents",
+      "direction": "lower-is-good",
+      "definition": "Agents an arm activated that completed zero units."
+    }
+  ],
+  "regimes": [
+    {
+      "id": "small-simple",
+      "caseIds": [
+        "S1",
+        "S2"
+      ],
+      "hypotheses": [
+        "The general agent wins on cost (one activation vs three for adaptive, five for static). The static fleet shows exactly two unnecessary agents. All arms complete the parent goal. If latency still favors the fleets, that is recorded without excuse.",
+        "Same shape as S1: the general agent wins cost; the fleets pay activation overhead they cannot amortise at this size."
+      ]
+    },
+    {
+      "id": "parallel-latency",
+      "caseIds": [
+        "P1",
+        "P2"
+      ],
+      "hypotheses": [
+        "Both fleet arms beat the general agent by at least 3x on the latency proxy; every arm completes the parent goal.",
+        "The fleets win latency; the advantage is set by the busiest lane (support, 60 units), not the unit count."
+      ]
+    },
+    {
+      "id": "shared-record-conflict",
+      "caseIds": [
+        "C1",
+        "C2"
+      ],
+      "hypotheses": [
+        "The static split writes the three overlap records twice (duplicates 3, false completion). The adaptive planner routes both queues to the same specialist, whose idempotent writes replay (0 duplicates). The general agent replays its own keys (0).",
+        "KNOWN GAP, preregistered as an expected adaptive loss: the capacity split places the ten overlap records with the second specialist, producing ten duplicates — the same failure as the static arm. Only the general agent is clean. Adaptive's C1 result is consolidation, not conflict detection; the roadmap's conflict accounting exists because of this."
+      ]
+    },
+    {
+      "id": "role-gap",
+      "caseIds": [
+        "G1"
+      ],
+      "hypotheses": [
+        "THE PREREGISTERED FLEET-LOSES CASE: the general agent completes 14/14 and wins outright. The adaptive fleet completes 10/14 with one explicit role-gap intervention, zero incorrect effects and an honest incomplete claim. The static fleet claims completion it did not achieve — the ledger class is invisible to its mapping — and parent verification exposes the false completion."
+      ]
+    },
+    {
+      "id": "stale-authority",
+      "caseIds": [
+        "G2"
+      ],
+      "hypotheses": [
+        "The static arm walks into four authority denials and honestly reports incomplete. The adaptive compatibility check routes escalations to the specialist that holds the authority — zero denials. The general agent holds every permitted authority — clean."
+      ]
+    },
+    {
+      "id": "capacity-limit",
+      "caseIds": [
+        "K1"
+      ],
+      "hypotheses": [
+        "Only the adaptive arm completes the parent goal, because only its planner splits the surge across both support specialists (200 + 100). The static arm's single mapped agent stops at 200. The general agent's own capacity stops it at 200 units in total."
+      ]
+    },
+    {
+      "id": "aggregate-budget",
+      "caseIds": [
+        "A1"
+      ],
+      "hypotheses": [
+        "The adaptive planner's aggregate accounting blocks every variant before any spend: an explicit hard-cost-limit refusal at zero dollars. The general agent honors the explicit ceiling and halts partway with an honest incomplete claim. The static arm has no aggregate accounting at all: it spends 6.4, breaches the limit, and claims completion — an incorrect effect plus a false completion that only parent verification catches."
+      ]
+    },
+    {
+      "id": "aggregate-invariant",
+      "caseIds": [
+        "A2"
+      ],
+      "hypotheses": [
+        "KNOWN SHARED GAP, preregistered: all three arms complete their units cleanly and all three claim success; the parent verifier alone catches the violated escalation cap, so all three false-complete. No current arm — including the adaptive fleet — prevents shared-invariant violations. The medium-term conflict controls exist because of this."
+      ]
+    }
+  ],
+  "fairnessInvariants": {
+    "sharedWorkEngine": true,
+    "unitConstantsPerSystemNotPerAgent": true,
+    "equalCapacity": true,
+    "equalVerifierAccess": true,
+    "overheadsOutsideContractAccounting": true,
+    "generalAgentHonorsExplicitCostCeiling": true,
+    "staticActivatesFullRoster": true,
+    "companyInvariantsInvisibleToAllArms": true
+  },
+  "authority": {
+    "executionAuthorized": false,
+    "modelSpendAuthorized": false,
+    "roleCreationAuthorized": false,
+    "activationAuthorized": false
+  },
+  "evidenceBoundary": "Preregistered deterministic comparison of coordination policies under competence parity. Hypotheses are sealed before any arm runs and graded as data afterward — a mismatched hypothesis is a result, never an error. No model, no customer, no production claim.",
+  "preregistrationHash": "43a39ec4ec4ffd18284b72abe1bf74e655d95eed9fa2ac60200abfb150e8425a"
+}

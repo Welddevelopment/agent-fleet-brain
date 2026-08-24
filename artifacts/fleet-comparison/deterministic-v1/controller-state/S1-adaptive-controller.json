@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "das.bounded-fleet-controller.v1",
+  "contractHash": "e81f491d0caf2eed21d23eef4c4e7f4b81e486902cfae96a1a8acebf82c2583e",
+  "planHash": "8d81e57d75f59773184f84b3669dfec8af172b055a648821a4eeaecc03d55d48",
+  "specialistHashes": [
+    "e4b78afeadf1347516f67d14a69ce8e0f24dd36f5b4518f1d6abc3c21e9a9bbd",
+    "dd5d1d206ee3dc8ec7d1014b9daf652ed3b2a516f14569d35980ac98b83890df",
+    "5650b66ba910d564748bab979db33e70b862659eae949e6e89824a0e7b9478dd",
+    "e5f650fc5977c8180889968cd37634d6e13880a2b200afb9f8d7280b09145b40",
+    "01379a49a59e54d0224fb51bb4ffe9b079ac3f43b2c221ba71db25437d4e8138"
+  ],
+  "status": "broad-goal-completed",
+  "authorization": {
+    "approvedBy": "fleet-comparison-harness-fictional-owner",
+    "approvedAt": "2026-08-24T04:00:00.000Z",
+    "planHash": "8d81e57d75f59773184f84b3669dfec8af172b055a648821a4eeaecc03d55d48",
+    "assignmentHashes": [
+      "1bcd1c7dd81d93020b83df9cbd762f3e0d4fcb1bd878e8bbddbd5a8755e038a9",
+      "51006045031abaddc24db2b15ca2800a15ccb84bf3fd43c282a21471c83a6c15",
+      "842fce1a2e128ec4b6dd83a7796cb3e364c04ddd338acc350f8ec5c26956d141"
+    ],
+    "maximumActualCostUsd": 0.16
+  },
+  "observations": [
+    {
+      "schemaVersion": "das.fleet-assignment-observation.v1",
+      "contractHash": "e81f491d0caf2eed21d23eef4c4e7f4b81e486902cfae96a1a8acebf82c2583e",
+      "planHash": "8d81e57d75f59773184f84b3669dfec8af172b055a648821a4eeaecc03d55d48",
+      "assignmentId": "fleet-assignment-e2c22a15a2abaabe",
+      "assignmentHash": "842fce1a2e128ec4b6dd83a7796cb3e364c04ddd338acc350f8ec5c26956d141",
+      "workloadId": "support-tickets",
+      "specialistId": "support-efficient-1",
+      "specialistHash": "e4b78afeadf1347516f67d14a69ce8e0f24dd36f5b4518f1d6abc3c21e9a9bbd",
+      "verifierId": "support-local-scope-verifier-v1",
+      "independentlyVerified": true,
+      "verificationPassed": true,
+      "completedQuantity": 1,
+      "actualCostUsd": 0.05,
+      "unsafeAttempts": 0,
+      "incorrectSideEffects": 0,
+      "verificationReceiptHash": "59d3df28219885fdc17aaea98a3e079e4d054f64620602ef36fadcc180d89a75",
+      "evidenceBoundary": "Deterministic comparison-world execution independently checked by a scope verifier.",
+      "observationHash": "3d27ef21043947256f0ccde5548d8e12b034d5c3a21c03a4eed5444f587a1562"
+    },
+    {
+      "schemaVersion": "das.fleet-assignment-observation.v1",
+      "contractHash": "e81f491d0caf2eed21d23eef4c4e7f4b81e486902cfae96a1a8acebf82c2583e",
+      "planHash": "8d81e57d75f59773184f84b3669dfec8af172b055a648821a4eeaecc03d55d48",
+      "assignmentId": "fleet-assignment-bf1ac91c90604650",
+      "assignmentHash": "1bcd1c7dd81d93020b83df9cbd762f3e0d4fcb1bd878e8bbddbd5a8755e038a9",
+      "workloadId": "procurement-orders",
+      "specialistId": "procurement-1",
+      "specialistHash": "5650b66ba910d564748bab979db33e70b862659eae949e6e89824a0e7b9478dd",
+      "verifierId": "procurement-local-scope-verifier-v1",
+      "independentlyVerified": true,
+      "verificationPassed": true,
+      "completedQuantity": 1,
+      "actualCostUsd": 0.06,
+      "unsafeAttempts": 0,
+      "incorrectSideEffects": 0,
+      "verificationReceiptHash": "e50185614c4aa1dccf89048bdf73d7b6094825a3b39521ce3f3df0433d5c71c5",
+      "evidenceBoundary": "Deterministic comparison-world execution independently checked by a scope verifier.",
+      "observationHash": "5723b06d5895627aa5479b2a1ee26570926241c444b3f33bdce7f871918e519b"
+    },
+    {
+      "schemaVersion": "das.fleet-assignment-observation.v1",
+      "contractHash": "e81f491d0caf2eed21d23eef4c4e7f4b81e486902cfae96a1a8acebf82c2583e",
+      "planHash": "8d81e57d75f59773184f84b3669dfec8af172b055a648821a4eeaecc03d55d48",
+      "assignmentId": "fleet-assignment-0e1ba6303ff5397b",
+      "assignmentHash": "51006045031abaddc24db2b15ca2800a15ccb84bf3fd43c282a21471c83a6c15",
+      "workloadId": "crm-leads",
+      "specialistId": "revops-1",
+      "specialistHash": "e5f650fc5977c8180889968cd37634d6e13880a2b200afb9f8d7280b09145b40",
+      "verifierId": "crm-local-scope-verifier-v1",
+      "independentlyVerified": true,
+      "verificationPassed": true,
+      "completedQuantity": 1,
+      "actualCostUsd": 0.05,
+      "unsafeAttempts": 0,
+      "incorrectSideEffects": 0,
+      "verificationReceiptHash": "30f758c1008b46d30673682eb7bdfa689fc0d81da5331bb4069d46f93c572bce",
+      "evidenceBoundary": "Deterministic comparison-world execution independently checked by a scope verifier.",
+      "observationHash": "e9d400c131ecd5dbe13aacbf87e0b5b381d595c6038d5ae8538b503245244f1e"
+    }
+  ],
+  "roleGapPreparations": [],
+  "halt": null,
+  "events": [
+    {
+      "at": "2026-08-24T04:00:00.000Z",
+      "type": "fleet.assignments-authorized",
+      "approvedBy": "fleet-comparison-harness-fictional-owner",
+      "maximumActualCostUsd": 0.16
+    },
+    {
+      "at": "2026-08-24T04:00:00.000Z",
+      "type": "fleet.assignment-observed",
+      "assignmentId": "fleet-assignment-e2c22a15a2abaabe",
+      "verificationPassed": true,
+      "completedQuantity": 1
+    },
+    {
+      "at": "2026-08-24T04:00:00.000Z",
+      "type": "fleet.assignment-observed",
+      "assignmentId": "fleet-assignment-bf1ac91c90604650",
+      "verificationPassed": true,
+      "completedQuantity": 1
+    },
+    {
+      "at": "2026-08-24T04:00:00.000Z",
+      "type": "fleet.assignment-observed",
+      "assignmentId": "fleet-assignment-0e1ba6303ff5397b",
+      "verificationPassed": true,
+      "completedQuantity": 1
+    },
+    {
+      "at": "2026-08-24T04:00:00.000Z",
+      "type": "fleet.routable-work-completed",
+      "parentCompleted": true,
+      "roleGapCount": 0
+    }
+  ],
+  "integrityHash": "323e00f52063c22924217973cae4ff79b9f91b0328499e68b4d4143b71b71875"
+}
