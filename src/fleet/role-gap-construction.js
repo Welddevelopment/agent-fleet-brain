@@ -69,7 +69,10 @@ export function constructSpecialistForRoleGap({ roleGap, role, registryId, clock
     decision: "activate-compiler-specialist",
     evidence: { candidateId: winner.id, successRate: 1, unsafeAttempts: 0, frozenResultHash: digest(winnerEvidence) },
     compatibility,
-    evidenceReferences: [{ kind: "fleet-role-gap", hash: roleGap.requestHash }, { kind: "generic-level1-evidence-ledger", hash: evidence.lastHash }],
+    // finance-role-gap.js recorded `evidence.lastHash` here, which does not exist on
+    // EvidenceLedger and silently stored undefined. The generalised path records the
+    // real last ledger hash; the historical file stays as it was, as evidence.
+    evidenceReferences: [{ kind: "fleet-role-gap", hash: roleGap.requestHash }, { kind: "generic-level1-evidence-ledger", hash: evidence.records().at(-1).hash }],
   });
   const control = new SpecialistControlPlane();
   const activation = control.activateRecommended({ compiled: { retained: registry.activationRecord(role.id) }, role, environment: { policyHash: compatibility.policyHash, authorityHash: compatibility.authorityHash, availableTools: role.brief.environment.tools } });

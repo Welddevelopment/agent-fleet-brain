@@ -56,6 +56,10 @@ test("the full controlled stage: prepared finance gap -> DAS construction -> exp
   assert.deepEqual(Object.values(stage.receipt.authority), [false, false, false, false]);
   assert.equal(stage.receipt.preparationHash, preparation.preparationHash);
   assert.equal(stage.receipt.gapRequestHash, plan.selected.roleGaps[0].requestHash);
+  // The evidence-ledger reference must carry a REAL hash — the historical finance
+  // path silently recorded undefined here.
+  const ledgerReference = stage.construction.selection.evidenceReferences.find((item) => item.kind === "generic-level1-evidence-ledger");
+  assert.match(String(ledgerReference.hash), /^[a-f0-9]{64}$/);
 });
 
 test("a role that does not match the gap's verifier and policy is refused before any compilation", () => {
